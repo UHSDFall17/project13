@@ -67,4 +67,32 @@ public class createAccount {
       	}
         else{}	
     }
+    
+    protected boolean goodEmail(String email){
+        /** Check for ONE '@' **/
+        String[] parts = email.split("@");
+        if(parts.length != 2) // no "@" or too many
+          return false;
+          
+        /** Check for VALID extensions **/
+        String[] subParts = parts[1].split("\\.");
+        if(subParts.length < 2) //no "." in domain-extension field
+            return false;
+        else if(subParts[subParts.length - 1].equals("com")
+                || subParts[subParts.length - 1].equals("net")
+                || subParts[subParts.length - 1].equals("org")
+                || subParts[subParts.length - 1].equals("gov")
+                || subParts[subParts.length - 1].equals("edu")
+                || subParts[subParts.length - 1].equals("info")){
+            return true;
+        }
+        else  
+          return false;   
+    }
+    
+    protected boolean rgsdEmail(String email){
+        if(new File("Accounts/" + email + ".txt").exists())
+          return true;
+        return false;          
+    }
 }
