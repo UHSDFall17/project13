@@ -143,4 +143,33 @@ public class createAccount {
             confirmPswd(console);
         }
     }
+    
+    
+    
+    
+    createAccount() { //constructor
+         Console console = System.console();
+         /** CLEAR SCREEN **/
+         
+         welcome();
+         System.out.println();
+         
+         setName(console);
+         System.out.println();
+         
+         setEmail(console);
+         System.out.println();
+         
+         setPswd(console);
+         System.out.println();
+        
+         //setSecure1(console);
+         System.out.println();
+        
+         //setSecure2(console);
+         System.out.println();
+                  
+          /**CLEAR SCREEN **
+         saveAccount();*/          
+    }
 }
