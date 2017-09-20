@@ -4,6 +4,8 @@ import java.io.*;
 public class createAccount {
     private String name, email, secQ_1,secQ_2,secA_1,secA_2;
     private char[] pswd;
+    private char secQ_1, secQ_2;
+    private static String[] options; //array of security questions offered  
     
 /*******************************
 *           WELCOME            *
@@ -144,10 +146,46 @@ public class createAccount {
         }
     }
     
+    /*******************************
+    *      SECURITY QUESTIONS      *
+    *******************************/
     
+    protected void setSecure1(Console console) {
+        /** Security Question #1 OPTIONS **/
+        options[0] = "What is your mother's maiden name?";
+        options[1] = "What is the name of the street that you lived on as a child?";
+        options[2] = "What was the make and model of your first car?";
+        options[3] = "What was the name of your first pet?";
+
+      	/** Security Question #1 **/
+      	System.out.println("Select Security Question #1:");
+      	System.out.println("\t1. " + options[0]);
+      	System.out.println("\t2. " + options[1]);
+      	System.out.println("\t3. " + options[2]);
+      	System.out.println("\t4. " + options[3]);
+       
+        String temp = console.readLine();
+        if(temp.equals("") || temp.charAt(0) < 49 || temp.charAt(0) > 52){
+            //CLEAR SCREEN
+            System.out.println("Invalid entry.");
+            setSecure1(console);
+        }
+        else{
+            secQ_1 = temp.charAt(0);
+            System.out.println("\nPress ENTER to change Security Question #1.");            
+            System.out.println("Question: " + options[secQ_1 - '0' - 1]);
+            System.out.print("Answer: ");
+       	    secA_1 = console.readLine();
+            if(secA_1.equals("")){
+              //CLEAR SCREEN
+              setSecure1(console);
+            }
+        }      
+    }
     
     
     createAccount() { //constructor
+         options = new String[8];
          Console console = System.console();
          /** CLEAR SCREEN **/
          
