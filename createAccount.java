@@ -19,7 +19,7 @@ public class createAccount {
 *           NAME               *
 *******************************/    
     protected void setName(Console console) {
-        System.out.println("Name: ");
+        System.out.print("Name: ");
         name = (console.readLine()).toUpperCase();
         if(!goodName(name)) {
             System.out.println("Error: Please enter your name.\n");
@@ -37,7 +37,7 @@ public class createAccount {
 *           EMAIL              *
 *******************************/
     protected void setEmail(Console console) {
-        System.out.println("Email: ");
+        System.out.print("Email: ");
         email = (console.readLine()).toLowerCase();
         
         /** CONFIRM **/
@@ -49,14 +49,16 @@ public class createAccount {
             setEmail(console);
         }
         else if(rgsdEmail(email)) { //email had already been registered
-            System.out.println("\n\nError: Email Already Registered. Log in or try again.");
+            System.out.println("\n\nError: Email Already Registered.\n Press ENTER to try again or '0' to log in.");
+            if((console.readLine()).equals("0"))
+                System.exit(1);
             setEmail(console);
         }
         else {} //good, unregistered email
     }
     
     protected void confirmEmail(String email, Console console){
-        System.out.println("Confirm Email: " + email + "(Y/N)");
+        System.out.println("Confirm Email: " + email + " (Y/N)");
         String temp = (console.readLine()).toUpperCase();
         if(temp.equals("")){
             System.out.println("Please enter Y or N.");
@@ -216,7 +218,36 @@ public class createAccount {
         }
     }
     
-    createAccount() { //constructor
+/*******************************
+*         SAVE ACCOUNT         *
+*******************************/
+      	
+    protected void saveAccount() {
+      	try {
+      		PrintWriter account = new PrintWriter("Accounts/" + email + ".txt");
+      		account.println(pswd);
+          account.println(name);
+          account.println(secQ_1);
+          account.println(secA_1);
+          account.println(secQ_2);
+          account.println(secA_2);
+      		//account.println(key);
+      		account.close();
+      		//CLEAR SCREEN
+      		System.out.println("WELCOME, " + name + "!\nYou have successfully created an account.\n");
+      	}
+      	catch(IOException e) {
+      		System.out.println("Something went wrong! Please try again.");
+          System.exit(1);
+      	}
+       //return to LOGIN PAGE 
+    }
+
+    
+/*******************    
+*   CONSTRUCTOR    *   
+*******************/    
+    createAccount() {
          options = new String[8];
          Console console = System.console();
          /** CLEAR SCREEN **/
