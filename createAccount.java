@@ -183,6 +183,38 @@ public class createAccount {
         }      
     }
     
+    protected void setSecure2(Console console) {
+        /** Security Question #2 OPTIONS **/
+        options[4] = "In what city or town did your mother and father meet?";
+        options[5] = "What is the last name of your favorite childhood teacher?";
+        options[6] = "What is the first name of the person you first kissed?";
+        options[7] = "What elementary/ primary school did you go to?"; 
+        
+      	/** Security Question #2 **/
+      	System.out.println("\nSelect Security Question #2:");
+      	System.out.println("\t5. " + options[4]);       
+      	System.out.println("\t6. " + options[5]);
+      	System.out.println("\t7. " + options[6]);
+      	System.out.println("\t8. " + options[7]);
+        
+        String temp = console.readLine();
+        if(temp.equals("") || temp.charAt(0) < 53 || temp.charAt(0) > 56){
+            //CLEAR SCREEN
+            System.out.println("Invalid entry.");
+            setSecure2(console);
+        }
+        else{
+            secQ_2 = temp.charAt(0);
+            System.out.println("\nPress ENTER to change Security Question #2.");
+            System.out.println("Question: " + options[secQ_2 - '0' - 1]);
+            System.out.print("Answer: ");
+       	    secA_2 = console.readLine();
+            if(secA_2.equals("")){
+              //CLEAR SCREEN
+              setSecure2(console);
+            }
+        }
+    }
     
     createAccount() { //constructor
          options = new String[8];
