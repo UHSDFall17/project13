@@ -1,6 +1,5 @@
-import login.*;
 
-public class main_
+public class _main
 {
     public static void main(String args[])
     {
