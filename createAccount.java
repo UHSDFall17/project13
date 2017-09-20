@@ -131,4 +131,16 @@ public class createAccount {
         }
         return false; //too short or too long
     }
+    
+    protected void confirmPswd(Console console) {
+        System.out.println("Enter 1 to change your password.");
+        System.out.println("Confirm Password: ");
+        String temp = String.valueOf(console.readPassword());
+        if(temp.equals("1")) //Reset password process
+            setPswd(console);  
+        if(!(temp.equals(String.valueOf(pswd)))) { //does not match
+            System.out.println("Password does not match. Try again.\n\n");
+            confirmPswd(console);
+        }
+    }
 }
