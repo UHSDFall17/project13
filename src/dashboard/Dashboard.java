@@ -7,6 +7,10 @@ public class Dashboard
     private String userFileName;
     private String userName;
 
+    private String[] commands = {"", "", "", "", "", ""};
+
+    private List[] lists;
+
     public Dashboard()
     {
         this("default.txt");
@@ -20,8 +24,12 @@ public class Dashboard
     private String commandHandler()
     {
 
+        while(true)
+        {
+            return "";
+        }
 
-        return "";
+        //return "";
     }
 
     private boolean GetUserData()
@@ -30,8 +38,27 @@ public class Dashboard
         return false;
     }
 
-    private void createNewList(String listName)
-    {
 
+    //handles creation of new lists, returns boolean on whether it was able to create the list
+    private boolean createNewList(String listName)
+    {
+        return false;
+    }
+
+
+    //handles fetching of all list names that the user has
+    private String GetLists()
+    {
+        String output = "";
+
+        if(lists.length == 0)
+            output = "No lists";
+
+        for(int i=0; i<lists.length; i++)
+        {
+            output = output + "\n---" + lists[i].getName();
+        }
+
+        return output;
     }
 }
