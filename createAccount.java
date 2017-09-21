@@ -2,7 +2,7 @@ import java.util.*;
 import java.io.*;
 
 public class createAccount {
-    private String name, email, secQ_1,secQ_2,secA_1,secA_2;
+    private String name, email,secA_1,secA_2;
     private char[] pswd;
     private char secQ_1, secQ_2;
     private static String[] options; //array of security questions offered  
@@ -264,13 +264,13 @@ public class createAccount {
          setPswd(console);
          System.out.println();
         
-         //setSecure1(console);
+         setSecure1(console);
          System.out.println();
         
-         //setSecure2(console);
+         setSecure2(console);
          System.out.println();
                   
-          /**CLEAR SCREEN **
-         saveAccount();*/          
+          /**CLEAR SCREEN **/
+         saveAccount();          
     }
 }
