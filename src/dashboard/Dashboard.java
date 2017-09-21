@@ -19,14 +19,19 @@ public class Dashboard
 
     private String commandHandler()
     {
-        out.println("Hello " + userName);
+
 
         return "";
     }
 
     private boolean GetUserData()
     {
-
+        //implement later when we have JSONs ready
         return false;
+    }
+
+    private void createNewList(String listName)
+    {
+
     }
 }

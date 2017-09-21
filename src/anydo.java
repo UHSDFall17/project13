@@ -1,9 +1,12 @@
+import dashboard.Dashboard;
+
 import java.io.*;
 
 
 public class anydo
 {
     private String lastLogin;
+    private Dashboard dashboard;
 
     public anydo()
     {
@@ -12,12 +15,16 @@ public class anydo
 
     public void startUp()
     {
-        try {
-            FileInputStream file = new FileInputStream(new File("/LastLogin/Defualt.json"));
+        try(BufferedReader fileReader = new BufferedReader(new FileReader("LastLogin.txt"))) {
+
+            String fileName = fileReader.readLine();
+
+            dashboard = new Dashboard(fileName);
         }
-        catch(FileNotFoundException e)
+        catch(IOException e)
         {
 
         }
+
     }
 }
