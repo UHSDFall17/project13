@@ -8,42 +8,46 @@ import java.io.IOException;
 
 public class Login 
 {
-	static String fileName = "accounts.txt";
-	public void login()
+	protected void login()
 	{
-		
 		Console console = System.console();
 		String user = console.readLine("Username: ");
 		char[] pass = console.readPassword("Password: ");
 		String pwd = new String(pass);
-		if(authorization(user, pwd))
+		
+		if(authorization(user.toLowerCase(), pwd) == true)
 		{
 			/*Access account.*/
-			
 		}
 		else
 		{
 			System.out.println("Invalid username or password.");
 		}
 	}
-	public boolean authorization(String user, String pass)
+	private boolean authorization(String user, String pass)
 	{
 		String line = null;
+		String fileName = user + ".txt";
 		boolean autherized = false;
 		try
 		{
 			FileReader fileReader = new FileReader(fileName);
 			BufferedReader bufferedReader = new BufferedReader(fileReader);
-			while((line = bufferedReader.readLine()) != null)
+			if((line = bufferedReader.readLine()) != null)
 			{
 				String [] token = line.split(" ");
-				if(token[0].equals(user) && token[1].equals(pass))
+				if(token[0].equals(pass)) 
 				{
 					autherized = true;
-					return autherized;
+					bufferedReader.close();
+				}
+				else
+				{
+					autherized = false;
+					System.out.println("Password is invalid.");
+					bufferedReader.close();
 				}
 			}
-			bufferedReader.close();
 		}
 		catch(FileNotFoundException e)
 		{
@@ -53,7 +57,7 @@ public class Login
 		{
 	        System.out.println("Error reading file: '" + fileName + "'.");                  
 	    }
-		return false;
+		return autherized;
 	}
 }
 
