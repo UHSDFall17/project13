@@ -1,5 +1,7 @@
 package dashboard;
 
+import java.util.ArrayList;
+
 import static java.lang.System.*;
 
 public class Dashboard
@@ -7,9 +9,9 @@ public class Dashboard
     private String userFileName;
     private String userName;
 
-    private String[] commands = {"", "", "", "", "", ""};
+    private String[] commands = {"get lists"};
 
-    private List[] lists;
+    private ArrayList<List> lists;
 
     public Dashboard()
     {
@@ -42,6 +44,15 @@ public class Dashboard
     //handles creation of new lists, returns boolean on whether it was able to create the list
     private boolean createNewList(String listName)
     {
+        List newList;
+
+        if(listName.length() >= 1)
+        {
+            newList = new List(listName);
+            lists.add(newList);
+            return true;
+        }
+
         return false;
     }
 
@@ -51,12 +62,12 @@ public class Dashboard
     {
         String output = "";
 
-        if(lists.length == 0)
+        if(lists.size() == 0)
             output = "No lists";
 
-        for(int i=0; i<lists.length; i++)
+        for(int i=0; i<lists.size(); i++)
         {
-            output = output + "\n---" + lists[i].getName();
+            output = output + "\n---" + lists.get(i).getName();
         }
 
         return output;
