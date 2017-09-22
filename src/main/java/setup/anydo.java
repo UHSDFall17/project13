@@ -1,5 +1,5 @@
-import dashboard.Dashboard;
-import login.Login;
+package main.java.setup;
+import main.java.app.*;
 
 import java.io.*;
 

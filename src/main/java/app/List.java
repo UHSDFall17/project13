@@ -1,4 +1,4 @@
-package dashboard;
+package main.java.app;
 
 public class List
 {

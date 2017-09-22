@@ -1,8 +1,6 @@
-package dashboard;
+package main.java.app;
 
 import java.util.ArrayList;
-
-import static java.lang.System.*;
 
 public class Dashboard
 {
