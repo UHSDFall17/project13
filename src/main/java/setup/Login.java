@@ -17,7 +17,7 @@ public class Login
 		
 		if(authorization(user.toLowerCase(), pwd))
 		{
-			/*Access account.*/
+			/*Access account.*/ 
 		}
 	}
 	private boolean authorization(String user, String pass)
