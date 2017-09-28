@@ -1,6 +1,4 @@
-package main.java;
-
-import main.java.app.Dashboard;
+import app.Dashboard;
 
 public class _main
 {

@@ -1,13 +1,14 @@
-package main.java.app;
+package app;
 
-import java.util.ArrayList;
+import java.util.*;
+import static java.lang.System.*;
 
 public class Dashboard
 {
     private String userFileName;
     private String userName;
 
-    private String[] commands = {"get lists"};
+    private Map<Integer, String> commands = new HashMap<Integer, String>();
 
     private ArrayList<List> lists;
 
@@ -19,17 +20,48 @@ public class Dashboard
     public Dashboard(String fileName)
     {
         userFileName = fileName;
+        lists = new ArrayList<List>();
+
+        commands.put(1, "get all lists");
+        commands.put(2, "create new list");
+        commands.put(3, "help");
+        commands.put(4, "quit");
     }
 
-    private String commandHandler()
+    private void commandHandler()
     {
+        boolean cont = true;
+        int command = 0;
+        Scanner input = new Scanner(in);
 
-        while(true)
+        printCommands();
+        while(cont)
         {
-            return "";
+            out.println("\nEnter your command: ");
+
+            try{
+                command = input.nextInt();
+            }
+            catch (Exception e)
+            {
+                out.println("Unrecognized command. Try to use the command \"" + (commands.size() - 1) + "\" to get a list of the commands");
+            }
         }
 
-        //return "";
+        System.exit(0);
+    }
+
+    protected void printCommands()
+    {
+        Set set = commands.entrySet();
+        Iterator iterate = set.iterator();
+
+        out.println("List of commands available:\n");
+        while(iterate.hasNext())
+        {
+            Map.Entry i = (Map.Entry) iterate.next();
+            out.println(i.getKey() + " - " + i.getValue());
+        }
     }
 
     private boolean GetUserData()

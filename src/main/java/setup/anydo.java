@@ -1,5 +1,5 @@
-package main.java.setup;
-import main.java.app.*;
+package setup;
+import app.*;
 
 import java.io.*;
 
@@ -9,7 +9,7 @@ public class anydo
     private String lastLogin;
     private Dashboard dashboard;
     private createAccount create;
-    private Login login;
+    private login login;
 
     public anydo()
     {

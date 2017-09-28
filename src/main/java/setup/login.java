@@ -1,4 +1,4 @@
-package main.java.setup;
+package setup;
 
 import java.io.BufferedReader;
 import java.io.Console;
