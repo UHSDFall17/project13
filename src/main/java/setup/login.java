@@ -5,14 +5,21 @@ import java.io.Console;
 import java.io.FileReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Arrays;
 
-public class Login 
+public class login 
 {
-	protected void login()
+	protected static void login()
 	{
 		Console console = System.console();
-		String user = console.readLine("Username: ");
+		if (console == null) 
+		{
+            System.out.println("ERROR: Could not obtain Console Instance.");
+            System.exit(0);
+        }
+		String user = console.readLine("\nUsername: ");
 		char[] pass = console.readPassword("Password: ");
+		Arrays.fill(pass, '*');
 		String pwd = new String(pass);
 		
 		if(authorization(user.toLowerCase(), pwd))
@@ -20,7 +27,7 @@ public class Login
 			/*Access account.*/ 
 		}
 	}
-	private boolean authorization(String user, String pass)
+	private static boolean authorization(String user, String pass)
 	{
 		String line = null;
 		String fileName = "Accounts/" + user + "/loginInfo.txt";
@@ -36,14 +43,17 @@ public class Login
 				{
 					autherized = true;
 					bufferedReader.close();
+					return autherized;
 				}
 				else
 				{
 					autherized = false;
 					System.out.println("Password is invalid.");
 					bufferedReader.close();
+					return autherized;
 				}
 			}
+			bufferedReader.close();
 		}
 		catch(FileNotFoundException e)
 		{
