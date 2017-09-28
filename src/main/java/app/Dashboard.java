@@ -1,5 +1,6 @@
 package app;
 
+import java.awt.event.KeyListener;
 import java.util.*;
 import static java.lang.System.*;
 
@@ -26,21 +27,29 @@ public class Dashboard
         commands.put(2, "create new list");
         commands.put(3, "help");
         commands.put(4, "quit");
+
+        commandHandler();
     }
 
     private void commandHandler()
     {
         boolean cont = true;
         int command = 0;
-        Scanner input = new Scanner(in);
+        Scanner input;
 
         printCommands();
         while(cont)
         {
             out.println("\nEnter your command: ");
+            input = new Scanner(in);
 
             try{
                 command = input.nextInt();
+
+                if(command > commands.size())
+                    throw new Exception();
+
+                commandControlCenter(command);
             }
             catch (Exception e)
             {
@@ -49,6 +58,18 @@ public class Dashboard
         }
 
         System.exit(0);
+    }
+
+    private void commandControlCenter(int command)
+    {
+        switch(command)
+        {
+            case 1: GetLists(); break;
+            case 2: out.println("Command recognized\n\n"); break;
+            case 3: printCommands(); break;
+            case 4: exit(0); break;
+
+        }
     }
 
     protected void printCommands()
@@ -63,6 +84,8 @@ public class Dashboard
             out.println(i.getKey() + " - " + i.getValue());
         }
     }
+
+
 
     private boolean GetUserData()
     {

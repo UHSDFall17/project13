@@ -1,13 +1,49 @@
 package setup;
 
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
 public class createAccount {
+    Scanner scanner = new Scanner(System.in);
     private String name, email,secA_1,secA_2;
     private char[] pswd;
     private char secQ_1, secQ_2;
-    private static String[] options; //array of security questions offered
+    private static String[] options = {"What is your mother's maiden name?", "What is the name of the street that you lived on as a child?", "What was the make and model of your first car?", "What was the name of your first pet?", "In what city or town did your mother and father meet?", "What is the last name of your favorite childhood teacher?", "What is the first name of the person you first kissed?", "What elementary/ primary school did you go to?"}; //array of security questions offered
+
+    createAccount() { //constructor
+        clearScreen();
+
+        welcome();
+        System.out.println();
+
+        setName();
+        System.out.println();
+
+        setEmail();
+        System.out.println();
+        clearScreen();
+
+        setPswd();
+        System.out.println();
+        clearScreen();
+
+        setSecure1();
+        System.out.println();
+        clearScreen();
+
+        setSecure2();
+        System.out.println();
+        System.out.println();
+        clearScreen();
+
+        scanner.close();
+        saveAccount();
+    }
+
+    public void clearScreen(){
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
 
     /*******************************
      *           WELCOME            *
@@ -20,12 +56,12 @@ public class createAccount {
     /*******************************
      *           NAME               *
      *******************************/
-    protected void setName(Console console) {
+    protected void setName() {
         System.out.print("Name: ");
-        name = (console.readLine()).toUpperCase();
+        name = (scanner.nextLine()).toUpperCase();
         if(!goodName(name)) {
             System.out.println("Error: Please enter your name.\n");
-            setName(console);
+            setName();
         }
     }
 
@@ -38,38 +74,36 @@ public class createAccount {
     /*******************************
      *           EMAIL              *
      *******************************/
-    protected void setEmail(Console console) {
+    protected void setEmail() {
         System.out.print("Email: ");
-        email = (console.readLine()).toLowerCase();
-
-        /** CONFIRM **/
-        confirmEmail(email, console);
-
+        email = (scanner.nextLine()).toLowerCase();
 
         if(!goodEmail(email)){ //checks for '@' and valid extension
-            System.out.println("\n\nError: Invalid Email Format.");
-            setEmail(console);
+            System.out.println("\nError: Invalid Email Format.");
+            setEmail();
         }
         else if(rgsdEmail(email)) { //email had already been registered
-            System.out.println("\n\nError: Email Already Registered.\n Press ENTER to try again or '0' to log in.");
-            if((console.readLine()).equals("0"))
+            System.out.println("\nError: Email Already Registered.\n Press ENTER to try again or '0' to log in.");
+            if((scanner.nextLine()).equals("0"))
                 System.exit(1);
-            setEmail(console);
+            setEmail();
         }
-        else {} //good, unregistered email
+        else { //good, unregistered email
+            confirmEmail(email);
+        }
     }
 
-    protected void confirmEmail(String email, Console console){
+    protected void confirmEmail(String email){
         System.out.println("Confirm Email: " + email + " (Y/N)");
-        String temp = (console.readLine()).toUpperCase();
+        String temp = (scanner.nextLine()).toUpperCase();
         if(temp.equals("")){
             System.out.println("Please enter Y or N.");
-            confirmEmail(email, console);
+            confirmEmail(email);
         }
         else if(temp.equals("N")){
-            //CLEAR SCREEN
-            System.out.println("Name: " + name + "\n");
-            setEmail(console);
+            clearScreen();
+            System.out.println("Name: " + name);
+            setEmail();
         }
         else{}
     }
@@ -97,26 +131,31 @@ public class createAccount {
     }
 
     protected boolean rgsdEmail(String email){
-        if(new File("Accounts/" + email + ".txt").exists())
+        if(new File(System.getProperty("user.dir") + "/src/main/Accounts/" + email + ".txt").exists())
             return true;
         return false;
     }
+
 
     /*******************************
      *           PASSWORD           *
      *******************************/
 
-    protected void setPswd(Console console) {
+    protected void setPswd() {
+        System.out.println("Name: " + name);
+        System.out.println("Email: " + email + "\n");
         System.out.print("\nPassword Requirements: \n \t(1) 6-20 characters \n \t(2) at least 1 upper-case letter \n \t(3) at least 1 digit \n \t(4) at least 1 special character\nNOTICE: Input will not be displayed but will still be recognized.\n");
         System.out.println("Password: ");
-        pswd = console.readPassword();
+
+        pswd = (scanner.nextLine()).toCharArray();
 
         if(!goodPswd()) { //input does NOT meet all criteria
+            clearScreen();
             System.out.print("Invalid Password.\n\n");
-            /** CLEAR SCREEN **/
-            setPswd(console);
+            setPswd();
         }
-        confirmPswd(console);
+        else
+            confirmPswd();
     }
 
     protected boolean goodPswd(){
@@ -138,29 +177,26 @@ public class createAccount {
         return false; //too short or too long
     }
 
-    protected void confirmPswd(Console console) {
+    protected void confirmPswd() {
         System.out.println("Enter 1 to change your password.");
         System.out.println("Confirm Password: ");
-        String temp = String.valueOf(console.readPassword());
-        if(temp.equals("1")) //Reset password process
-            setPswd(console);
-        if(!(temp.equals(String.valueOf(pswd)))) { //does not match
-            System.out.println("Password does not match. Try again.\n\n");
-            confirmPswd(console);
+        String temp = scanner.nextLine();
+        if(temp.equals("1")){ //Reset password process
+            clearScreen();
+            setPswd();
         }
+        else if(!(temp.equals(String.valueOf(pswd)))) { //does not match
+            System.out.println("\n\nPassword does not match. Try again.");
+            confirmPswd();
+        }
+        else{}
     }
 
     /*******************************
      *      SECURITY QUESTIONS      *
      *******************************/
 
-    protected void setSecure1(Console console) {
-        /** Security Question #1 OPTIONS **/
-        options[0] = "What is your mother's maiden name?";
-        options[1] = "What is the name of the street that you lived on as a child?";
-        options[2] = "What was the make and model of your first car?";
-        options[3] = "What was the name of your first pet?";
-
+    protected void setSecure1() {
         /** Security Question #1 **/
         System.out.println("Select Security Question #1:");
         System.out.println("\t1. " + options[0]);
@@ -168,32 +204,26 @@ public class createAccount {
         System.out.println("\t3. " + options[2]);
         System.out.println("\t4. " + options[3]);
 
-        String temp = console.readLine();
+        String temp = scanner.nextLine();
         if(temp.equals("") || temp.charAt(0) < 49 || temp.charAt(0) > 52){
-            //CLEAR SCREEN
-            System.out.println("Invalid entry.");
-            setSecure1(console);
+            clearScreen();
+            System.out.println("Invalid entry.\n");
+            setSecure1();
         }
         else{
             secQ_1 = temp.charAt(0);
             System.out.println("\nPress ENTER to change Security Question #1.");
             System.out.println("Question: " + options[secQ_1 - '0' - 1]);
             System.out.print("Answer: ");
-            secA_1 = console.readLine();
+            secA_1 = (scanner.nextLine()).toUpperCase();
             if(secA_1.equals("")){
-                //CLEAR SCREEN
-                setSecure1(console);
+                clearScreen();
+                setSecure1();
             }
         }
     }
 
-    protected void setSecure2(Console console) {
-        /** Security Question #2 OPTIONS **/
-        options[4] = "In what city or town did your mother and father meet?";
-        options[5] = "What is the last name of your favorite childhood teacher?";
-        options[6] = "What is the first name of the person you first kissed?";
-        options[7] = "What elementary/ primary school did you go to?";
-
+    protected void setSecure2() {
         /** Security Question #2 **/
         System.out.println("\nSelect Security Question #2:");
         System.out.println("\t5. " + options[4]);
@@ -201,23 +231,30 @@ public class createAccount {
         System.out.println("\t7. " + options[6]);
         System.out.println("\t8. " + options[7]);
 
-        String temp = console.readLine();
+        String temp = scanner.nextLine();
         if(temp.equals("") || temp.charAt(0) < 53 || temp.charAt(0) > 56){
-            //CLEAR SCREEN
+            clearScreen();
             System.out.println("Invalid entry.");
-            setSecure2(console);
+            setSecure2();
         }
         else{
             secQ_2 = temp.charAt(0);
             System.out.println("\nPress ENTER to change Security Question #2.");
             System.out.println("Question: " + options[secQ_2 - '0' - 1]);
             System.out.print("Answer: ");
-            secA_2 = console.readLine();
+            secA_2 = (scanner.nextLine()).toUpperCase();
             if(secA_2.equals("")){
-                //CLEAR SCREEN
-                setSecure2(console);
+                clearScreen();
+                setSecure2();
             }
         }
+    }
+
+    protected String getSecQ(int index){
+        if(index > 0 && index < 9)
+            return options[index - 1];
+        else
+            return "Error: Corrupted file. Security Question cannot be retrieved at this moment.";
     }
 
     /*******************************
@@ -226,53 +263,23 @@ public class createAccount {
 
     protected void saveAccount() {
         try {
-            PrintWriter account = new PrintWriter("Accounts/" + email + ".txt");
+            File key = new File(System.getProperty("user.dir") + "/src/main/Accounts/" + email);
+            key.mkdir();
+            PrintWriter account = new PrintWriter(System.getProperty("user.dir") + "/src/main/Accounts/" + email + "/accountInfo.txt");
             account.println(pswd);
             account.println(name);
             account.println(secQ_1);
             account.println(secA_1);
             account.println(secQ_2);
-            account.println(secA_2);
-            //account.println(key);
+            account.print(secA_2);
             account.close();
-            //CLEAR SCREEN
-            System.out.println("WELCOME, " + name + "!\nYou have successfully created an account.\n");
+            clearScreen();
+            System.out.println("\nWELCOME, " + name + "!\nYou have successfully created an account.\n");
         }
         catch(IOException e) {
             System.out.println("Something went wrong! Please try again.");
             System.exit(1);
         }
         //return to LOGIN PAGE
-    }
-
-
-    /*******************
-     *   CONSTRUCTOR    *
-     *******************/
-    createAccount() {
-        options = new String[8];
-        Console console = System.console();
-        /** CLEAR SCREEN **/
-
-        welcome();
-        System.out.println();
-
-        setName(console);
-        System.out.println();
-
-        setEmail(console);
-        System.out.println();
-
-        setPswd(console);
-        System.out.println();
-
-        setSecure1(console);
-        System.out.println();
-
-        setSecure2(console);
-        System.out.println();
-
-        /**CLEAR SCREEN **/
-        saveAccount();
     }
 }
