@@ -10,7 +10,7 @@ public class createAccount {
     private char secQ_1, secQ_2;
     private static String[] options = {"What is your mother's maiden name?", "What is the name of the street that you lived on as a child?", "What was the make and model of your first car?", "What was the name of your first pet?", "In what city or town did your mother and father meet?", "What is the last name of your favorite childhood teacher?", "What is the first name of the person you first kissed?", "What elementary/ primary school did you go to?"}; //array of security questions offered
 
-    createAccount() { //constructor
+    public createAccount() { //constructor
         clearScreen();
 
         welcome();
@@ -82,7 +82,8 @@ public class createAccount {
             System.out.println("\nError: Invalid Email Format.");
             setEmail();
         }
-        else if(rgsdEmail(email)) { //email had already been registered
+
+        if(rgsdEmail(email)) { //email had already been registered
             System.out.println("\nError: Email Already Registered.\n Press ENTER to try again or '0' to log in.");
             if((scanner.nextLine()).equals("0"))
                 System.exit(1);
@@ -131,7 +132,7 @@ public class createAccount {
     }
 
     protected boolean rgsdEmail(String email){
-        if(new File(System.getProperty("user.dir") + "/src/main/Accounts/" + email + ".txt").exists())
+        if(new File(System.getProperty("user.dir") + "/Accounts/" + email).exists())
             return true;
         return false;
     }
@@ -263,9 +264,9 @@ public class createAccount {
 
     protected void saveAccount() {
         try {
-            File key = new File(System.getProperty("user.dir") + "/src/main/Accounts/" + email);
-            key.mkdir();
-            PrintWriter account = new PrintWriter(System.getProperty("user.dir") + "/src/main/Accounts/" + email + "/accountInfo.txt");
+            File key = new File(System.getProperty("user.dir") + "/Accounts/" + email);
+            key.mkdirs();
+            PrintWriter account = new PrintWriter(System.getProperty("user.dir") + "/Accounts/" + email + "/accountInfo.txt");
             account.println(pswd);
             account.println(name);
             account.println(secQ_1);
