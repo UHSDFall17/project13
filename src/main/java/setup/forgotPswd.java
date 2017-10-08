@@ -94,7 +94,14 @@ public class forgotPswd extends createAccount{
 /*COMPARE INPUT WITH SAVED ANSWER */
     //INCORRECT ANSWER - USER TRIES AGAIN OR QUITS
     protected void doSQ2(){
+        System.out.println("\nSecurity Question #2:\n\t" + sq2);
+        System.out.print("Answer: ");
+        String inputAns = input.nextLine().toUpperCase();
 
+        if(!inputAns.equals(ans2) || emptyInput(inputAns)) {//INCORRECT includes NO ANSWER PROVIDED
+            System.out.println("\nIncorrect Answer. Please try again.");
+            doSQ2();
+        }
     }
 
 /* PULL PASSWORD METHODS FROM CREATEACCOUNT */
