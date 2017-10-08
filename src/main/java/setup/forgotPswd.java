@@ -9,6 +9,8 @@ public class forgotPswd extends createAccount{
 
 /* CONSTRUCTOR*/
     public forgotPswd(){
+        System.out.println("Reset Password");
+
         checkEmail();
         checkSQ1();
         checkSQ2();
@@ -22,13 +24,12 @@ public class forgotPswd extends createAccount{
 /*CHECKS IF EMAIL IS REGISTERED*/
     //EMAIL IS NOT REGISTERED, USER MUST TRY AGAIN OR GOTO CREATE
     protected void checkEmail(){
-        System.out.print("Registered Email: ");
-        String temp = (input.nextLine()).toLowerCase();
-        System.out.println(temp);
+        System.out.print("\nRegistered Email: ");
+        String temp = input.nextLine().toLowerCase();
         if(temp.equals("1"))
             System.exit(1);
         else if(!(super.rgsdEmail(temp))) {
-            System.out.println("\n\nThis email is not registered. \nTry again, or Press 1 to go to Create an Account.");
+            System.out.println("\nUH OH! This email is not registered. \nTry again, or press 1 to exit.");
             checkEmail();
         }
         else{}
