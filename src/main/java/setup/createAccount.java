@@ -10,10 +10,12 @@ public class createAccount {
     private char secQ_1, secQ_2;
     private static String[] options = {"What is your mother's maiden name?", "What is the name of the street that you lived on as a child?", "What was the make and model of your first car?", "What was the name of your first pet?", "In what city or town did your mother and father meet?", "What is the last name of your favorite childhood teacher?", "What is the first name of the person you first kissed?", "What elementary/ primary school did you go to?"}; //array of security questions offered
 
-    public createAccount() { //constructor
+    public createAccount(){}
+
+    public createAccount(String welcome) { //constructor
         clearScreen();
 
-        welcome();
+        System.out.println("Create an Account\n" + welcome);
         System.out.println();
 
         setName();
@@ -46,14 +48,6 @@ public class createAccount {
     }
 
     /*******************************
-     *           WELCOME            *
-     *******************************/
-    protected void welcome() {
-        System.out.println("Welcome!\nCREATE AN ACCOUNT");
-        //System.out.println("If you find out that you are in the wrong place, enter "Log in" at anytime.");
-    }
-
-    /*******************************
      *           NAME               *
      *******************************/
     protected void setName() {
@@ -66,9 +60,7 @@ public class createAccount {
     }
 
     protected boolean goodName(String name){
-        if(name.equals(""))
-            return false;
-        return true;
+        return !name.equals("");
     }
 
     /*******************************
