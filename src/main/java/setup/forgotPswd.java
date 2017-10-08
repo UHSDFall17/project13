@@ -1,23 +1,50 @@
 package setup;
+import java.io.*;
 import java.util.*;
+import java.lang.*;
 
 //Dependency: createAccount class
 
 public class forgotPswd extends createAccount{
 
     Scanner input = new Scanner(System.in);
+    String email, sq1, sq2, ans1, ans2;
+    BufferedReader account;
 
-/* CONSTRUCTOR*/
+    /* CONSTRUCTOR*/
     public forgotPswd(){
         System.out.println("Reset Password");
-
         checkEmail();
-        checkSQ1();
-        checkSQ2();
-        resetPwsd();
-        updatePswd();
+
+        try {
+            account = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/Accounts/" + email + "/accountInfo.txt"));
+            account.readLine(); //old password, not needed
+            System.out.println("\nHI, " + account.readLine() + ".");
+
+            sq1 = super.getSecQ(Integer.parseInt(account.readLine()));
+            ans1 = account.readLine();
+            doSQ1();
+
+            sq2 = super.getSecQ(Integer.parseInt(account.readLine()));
+            ans2 = account.readLine();
+            doSQ2();
+
+            resetPwsd();
+            updatePswd();
+            account.close();
+        }
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
 
         input.close(); //close Scanner object
+    }
+
+    public boolean emptyInput(String input){
+        return input.equals("");
     }
 
 /* ACCEPTS EMAIL INPUT */
@@ -25,10 +52,14 @@ public class forgotPswd extends createAccount{
     //EMAIL IS NOT REGISTERED, USER MUST TRY AGAIN OR GOTO CREATE
     protected void checkEmail(){
         System.out.print("\nRegistered Email: ");
-        String temp = input.nextLine().toLowerCase();
-        if(temp.equals("1"))
+        email = input.nextLine().toLowerCase();
+        if(emptyInput(email)){
+            System.out.println("Error: Email required to reset password.");
+            checkEmail();
+        }
+        else if(email.equals("1"))
             System.exit(1);
-        else if(!(super.rgsdEmail(temp))) {
+        else if(!(super.rgsdEmail(email))) {
             System.out.println("\nUH OH! This email is not registered. \nTry again, or press 1 to exit.");
             checkEmail();
         }
@@ -43,8 +74,15 @@ public class forgotPswd extends createAccount{
 /* READ FROM FILE: ANSWER #1 */
 /*COMPARE INPUT WITH SAVED ANSWER*/
     //INCORRECT ANSWER - USER TRIES AGAIN OR QUITS
-    protected void checkSQ1(){
+    protected void doSQ1(){
+        System.out.println("\nSecurity Question #1:\n\t" + sq1);
+        System.out.print("Answer: ");
+        String inputAns = input.nextLine().toUpperCase();
 
+        if(!inputAns.equals(ans1) || emptyInput(inputAns)) {//INCORRECT includes NO ANSWER PROVIDED
+            System.out.println("\nIncorrect Answer. Please try again.");
+            doSQ1();
+        }
     }
 
 /* READ FROM FILE: SECURITY QUESTION #2 */
@@ -55,7 +93,7 @@ public class forgotPswd extends createAccount{
 /*READ FROM FILE: ANSWER #2*/
 /*COMPARE INPUT WITH SAVED ANSWER */
     //INCORRECT ANSWER - USER TRIES AGAIN OR QUITS
-    protected void checkSQ2(){
+    protected void doSQ2(){
 
     }
 
