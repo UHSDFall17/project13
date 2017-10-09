@@ -5,8 +5,8 @@ import java.util.*;
 
 public class createAccount {
     Scanner scanner = new Scanner(System.in);
-    private String name, email,secA_1,secA_2;
-    private char[] pswd;
+    private String name, email, pswd, secA_1,secA_2;
+    private char[] tempPswd;
     private char secQ_1, secQ_2;
     private static String[] options = {"What is your mother's maiden name?", "What is the name of the street that you lived on as a child?", "What was the make and model of your first car?", "What was the name of your first pet?", "In what city or town did your mother and father meet?", "What is the last name of your favorite childhood teacher?", "What is the first name of the person you first kissed?", "What elementary/ primary school did you go to?"}; //array of security questions offered
 
@@ -25,7 +25,7 @@ public class createAccount {
         System.out.println();
         clearScreen();
 
-        setPswd();
+        pswd = setPswd();
         System.out.println();
         clearScreen();
 
@@ -134,28 +134,33 @@ public class createAccount {
      *           PASSWORD           *
      *******************************/
 
-    protected void setPswd() {
-        System.out.println("Name: " + name);
-        System.out.println("Email: " + email + "\n");
-        System.out.print("\nPassword Requirements: \n \t(1) 6-20 characters \n \t(2) at least 1 upper-case letter \n \t(3) at least 1 digit \n \t(4) at least 1 special character\nNOTICE: Input will not be displayed but will still be recognized.\n");
-        System.out.println("Password: ");
+    protected String setPswd() {
+        System.out.println("\nPassword Requirements: " +
+                "\n \t(1) 6-20 characters " +
+                "\n \t(2) at least 1 upper-case letter " +
+                "\n \t(3) at least 1 digit " +
+                "\n \t(4) at least 1 special character");
+        System.out.print("Password: ");
 
-        pswd = (scanner.nextLine()).toCharArray();
+        tempPswd = (scanner.nextLine()).toCharArray();
 
         if(!goodPswd()) { //input does NOT meet all criteria
             clearScreen();
             System.out.print("Invalid Password.\n\n");
             setPswd();
         }
-        else
+        else {
             confirmPswd();
+            return String.valueOf(tempPswd);
+        }
+        return null;
     }
 
     protected boolean goodPswd(){
-        if(pswd.length >= 6 && pswd.length <= 20) //Criterion: MIN 6, MAX 20 characters
+        if(tempPswd.length >= 6 && tempPswd.length <= 20) //Criterion: MIN 6, MAX 20 characters
         {
             int countUpper = 0;    int countDigit = 0;   int countSpecial = 0;
-            for(char c : pswd){
+            for(char c : tempPswd){
                 if(c >= 65 && c <= 90) {countUpper++;} //Upper-case letter
                 else if(c >= 48 && c <= 57) {countDigit++;} //Digit
                 else if(c >= 97 && c <= 122) {} //lowercase letter, do nothing
@@ -172,17 +177,21 @@ public class createAccount {
 
     protected void confirmPswd() {
         System.out.println("Enter 1 to change your password.");
-        System.out.println("Confirm Password: ");
-        String temp = scanner.nextLine();
-        if(temp.equals("1")){ //Reset password process
+        System.out.print("Confirm Password: ");
+        String input = scanner.nextLine();
+        if(input.equals("1")){ //Reset password process
             clearScreen();
             setPswd();
         }
-        else if(!(temp.equals(String.valueOf(pswd)))) { //does not match
+        else if(!(input.equals(String.valueOf(tempPswd)))) { //does not match
             System.out.println("\n\nPassword does not match. Try again.");
             confirmPswd();
         }
         else{}
+    }
+
+    protected String getPswd() {
+        return setPswd();
     }
 
     /*******************************

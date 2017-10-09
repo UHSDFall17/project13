@@ -8,30 +8,32 @@ import java.lang.*;
 public class forgotPswd extends createAccount{
 
     Scanner input = new Scanner(System.in);
-    String email, sq1, sq2, ans1, ans2;
-    BufferedReader account;
+    String email, oldPswd, sq1, sq2, ans1, ans2, newPswd;
+    BufferedReader readAccount, replaceLine;
+    FileOutputStream outStream;
 
     /* CONSTRUCTOR*/
     public forgotPswd(){
         System.out.println("Reset Password");
         checkEmail();
 
+        /* READ */
         try {
-            account = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/Accounts/" + email + "/accountInfo.txt"));
-            account.readLine(); //old password, not needed
-            System.out.println("\nHI, " + account.readLine() + ".");
+            readAccount = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/Accounts/" + email + "/accountInfo.txt"));
+            oldPswd = readAccount.readLine(); //old password, not needed
+            System.out.println("\nHI, " + readAccount.readLine() + ".");
 
-            sq1 = super.getSecQ(Integer.parseInt(account.readLine()));
-            ans1 = account.readLine();
+            sq1 = super.getSecQ(Integer.parseInt(readAccount.readLine()));
+            ans1 = readAccount.readLine();
             doSQ1();
 
-            sq2 = super.getSecQ(Integer.parseInt(account.readLine()));
-            ans2 = account.readLine();
+            sq2 = super.getSecQ(Integer.parseInt(readAccount.readLine()));
+            ans2 = readAccount.readLine();
             doSQ2();
 
-            resetPwsd();
-            updatePswd();
-            account.close();
+            resetPswd();
+            readAccount.close();
+            input.close(); //close Scanner object
         }
         catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -40,11 +42,8 @@ public class forgotPswd extends createAccount{
             e.printStackTrace();
         }
 
-        input.close(); //close Scanner object
-    }
-
-    public boolean emptyInput(String input){
-        return input.equals("");
+        /* WRITE */
+        updatePswd();
     }
 
 /* ACCEPTS EMAIL INPUT */
@@ -53,11 +52,11 @@ public class forgotPswd extends createAccount{
     protected void checkEmail(){
         System.out.print("\nRegistered Email: ");
         email = input.nextLine().toLowerCase();
-        if(emptyInput(email)){
+        if(email.isEmpty()){
             System.out.println("Error: Email required to reset password.");
             checkEmail();
         }
-        else if(email.equals("1"))
+        else if(email.matches("1"))
             System.exit(1);
         else if(!(super.rgsdEmail(email))) {
             System.out.println("\nUH OH! This email is not registered. \nTry again, or press 1 to exit.");
@@ -79,7 +78,7 @@ public class forgotPswd extends createAccount{
         System.out.print("Answer: ");
         String inputAns = input.nextLine().toUpperCase();
 
-        if(!inputAns.equals(ans1) || emptyInput(inputAns)) {//INCORRECT includes NO ANSWER PROVIDED
+        if(!inputAns.matches(ans1) || inputAns.isEmpty()) {//INCORRECT includes NO ANSWER PROVIDED
             System.out.println("\nIncorrect Answer. Please try again.");
             doSQ1();
         }
@@ -98,7 +97,7 @@ public class forgotPswd extends createAccount{
         System.out.print("Answer: ");
         String inputAns = input.nextLine().toUpperCase();
 
-        if(!inputAns.equals(ans2) || emptyInput(inputAns)) {//INCORRECT includes NO ANSWER PROVIDED
+        if(!inputAns.matches(ans2) || inputAns.isEmpty()) {//INCORRECT includes NO ANSWER PROVIDED
             System.out.println("\nIncorrect Answer. Please try again.");
             doSQ2();
         }
@@ -110,14 +109,38 @@ public class forgotPswd extends createAccount{
         //TRY CREATE NEW PASSWORD AGAIN
     //CONFIRM PASSWORD
         //IF DOES NOT MATCH, TRY AGAIN OR RESET PASSWORD
-    protected void resetPwsd(){
-
+    protected void resetPswd(){
+        System.out.println("\n\nCONGRATULATIONS,\nSecurity Questions have been correctly answered.\nYou may now reset your password.");
+        newPswd = super.getPswd();
     }
 
 /* UPDATE PASSWORD IN USER'S ACCOUNTINFO.TXT FILE */
     //SUCCESS MESSAGE
     //FAILURE MESSAGE
     protected void updatePswd(){
+        try {
+            BufferedReader replaceLine = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/Accounts/" + email + "/accountInfo.txt"));
+            StringBuffer getLine = new StringBuffer();
+            String oldline;
 
+            /* GRAB LINES */
+            while((oldline = replaceLine.readLine()) != null){
+                getLine.append(oldline);
+                getLine.append("\n");
+            }
+            String line = getLine.toString();
+            replaceLine.close();
+
+            /* REPLACE OLD PSWD WITH NEW PSWD */
+            line = line.replace(oldPswd, newPswd);
+            FileOutputStream outStream = new FileOutputStream(System.getProperty("user.dir") + "/Accounts/" + email + "/accountInfo.txt");
+            outStream.write(line.getBytes());
+            outStream.close();
+
+            System.out.println("\nSUCCESS! Your password has been updated.\nPlease try to log in again. Thank you.");//SUCCESS
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("\nFAILED: Something went wrong!\nYour password has not been updated. Program Terminated.");
+        }
     }
 }
