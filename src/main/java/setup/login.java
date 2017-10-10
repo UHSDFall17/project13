@@ -6,25 +6,30 @@ import java.io.FileReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Scanner;
 
-public class login 
+public class login
 {
-	protected static void login()
+	public static void login()
 	{
-		Console console = System.console();
-		if (console == null) 
-		{
-            System.out.println("ERROR: Could not obtain Console Instance.");
-            System.exit(0);
-        }
-		String user = console.readLine("\nUsername: ");
-		char[] pass = console.readPassword("Password: ");
-		Arrays.fill(pass, '*');
-		String pwd = new String(pass);
-		
+		//Console console = System.console();
+		Scanner s= new Scanner(System.in);
+		//if (console == null)
+		//{
+		//  System.out.println("ERROR: Could not obtain Console Instance.");
+		//System.exit(0);
+		//}
+		//String user = console.readLine("\nUsername: ");
+		//char[] pass = console.readPassword("Password: ");
+		//Arrays.fill(pass, '*');
+		//String pwd = new String(pass);
+		System.out.print("\nUsername: ");
+		String user = s.nextLine();
+		System.out.print("Password: ");
+		String pwd = s.nextLine();
 		if(authorization(user.toLowerCase(), pwd))
 		{
-			/*Access account.*/ 
+			/*Access account.*/
 		}
 	}
 	private static boolean authorization(String user, String pass)
@@ -39,7 +44,7 @@ public class login
 			if((line = bufferedReader.readLine()) != null)
 			{
 				String [] token = line.split(" ");
-				if(token[0].equals(pass)) 
+				if(token[0].equals(pass))
 				{
 					autherized = true;
 					bufferedReader.close();
@@ -59,10 +64,10 @@ public class login
 		{
 			System.out.println("User not found: '" + fileName + "'.");
 		}
-		catch(IOException e) 
+		catch(IOException e)
 		{
-	        System.out.println("Error reading file: '" + fileName + "'.");                  
-	    }
+			System.out.println("Error reading file: '" + fileName + "'.");
+		}
 		return autherized;
 	}
 }
