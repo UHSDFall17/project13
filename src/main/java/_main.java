@@ -5,10 +5,9 @@ public class _main
 {
     public static void main(String args[])
     {
-
-        //createAccount test1 = new createAccount();
-        //login test2 = new login();
-        //test2.login();
-        Dashboard test = new Dashboard();
+        //main.java.setup.anydo start = new main.java.setup.anydo();
+        //createAccount newAccount = new createAccount("WELCOME!");
+        forgotPswd recover = new forgotPswd();
+        //Dashboard test = new Dashboard();
     }
 }
