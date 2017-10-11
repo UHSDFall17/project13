@@ -3,19 +3,18 @@ package setup;
 import java.io.*;
 import java.util.*;
 
-public class createAccount {
+public class createAccount{
     Scanner scanner = new Scanner(System.in);
-    private String name, email, pswd, secA_1,secA_2;
-    private char[] tempPswd;
-    private char secQ_1, secQ_2;
-    private static String[] options = {"What is your mother's maiden name?", "What is the name of the street that you lived on as a child?", "What was the make and model of your first car?", "What was the name of your first pet?", "In what city or town did your mother and father meet?", "What is the last name of your favorite childhood teacher?", "What is the first name of the person you first kissed?", "What elementary/ primary school did you go to?"}; //array of security questions offered
 
-    public createAccount(){}
+    private String name, email, pswd;
+    private int secQ_1, secQ_2;
 
-    public createAccount(String welcome) { //constructor
+    SecurityQA secure = new SecurityQA();
+
+    public createAccount() { //default constructor
         clearScreen();
 
-        System.out.println("Create an Account\n" + welcome);
+        System.out.println("\nCreate an Account\n");
         System.out.println();
 
         setName();
@@ -25,15 +24,12 @@ public class createAccount {
         System.out.println();
         clearScreen();
 
-        pswd = setPswd();
+        setPswd();
         System.out.println();
         clearScreen();
 
-        setSecure1();
+        setSecurityQuestions();
         System.out.println();
-        clearScreen();
-
-        setSecure2();
         System.out.println();
         System.out.println();
         clearScreen();
@@ -50,7 +46,7 @@ public class createAccount {
     /*******************************
      *           NAME               *
      *******************************/
-    protected void setName() {
+    public void setName() {
         System.out.print("Name: ");
         name = (scanner.nextLine()).toUpperCase();
         if(!goodName(name)) {
@@ -133,130 +129,18 @@ public class createAccount {
     /*******************************
      *           PASSWORD           *
      *******************************/
-
-    protected String setPswd() {
-        System.out.println("\nPassword Requirements: " +
-                "\n \t(1) 6-20 characters " +
-                "\n \t(2) at least 1 upper-case letter " +
-                "\n \t(3) at least 1 digit " +
-                "\n \t(4) at least 1 special character");
-        System.out.print("Password: ");
-
-        tempPswd = (scanner.nextLine()).toCharArray();
-
-        if(!goodPswd()) { //input does NOT meet all criteria
-            clearScreen();
-            System.out.print("Invalid Password.\n\n");
-            setPswd();
-        }
-        else {
-            confirmPswd();
-            return String.valueOf(tempPswd);
-        }
-        return null;
-    }
-
-    protected boolean goodPswd(){
-        if(tempPswd.length >= 6 && tempPswd.length <= 20) //Criterion: MIN 6, MAX 20 characters
-        {
-            int countUpper = 0;    int countDigit = 0;   int countSpecial = 0;
-            for(char c : tempPswd){
-                if(c >= 65 && c <= 90) {countUpper++;} //Upper-case letter
-                else if(c >= 48 && c <= 57) {countDigit++;} //Digit
-                else if(c >= 97 && c <= 122) {} //lowercase letter, do nothing
-                else{countSpecial++;} //Special character
-            }
-
-            //MIN 1 special character, MIN 1 uppercase, MIN 1 digit
-            if(countUpper > 0 && countDigit > 0 && countSpecial > 0)
-                return true;
-            return false; //missing upper, digit, or special character
-        }
-        return false; //too short or too long
-    }
-
-    protected void confirmPswd() {
-        System.out.println("Enter 1 to change your password.");
-        System.out.print("Confirm Password: ");
-        String input = scanner.nextLine();
-        if(input.equals("1")){ //Reset password process
-            clearScreen();
-            setPswd();
-        }
-        else if(!(input.equals(String.valueOf(tempPswd)))) { //does not match
-            System.out.println("\n\nPassword does not match. Try again.");
-            confirmPswd();
-        }
-        else{}
-    }
-
-    protected String getPswd() {
-        return setPswd();
+    public void setPswd(){
+        Password newPswd = new Password();
+        pswd = newPswd.getPswd();
     }
 
     /*******************************
      *      SECURITY QUESTIONS      *
      *******************************/
 
-    protected void setSecure1() {
-        /** Security Question #1 **/
-        System.out.println("Select Security Question #1:");
-        System.out.println("\t1. " + options[0]);
-        System.out.println("\t2. " + options[1]);
-        System.out.println("\t3. " + options[2]);
-        System.out.println("\t4. " + options[3]);
-
-        String temp = scanner.nextLine();
-        if(temp.equals("") || temp.charAt(0) < 49 || temp.charAt(0) > 52){
-            clearScreen();
-            System.out.println("Invalid entry.\n");
-            setSecure1();
-        }
-        else{
-            secQ_1 = temp.charAt(0);
-            System.out.println("\nPress ENTER to change Security Question #1.");
-            System.out.println("Question: " + options[secQ_1 - '0' - 1]);
-            System.out.print("Answer: ");
-            secA_1 = (scanner.nextLine()).toUpperCase();
-            if(secA_1.equals("")){
-                clearScreen();
-                setSecure1();
-            }
-        }
-    }
-
-    protected void setSecure2() {
-        /** Security Question #2 **/
-        System.out.println("\nSelect Security Question #2:");
-        System.out.println("\t5. " + options[4]);
-        System.out.println("\t6. " + options[5]);
-        System.out.println("\t7. " + options[6]);
-        System.out.println("\t8. " + options[7]);
-
-        String temp = scanner.nextLine();
-        if(temp.equals("") || temp.charAt(0) < 53 || temp.charAt(0) > 56){
-            clearScreen();
-            System.out.println("Invalid entry.");
-            setSecure2();
-        }
-        else{
-            secQ_2 = temp.charAt(0);
-            System.out.println("\nPress ENTER to change Security Question #2.");
-            System.out.println("Question: " + options[secQ_2 - '0' - 1]);
-            System.out.print("Answer: ");
-            secA_2 = (scanner.nextLine()).toUpperCase();
-            if(secA_2.equals("")){
-                clearScreen();
-                setSecure2();
-            }
-        }
-    }
-
-    protected String getSecQ(int index){
-        if(index > 0 && index < 9)
-            return options[index - 1];
-        else
-            return "Error: Corrupted file. Security Question cannot be retrieved at this moment.";
+    public void setSecurityQuestions() { // Security Question and Answer #1
+        secure.setSecureQA1();
+        secure.setSecureQA2();
     }
 
     /*******************************
@@ -270,10 +154,10 @@ public class createAccount {
             PrintWriter account = new PrintWriter(System.getProperty("user.dir") + "/Accounts/" + email + "/accountInfo.txt");
             account.println(pswd);
             account.println(name);
-            account.println(secQ_1);
-            account.println(secA_1);
-            account.println(secQ_2);
-            account.print(secA_2);
+            account.println(secure.getIndex(1));
+            account.println(secure.getAnswer(1));
+            account.println(secure.getIndex(2));
+            account.print(secure.getAnswer(2));
             account.close();
             clearScreen();
             System.out.println("\nWELCOME, " + name + "!\nYou have successfully created an account.\n");
