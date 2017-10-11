@@ -43,7 +43,6 @@ public class ResetPswd{
     }
 
     public void checkEmail(){
-        createAccount accountFile = new createAccount();
         System.out.print("\nRegistered Email: ");
         email = input.nextLine().toLowerCase(); //ACCEPTS EMAIL INPUT
         if(email.isEmpty()){ //CHECK FOR NULL INPUT
@@ -52,7 +51,7 @@ public class ResetPswd{
         }
         else if(email.matches("1")) //EXIT
             System.exit(0);
-        else if(!(accountFile.rgsdEmail(email))) { //EMAIL IS NOT REGISTERED - TRY AGAIN OR EXIT
+        else if(!(new File(System.getProperty("user.dir") + "/Accounts/" + email).exists())) { //EMAIL IS NOT REGISTERED - TRY AGAIN OR EXIT
             System.out.println("\nUH OH! This email is not registered. \nTry again, or press 1 to exit.");
             checkEmail();
         }
