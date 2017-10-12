@@ -6,7 +6,8 @@ import java.lang.*;
 public class ResetPswd{
     Scanner input = new Scanner(System.in);
 
-    Password reset;
+    Create newPassword;
+    CheckPassword checkPassword;
 
     private String email,savedSQ, savedAns, oldPswd;
 
@@ -21,7 +22,7 @@ public class ResetPswd{
             oldPswd = readAccount.readLine(); //old password, not needed
             System.out.println("\nHI, " + readAccount.readLine() + ".");
 
-            SecurityQA verifyUser = new SecurityQA();
+            CheckSecurityQA verifyUser = new CheckSecurityQA();
             savedSQ = verifyUser.getQuestion(Integer.parseInt(readAccount.readLine())); //READ FROM FILE: SECURITY QUESTION #1, THEN CONVERT NUMBER TO ACTUAL QUESTION
             savedAns = readAccount.readLine(); //READ FROM FILE: ANSWER #1
             doSQ();
@@ -71,7 +72,8 @@ public class ResetPswd{
 
     public void resetPswd(){
         System.out.println("\n\nSecurity Questions have been correctly answered.\nYou may now reset your password.");
-        reset = new Password(); //set
-        reset.updatePswd(email, oldPswd, reset.getPswd()); //store
+        newPassword = new Create();
+        newPassword.setPswd(); //set
+        checkPassword.updatePswd(email, oldPswd, newPassword.getPswd()); //store
     }
 }
