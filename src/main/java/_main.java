@@ -6,8 +6,8 @@ public class _main
     public static void main(String args[])
     {
         //main.java.setup.anydo start = new main.java.setup.anydo();
-        //createAccount newAccount = new createAccount("WELCOME!");
-        forgotPswd recover = new forgotPswd();
+        Create newAccount = new Create("Welcome");
+        //ResetPswd recoverForgotten = new ResetPswd();
         //Dashboard test = new Dashboard();
     }
 }

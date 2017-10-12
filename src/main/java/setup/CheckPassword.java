@@ -4,43 +4,16 @@ import java.io.BufferedReader;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Scanner;
 
-public class Password {
-    private Scanner scanner = new Scanner(System.in);
+public class CheckPassword {
 
-    private char[] testPswd;
-    private String pswd;
+    public CheckPassword(){ }
 
-    public Password(){
-        setPswd();
-        pswd = getPswd();
-    }
-
-    public Password(String email, String oldPswd, String newPswd){ //Procedure: resetting password
+    public CheckPassword(String email, String oldPswd, String newPswd){ //Procedure: resetting password
         updatePswd(email, oldPswd, newPswd);
     }
 
-    public void setPswd() {
-        System.out.println("\nPassword Requirements: " +
-                "\n \t(1) 6-20 characters " +
-                "\n \t(2) at least 1 upper-case letter " +
-                "\n \t(3) at least 1 digit " +
-                "\n \t(4) at least 1 special character");
-        System.out.print("Password: ");
-
-        testPswd = (scanner.nextLine()).toCharArray();
-
-        if(!goodPswd()) { //input does NOT meet all criteria
-            System.out.print("Invalid Password.\n\n");
-            setPswd();
-        }
-        else {
-            confirmPswd();
-        }
-    }
-
-    public boolean goodPswd(){
+    public boolean goodPswd(char[] testPswd){
         if(testPswd.length >= 6 && testPswd.length <= 20) //Criterion: MIN 6, MAX 20 characters
         {
             int countUpper = 0;    int countDigit = 0;   int countSpecial = 0;
@@ -57,24 +30,6 @@ public class Password {
             return false; //missing upper, digit, or special character
         }
         return false; //too short or too long
-    }
-
-    public void confirmPswd() {
-        System.out.println("Enter 1 to change your password.");
-        System.out.print("Confirm Password: ");
-        String input = scanner.nextLine();
-        if(input.equals("1")){ //Reset password process
-            setPswd();
-        }
-        else if(!(input.equals(String.valueOf(testPswd)))) { //does not match
-            System.out.println("\n\nPassword does not match. Try again.");
-            confirmPswd();
-        }
-        else{}
-    }
-
-    public String getPswd(){
-        return String.valueOf(testPswd);
     }
 
     public void updatePswd(String email, String oldPswd, String newPswd){
