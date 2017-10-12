@@ -15,11 +15,7 @@ public class Create{
     CheckPassword checkPswd;
     CheckSecurityQA checkSQ;
 
-    public Create() {
-
-    }
-
-    public Create(String welcome){
+    public Create(){ //create entire account from scratch
         //default constructor
         System.out.println("\nCreate an Account\n");
         System.out.println();
@@ -40,7 +36,14 @@ public class Create{
         System.out.println();
 
         scanner.close();
-        saveAccount();
+        WriteToFile newFile = new WriteToFile();
+        newFile.saveNewAccount(email, pswd, name, secQ_1, ans1, secQ_2, ans2);
+    }
+
+    public Create(String email, String oldPswd){ //reset password
+        setPswd();
+        WriteToFile updateFile = new WriteToFile();
+        updateFile.updatePswd(email, oldPswd, pswd);
     }
 
     /*******************************
@@ -149,7 +152,7 @@ public class Create{
         System.out.println("Enter 1 to change your password.");
         System.out.print("Confirm Password: ");
         String input = scanner.nextLine();
-        if(input.equals("1")){ //Reset password process
+        if(input.equals("1")){ //Redo password process
             setPswd();
         }
         else if(!(input.equals(pswd))) { //does not match
@@ -158,8 +161,6 @@ public class Create{
         }
         else{}
     }
-
-    public String getPswd() {return pswd;}
 
     /*******************************
      *      SECURITY QUESTIONS      *
@@ -210,34 +211,5 @@ public class Create{
                 setSecurityQuestion2();
             }
         }
-    }
-
-    /*******************************
-     *         SAVE ACCOUNT         *
-     *******************************/
-
-    protected void saveAccount() {
-        try {
-            File key = new File(System.getProperty("user.dir") + "/Accounts/" + email);
-            key.mkdirs();
-            PrintWriter account = new PrintWriter(System.getProperty("user.dir") + "/Accounts/" + email + "/accountInfo.txt");
-
-            account.println(pswd);
-            account.println(name);
-
-            account.println(secQ_1);
-            account.println(ans1);
-
-            account.println(secQ_2);
-            account.print(ans2);
-
-            account.close();
-            System.out.println("\nWELCOME, " + name + "!\nYou have successfully created an account.\n");
-        }
-        catch(IOException e) {
-            System.out.println("Something went wrong! Please try again.");
-            System.exit(1);
-        }
-        //return to LOGIN PAGE
     }
 }
