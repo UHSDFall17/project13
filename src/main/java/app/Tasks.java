@@ -1,4 +1,4 @@
-package main.java.app;
+package app;
 
 import java.io.Console;
 import java.sql.Timestamp;

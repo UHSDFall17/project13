@@ -1,5 +1,7 @@
 package app;
 
+import java.util.*;
+
 public class List
 {
     Scanner scanner = new Scanner(System.in);

@@ -15,7 +15,7 @@ public class Dashboard
 
     public Dashboard()
     {
-        this("default.txt");
+        this("../../data/default.txt");
     }
 
     public Dashboard(String fileName)
@@ -23,15 +23,17 @@ public class Dashboard
         userFileName = fileName;
         lists = new ArrayList<List>();
 
-        commands.put(1, "get all lists");
-        commands.put(2, "create new list");
-        commands.put(3, "help");
-        commands.put(4, "quit");
+        commands.put(1, "Get all lists");
+        commands.put(2, "Create new list");
+        commands.put(3, "Edit lists");
+        commands.put(4, "logout");
+        commands.put(5, "help");
+        commands.put(6, "quit");
 
-        commandHandler();
+        //commandHandler();
     }
 
-    private void commandHandler()
+    public void commandHandler()
     {
         boolean cont = true;
         int command = 0;
@@ -40,7 +42,7 @@ public class Dashboard
         printCommands();
         while(cont)
         {
-            out.println("\nEnter your command: ");
+            out.print("\nEnter your command: ");
             input = new Scanner(in);
 
             try{
@@ -49,7 +51,7 @@ public class Dashboard
                 if(command > commands.size())
                     throw new Exception();
 
-                commandControlCenter(command);
+                cont = commandControlCenter(command);
             }
             catch (Exception e)
             {
@@ -57,19 +59,22 @@ public class Dashboard
             }
         }
 
-        System.exit(0);
     }
 
-    private void commandControlCenter(int command)
+    private boolean commandControlCenter(int command)
     {
         switch(command)
         {
-            case 1: GetLists(); break;
-            case 2: out.println("Command recognized\n\n"); break;
-            case 3: printCommands(); break;
-            case 4: exit(0); break;
+            case 1: out.println(GetLists()); break;
+            case 2: createNewList(); break;
+            case 3: break;
+            case 4: return false;
+            case 5: printCommands(); break;
+            case 6: exit(0); break;
 
         }
+
+        return true;
     }
 
     protected void printCommands()
@@ -95,7 +100,7 @@ public class Dashboard
 
 
     //handles creation of new lists, returns boolean on whether it was able to create the list
-    private boolean createNewList(String listName)
+    private boolean storeNewList(String listName)
     {
         List newList;
 
@@ -109,6 +114,39 @@ public class Dashboard
         return false;
     }
 
+    private void createNewList()
+    {
+        Scanner input = new Scanner(in);
+        out.print("Enter new list name: ");
+        String listName = input.nextLine();
+
+        boolean stored = storeNewList(listName);
+
+        if(stored)
+            out.println("Saved successfully!");
+        else {
+            boolean loop = true;
+            out.print("Could not save new list. ");
+            while(loop)
+            {
+                out.println("Try again?(Y/N)");
+                String ans = input.nextLine();
+                ans = ans.toLowerCase();
+                if (ans.compareTo("y") == 0)
+                {
+                    loop = false;
+                    createNewList();
+                }
+                else if (ans.compareTo("n") > 0 || ans.compareTo("n") < 0)
+                {
+                    out.println("Invalid option. ");
+                }
+                else
+                    loop = false;
+            }
+        }
+    }
+
 
     //handles fetching of all list names that the user has
     private String GetLists()
@@ -116,11 +154,13 @@ public class Dashboard
         String output = "";
 
         if(lists.size() == 0)
-            output = "No lists";
+            output = "\nNo lists";
+        else
+            output = "\nYour lists:\n";
 
         for(int i=0; i<lists.size(); i++)
         {
-            output = output + "\n---" + lists.get(i).getName();
+            output = output + "\n-- " + lists.get(i).getName();
         }
 
         return output;
