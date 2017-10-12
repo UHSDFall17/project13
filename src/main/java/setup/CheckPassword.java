@@ -9,9 +9,6 @@ public class CheckPassword {
 
     public CheckPassword(){ }
 
-    public CheckPassword(String email, String oldPswd, String newPswd){ //Procedure: resetting password
-        updatePswd(email, oldPswd, newPswd);
-    }
 
     public boolean goodPswd(char[] testPswd){
         if(testPswd.length >= 6 && testPswd.length <= 20) //Criterion: MIN 6, MAX 20 characters
@@ -30,32 +27,5 @@ public class CheckPassword {
             return false; //missing upper, digit, or special character
         }
         return false; //too short or too long
-    }
-
-    public void updatePswd(String email, String oldPswd, String newPswd){
-        try {
-            BufferedReader inStream = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/Accounts/" + email + "/accountInfo.txt"));
-            StringBuffer getLine = new StringBuffer();
-            String oldline;
-
-            /* GRAB LINES */
-            while((oldline = inStream.readLine()) != null){
-                getLine.append(oldline);
-                getLine.append("\n");
-            }
-            String line = getLine.toString();
-            inStream.close();
-
-            /* REPLACE OLD PSWD WITH NEW PSWD */
-            line = line.replace(oldPswd, newPswd);
-            FileOutputStream outStream = new FileOutputStream(System.getProperty("user.dir") + "/Accounts/" + email + "/accountInfo.txt");
-            outStream.write(line.getBytes());
-            outStream.close();
-
-            System.out.println("\nSUCCESS! Your password has been updated.");//SUCCESS
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("\nFAILED: Your password has not been updated. Program Terminated.");
-        }
     }
 }
