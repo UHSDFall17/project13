@@ -72,8 +72,6 @@ public class ResetPswd{
 
     public void resetPswd(){
         System.out.println("\n\nSecurity Questions have been correctly answered.\nYou may now reset your password.");
-        newPassword = new Create();
-        newPassword.setPswd(); //set
-        checkPassword.updatePswd(email, oldPswd, newPassword.getPswd()); //store
+        newPassword = new Create(email, oldPswd); //once user enters acceptable password, accountInfo.txt is updated
     }
 }
