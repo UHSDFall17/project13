@@ -3,17 +3,24 @@ package setup;
 import java.io.*;
 import java.util.*;
 
-public class createAccount{
+public class Create{
     Scanner scanner = new Scanner(System.in);
 
-    private String name, email, pswd;
+    private String name, email, pswd, ans1, ans2;
     private int secQ_1, secQ_2;
 
-    SecurityQA secure = new SecurityQA();
+    private char[] testPswd;
+    private char testQ;
 
-    public createAccount() { //default constructor
-        clearScreen();
+    CheckPassword checkPswd;
+    CheckSecurityQA checkSQ;
 
+    public Create() {
+
+    }
+
+    public Create(String welcome){
+        //default constructor
         System.out.println("\nCreate an Account\n");
         System.out.println();
 
@@ -22,25 +29,18 @@ public class createAccount{
 
         setEmail();
         System.out.println();
-        clearScreen();
 
         setPswd();
         System.out.println();
-        clearScreen();
 
-        setSecurityQuestions();
+        setSecurityQuestion1();
+        setSecurityQuestion2();
         System.out.println();
         System.out.println();
         System.out.println();
-        clearScreen();
 
         scanner.close();
         saveAccount();
-    }
-
-    public void clearScreen(){
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
     }
 
     /*******************************
@@ -49,14 +49,10 @@ public class createAccount{
     public void setName() {
         System.out.print("Name: ");
         name = (scanner.nextLine()).toUpperCase();
-        if(!goodName(name)) {
+        if(name.isEmpty()) {
             System.out.println("Error: Please enter your name.\n");
             setName();
         }
-    }
-
-    protected boolean goodName(String name){
-        return !name.equals("");
     }
 
     /*******************************
@@ -90,7 +86,6 @@ public class createAccount{
             confirmEmail(email);
         }
         else if(temp.equals("N")){
-            clearScreen();
             System.out.println("Name: " + name);
             setEmail();
         }
@@ -130,17 +125,91 @@ public class createAccount{
      *           PASSWORD           *
      *******************************/
     public void setPswd(){
-        Password newPswd = new Password();
-        pswd = newPswd.getPswd();
+        System.out.println("\nPassword Requirements: " +
+                "\n \t(1) 6-20 characters " +
+                "\n \t(2) at least 1 upper-case letter " +
+                "\n \t(3) at least 1 digit " +
+                "\n \t(4) at least 1 special character");
+        System.out.print("Password: ");
+        pswd = scanner.nextLine();
+        testPswd = pswd.toCharArray();
+
+        checkPswd = new CheckPassword();
+
+        if(!checkPswd.goodPswd(testPswd)) {
+            System.out.println("Input does not meet Password Requirements. Try Again.");
+            setPswd();
+        }
+        else{
+            confirmPswd();
+        }
     }
+
+    public void confirmPswd() {
+        System.out.println("Enter 1 to change your password.");
+        System.out.print("Confirm Password: ");
+        String input = scanner.nextLine();
+        if(input.equals("1")){ //Reset password process
+            setPswd();
+        }
+        else if(!(input.equals(pswd))) { //does not match
+            System.out.println("\n\nPassword does not match. Try again.");
+            confirmPswd();
+        }
+        else{}
+    }
+
+    public String getPswd() {return pswd;}
 
     /*******************************
      *      SECURITY QUESTIONS      *
      *******************************/
 
-    public void setSecurityQuestions() { // Security Question and Answer #1
-        secure.setSecureQA1();
-        secure.setSecureQA2();
+    public void setSecurityQuestion1() { // Security Question and Answer #1
+        checkSQ = new CheckSecurityQA();
+        System.out.println("\nSelect Security Question #1");
+        for (int i = 1; i <= 4; i++)
+            System.out.println("\t" + i + " - " + checkSQ.getQuestion(i));
+        testQ = scanner.nextLine().charAt(0);
+
+
+        if (!checkSQ.validSelection(1, testQ)) {
+            System.out.println("Input is invalid. Try again.");
+            setSecurityQuestion1();
+        }
+        else {
+            secQ_1 = Character.getNumericValue(testQ);
+            System.out.println("\nPress 1 to change Security Question #1.");
+            System.out.println("Question: " + checkSQ.getQuestion(secQ_1));
+            System.out.print("Answer: ");
+            ans1 = scanner.nextLine().toUpperCase();
+            if (ans1.equals("1")) {
+                setSecurityQuestion1();
+            }
+        }
+    }
+
+    public void setSecurityQuestion2(){
+        checkSQ = new CheckSecurityQA();
+        System.out.println("\nSelect Security Question #2");
+        for(int i = 5; i <= 8; i++)
+            System.out.println("\t" + i + " - " + checkSQ.getQuestion(i));
+       testQ = scanner.nextLine().charAt(0);
+
+        if (!checkSQ.validSelection(2, testQ)) {
+            System.out.println("Input is invalid. Try again.");
+            setSecurityQuestion2();
+        }
+        else {
+            secQ_2 = Character.getNumericValue(testQ);
+            System.out.println("\nPress 1 to change Security Question #2.");
+            System.out.println("Question: " + checkSQ.getQuestion(secQ_2));
+            System.out.print("Answer: ");
+            ans2 = scanner.nextLine().toUpperCase();
+            if (ans2.equals("1")) {
+                setSecurityQuestion2();
+            }
+        }
     }
 
     /*******************************
@@ -152,14 +221,17 @@ public class createAccount{
             File key = new File(System.getProperty("user.dir") + "/Accounts/" + email);
             key.mkdirs();
             PrintWriter account = new PrintWriter(System.getProperty("user.dir") + "/Accounts/" + email + "/accountInfo.txt");
+
             account.println(pswd);
             account.println(name);
-            account.println(secure.getIndex(1));
-            account.println(secure.getAnswer(1));
-            account.println(secure.getIndex(2));
-            account.print(secure.getAnswer(2));
+
+            account.println(secQ_1);
+            account.println(ans1);
+
+            account.println(secQ_2);
+            account.print(ans2);
+
             account.close();
-            clearScreen();
             System.out.println("\nWELCOME, " + name + "!\nYou have successfully created an account.\n");
         }
         catch(IOException e) {
