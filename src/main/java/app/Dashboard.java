@@ -100,7 +100,7 @@ public class Dashboard
 
 
     //handles creation of new lists, returns boolean on whether it was able to create the list
-    private boolean storeNewList(String listName)
+    public boolean storeNewList(String listName)
     {
         List newList;
 
@@ -149,7 +149,7 @@ public class Dashboard
 
 
     //handles fetching of all list names that the user has
-    private String GetLists()
+    public String GetLists()
     {
         String output = "";
 

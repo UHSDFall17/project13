@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class login
 {
-	public static void login()
+	public static boolean access()
 	{
 		//Console console = System.console();
 		Scanner s= new Scanner(System.in);
@@ -29,14 +29,16 @@ public class login
 		String pwd = s.nextLine();
 		if(authorization(user.toLowerCase(), pwd))
 		{
-			/*Access account.*/
+			return true;
 		}
+		else
+			return false;
 	}
 	private static boolean authorization(String user, String pass)
 	{
 		String line = null;
 		String fileName = "Accounts/" + user + "/loginInfo.txt";
-		boolean autherized = false;
+		boolean authorized = false;
 		try
 		{
 			FileReader fileReader = new FileReader(fileName);
@@ -46,16 +48,16 @@ public class login
 				String [] token = line.split(" ");
 				if(token[0].equals(pass))
 				{
-					autherized = true;
+					authorized = true;
 					bufferedReader.close();
-					return autherized;
+					return authorized;
 				}
 				else
 				{
-					autherized = false;
+					authorized = false;
 					System.out.println("Password is invalid.");
 					bufferedReader.close();
-					return autherized;
+					return authorized;
 				}
 			}
 			bufferedReader.close();
@@ -68,6 +70,6 @@ public class login
 		{
 			System.out.println("Error reading file: '" + fileName + "'.");
 		}
-		return autherized;
+		return authorized;
 	}
 }
