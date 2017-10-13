@@ -6,7 +6,7 @@ import java.lang.*;
 public class ResetPswd{
     Scanner input = new Scanner(System.in);
 
-    Create newPassword;
+    Account newPassword;
     CheckPassword checkPassword;
 
     private String email,savedSQ, savedAns, oldPswd;
@@ -72,6 +72,6 @@ public class ResetPswd{
 
     public void resetPswd(){
         System.out.println("\n\nSecurity Questions have been correctly answered.\nYou may now reset your password.");
-        newPassword = new Create(email, oldPswd); //once user enters acceptable password, accountInfo.txt is updated
+        newPassword = new Account(email, oldPswd); //once user enters acceptable password, accountInfo.txt is updated
     }
 }
