@@ -4,14 +4,14 @@ import app.*;
 import java.io.*;
 
 
-public class anydo
+public class AnyDo
 {
     private String lastLogin;
     private Dashboard dashboard;
-    private Create create;
-    private login login;
+    private Account create;
+    private Login login;
 
-    public anydo()
+    public AnyDo()
     {
         startUp();
     }

@@ -8,9 +8,9 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class login
+public class Login
 {
-	public static void login()
+	public static void access()
 	{
 		//Console console = System.console();
 		Scanner s= new Scanner(System.in);
@@ -35,7 +35,7 @@ public class login
 	private static boolean authorization(String user, String pass)
 	{
 		String line = null;
-		String fileName = "Accounts/" + user + "/loginInfo.txt";
+		String fileName = "Accounts/" + user + "/accountInfo.txt";
 		boolean autherized = false;
 		try
 		{
