@@ -8,9 +8,9 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class login
+public class Login
 {
-	public static boolean access()
+	public static void access()
 	{
 		//Console console = System.console();
 		Scanner s= new Scanner(System.in);
@@ -29,16 +29,14 @@ public class login
 		String pwd = s.nextLine();
 		if(authorization(user.toLowerCase(), pwd))
 		{
-			return true;
+			/*Access account.*/
 		}
-		else
-			return false;
 	}
 	private static boolean authorization(String user, String pass)
 	{
 		String line = null;
-		String fileName = "Accounts/" + user + "/loginInfo.txt";
-		boolean authorized = false;
+		String fileName = "Accounts/" + user + "/accountInfo.txt";
+		boolean autherized = false;
 		try
 		{
 			FileReader fileReader = new FileReader(fileName);
@@ -48,16 +46,16 @@ public class login
 				String [] token = line.split(" ");
 				if(token[0].equals(pass))
 				{
-					authorized = true;
+					autherized = true;
 					bufferedReader.close();
-					return authorized;
+					return autherized;
 				}
 				else
 				{
-					authorized = false;
+					autherized = false;
 					System.out.println("Password is invalid.");
 					bufferedReader.close();
-					return authorized;
+					return autherized;
 				}
 			}
 			bufferedReader.close();
@@ -70,6 +68,6 @@ public class login
 		{
 			System.out.println("Error reading file: '" + fileName + "'.");
 		}
-		return authorized;
+		return autherized;
 	}
 }

@@ -16,7 +16,7 @@ public class Stream {
 
     public void WriteToConsole(String output)  //use when writing to console
     {
-        out.println(output);
+        out.print(output);
     }
 
     public String ReadLineFromConsole()  //use when reading single string line from user

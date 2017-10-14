@@ -15,7 +15,7 @@ public class Dashboard
 
     public Dashboard()
     {
-        this("../../data/default.txt");
+        this("default.txt");
     }
 
     public Dashboard(String fileName)

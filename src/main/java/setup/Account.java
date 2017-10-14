@@ -3,7 +3,7 @@ package setup;
 import java.io.*;
 import java.util.*;
 
-public class Create{
+public class Account{
     Scanner scanner = new Scanner(System.in);
 
     private String name, email, pswd, ans1, ans2;
@@ -15,7 +15,7 @@ public class Create{
     CheckPassword checkPswd;
     CheckSecurityQA checkSQ;
 
-    public Create(){ //create entire account from scratch
+    public Account(){ //create entire account from scratch
         //default constructor
         System.out.println("\nCreate an Account\n");
         System.out.println();
@@ -40,7 +40,7 @@ public class Create{
         newFile.saveNewAccount(email, pswd, name, secQ_1, ans1, secQ_2, ans2);
     }
 
-    public Create(String email, String oldPswd){ //reset password
+    public Account(String email, String oldPswd){ //reset password
         setPswd();
         WriteToFile updateFile = new WriteToFile();
         updateFile.updatePswd(email, oldPswd, pswd);
