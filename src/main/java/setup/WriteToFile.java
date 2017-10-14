@@ -6,7 +6,7 @@ public class WriteToFile {
 
     public WriteToFile(){}
 
-    protected void saveNewAccount(String email, String pswd, String name, int Q1, String A1, int Q2, String A2) {
+    public void saveNewAccount(String email, String pswd, String name, int Q1, String A1, int Q2, String A2) {
         try {
             File key = new File(System.getProperty("user.dir") + "/Accounts/" + email);
             key.mkdirs();
