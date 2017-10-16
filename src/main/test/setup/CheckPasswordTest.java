@@ -21,7 +21,7 @@ public class CheckPasswordTest {
 
         char[] testValue = "12345".toCharArray(); //too short: MIN of 6 characters, ACTUAL has 5 characters
 
-        assertFalse(testPswd.goodPswd(testValue));
+        assertFalse(testPswd.meetsRequirements(testValue));
     }
 
     @Test
@@ -30,7 +30,7 @@ public class CheckPasswordTest {
 
         char[] testValue = "abcdefghijklmnopqrstuvwxyz".toCharArray(); //too long: MAX 20 character, ACTUAL has 26 characters
 
-        assertFalse(testPswd.goodPswd(testValue));
+        assertFalse(testPswd.meetsRequirements(testValue));
     }
 
     @Test
@@ -39,7 +39,7 @@ public class CheckPasswordTest {
 
         char[] testValue = "abc123+".toCharArray(); //no capitalized letter
 
-        assertFalse(testPswd.goodPswd(testValue));
+        assertFalse(testPswd.meetsRequirements(testValue));
     }
 
     @Test
@@ -48,7 +48,7 @@ public class CheckPasswordTest {
 
         char[] testValue = "AbcDef+".toCharArray(); //no numbers or digits
 
-        assertFalse(testPswd.goodPswd(testValue));
+        assertFalse(testPswd.meetsRequirements(testValue));
     }
 
     @Test
@@ -57,7 +57,7 @@ public class CheckPasswordTest {
 
         char[] testValue = "Abc123".toCharArray(); //no special character
 
-        assertFalse(testPswd.goodPswd(testValue));
+        assertFalse(testPswd.meetsRequirements(testValue));
     }
 
     @Test
@@ -65,7 +65,7 @@ public class CheckPasswordTest {
         testPswd = new CheckPassword();
 
         char[] testValue = "Abc123+".toCharArray(); //Good, acceptable password
-        assertTrue(testPswd.goodPswd(testValue));
+        assertTrue(testPswd.meetsRequirements(testValue));
     }
 
 }
