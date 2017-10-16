@@ -112,7 +112,7 @@ public class Account{
 
         newPswd = new CheckPassword();
 
-        if(!newPswd.meetsRequirment(testPswd)) {
+        if(!newPswd.meetsRequirements(testPswd)) {
             System.out.println("Input does not meet Password Requirements. Try Again.");
             setPswd();
         }

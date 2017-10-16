@@ -10,7 +10,7 @@ public class CheckPassword {
     public CheckPassword(){ }
 
 
-    public boolean goodPswd(char[] testPswd){
+    public boolean meetsRequirements(char[] testPswd){
         if(testPswd.length >= 6 && testPswd.length <= 20) //Criterion: MIN 6, MAX 20 characters
         {
             int countUpper = 0;    int countDigit = 0;   int countSpecial = 0;
