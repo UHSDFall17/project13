@@ -6,8 +6,8 @@ import java.lang.*;
 public class ResetPswd{
     Scanner input = new Scanner(System.in);
 
+    CheckEmail checkEmail;
     Account newPassword;
-    CheckPassword checkPassword;
 
     private String email,savedSQ, savedAns, oldPswd;
 
@@ -46,13 +46,15 @@ public class ResetPswd{
     public void checkEmail(){
         System.out.print("\nRegistered Email: ");
         email = input.nextLine().toLowerCase(); //ACCEPTS EMAIL INPUT
+        checkEmail = new CheckEmail();
+
         if(email.isEmpty()){ //CHECK FOR NULL INPUT
             System.out.println("Error: Email required to reset password.");
             checkEmail();
         }
         else if(email.matches("1")) //EXIT
             System.exit(0);
-        else if(!(new File(System.getProperty("user.dir") + "/Accounts/" + email).exists())) { //EMAIL IS NOT REGISTERED - TRY AGAIN OR EXIT
+        else if(!checkEmail.isRegistered(email)) { //EMAIL IS NOT REGISTERED - TRY AGAIN OR EXIT
             System.out.println("\nUH OH! This email is not registered. \nTry again, or press 1 to exit.");
             checkEmail();
         }
