@@ -11,9 +11,6 @@ import java.util.*;
 public class SecurityQuestions {
     Scanner input = new Scanner(System.in);
 
-    CheckSecurityQA newSQ;
-    WriteToFile updateSQ;
-
     private char inputSecQuestion; //FOR verifying that selection is in given range
     private String userEmail, userPassword; //FOR verifying user
     private String inputPswd ; //FOR changing security questions
@@ -93,8 +90,8 @@ public class SecurityQuestions {
 
             /* REPLACE AND UPDATE IN FILE */
             String[] newSQA = {Integer.toString(newSQ1), newAns1, Integer.toString(newSQ2), newAns2};
-            updateSQ = new WriteToFile();
-            updateSQ.updateSQ(userEmail, newSQA);
+            WriteToFile write = new WriteToFile();
+            write.updateSQ(userEmail, newSQA);
         }
     }
 
