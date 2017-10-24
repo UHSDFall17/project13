@@ -41,14 +41,13 @@ public class Account {
 
     public void logIn(){
         Email email = new Email();
-        String emailAttempt = email.logIn();
+        String emailAttempt = email.getAttemptLogInEmail();
 
         Password password = new Password();
-        String pswdAttempt = password.logIn();
 
         CheckEmail checkEmail = new CheckEmail();
-        CheckPassword checkPassword = new CheckPassword();
-        if(!(checkEmail.isRegistered(emailAttempt) && checkPassword.isCorrectPswd(emailAttempt, pswdAttempt))){
+
+        if(!(checkEmail.isRegistered(emailAttempt) && password.isGoodLogInPassword(emailAttempt))){
             System.out.println("Email and/or password is incorrect. Try Again.");
             logIn();
         }
