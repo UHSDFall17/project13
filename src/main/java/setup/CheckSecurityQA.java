@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class CheckSecurityQA{
 
     //array of security questions offered
-    private String[] questions = {null, "What is your mother's maiden name?",
+    protected String[] questions = {null, "What is your mother's maiden name?",
             "What is the name of the street that you lived on as a child?",
             "What was the make and model of your first car?",
             "What was the name of your first pet?",
@@ -24,6 +24,7 @@ public class CheckSecurityQA{
     }
 
     public String getQuestion(int index){
+
         return questions[index];
     }
 

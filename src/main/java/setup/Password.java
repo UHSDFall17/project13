@@ -60,6 +60,10 @@ public class Password {
         }
     }
 
+    public String logIn(){
+        System.out.print("Password: ");
+        return input.nextLine();
+    }
 
 /**** CHANGE ****/
     public void changePassword(){

@@ -33,6 +33,33 @@ public class WriteToFile {
         //return to LOGIN PAGE
     }
 
+    public void updateName(String email, String oldName, String newName){
+        try {
+            BufferedReader inStream = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/Accounts/" + email + "/accountInfo.txt"));
+            StringBuffer getLine = new StringBuffer();
+            String oldLine;
+
+            /* GRAB LINES AND OLD NAME*/
+            while((oldLine = inStream.readLine()) != null){
+                getLine.append(oldLine);
+                getLine.append("\n");
+            }
+            String line = getLine.toString();
+            inStream.close();
+
+            /* REPLACE OLD PSWD WITH NEW PSWD */
+            line = line.replace(oldName, newName);
+            FileOutputStream outStream = new FileOutputStream(System.getProperty("user.dir") + "/Accounts/" + email + "/accountInfo.txt");
+            outStream.write(line.getBytes());
+            outStream.close();
+
+            System.out.println("\nSUCCESS! Your password has been updated.");//SUCCESS
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("\nFAILED: Your password has not been updated. Program Terminated.");
+        }
+    }
+
     public void updatePswd(String email, String oldPswd, String newPswd){
         try {
             BufferedReader inStream = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/Accounts/" + email + "/accountInfo.txt"));

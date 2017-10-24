@@ -1,14 +1,10 @@
 package setup;
 
-import java.io.BufferedReader;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 
 public class CheckPassword {
 
     public CheckPassword(){ }
-
 
     public boolean meetsRequirements(char[] testPswd){
         if(testPswd.length >= 6 && testPswd.length <= 20) //Criterion: MIN 6, MAX 20 characters
@@ -27,5 +23,19 @@ public class CheckPassword {
             return false; //missing upper, digit, or special character
         }
         return false; //too short or too long
+    }
+
+    public boolean isCorrectPswd(String email, String pswdAttempt){
+        try{
+            BufferedReader inStream = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/Accounts/" + email + "/accountInfo.txt"));
+            String password = inStream.readLine(); //stored password
+            inStream.close();
+            return pswdAttempt.matches(password);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }

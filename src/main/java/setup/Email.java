@@ -24,4 +24,9 @@ public class Email {
             email = inputEmail;
         }
     }
+
+    public String logIn(){
+        System.out.print("Email: ");
+        return input.nextLine().toLowerCase();
+    }
 }

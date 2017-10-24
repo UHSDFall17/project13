@@ -8,7 +8,7 @@ public class _main
     {
         //main.java.setup.anydo start = new main.java.setup.anydo();
         //Account newAccount = new Account();
-        //ResetPswd recoverForgotten = new ResetPswd();
+        //Password recoverForgotten = new Password();
         //Dashboard test = new Dashboard();
     }
 }
