@@ -72,9 +72,8 @@ public class Password {
 
         //VERIFY - enter current password
         System.out.print("Current Password: ");
-        inputOldPswd = input.nextLine();
 
-        if(!inputOldPswd.matches(oldPswd)) { //INPUT NOT CURRENT PASSWORD
+        if(!input.nextLine().matches(oldPswd)) { //INPUT NOT CURRENT PASSWORD
             System.out.println("Incorrect. Please enter your current password.");
             changePassword();
         }
