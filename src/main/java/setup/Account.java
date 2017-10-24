@@ -17,48 +17,38 @@ public class Account{
     CheckSecurityQA newSQ1;
     CheckSecurityQA newSQ2;
 
-    public Account(){ //create entire account from scratch
-        //default constructor
-        System.out.println("\nCreate an Account\n");
-        System.out.println();
+    public Account(){}
 
-        setName();
-        System.out.println();
+    public void createNewAccount(){
+        User newUser = new User();
+        newUser.setNewName();
 
-        setEmail();
-        System.out.println();
+        Email newEmail = new Email();
+        newEmail.setNewEmail();
 
-        setPswd();
-        System.out.println();
+        Password newPassword = new Password();
+        newPassword.setNewPassword();
 
-        setSecurityQuestion1();
-        setSecurityQuestion2();
-        System.out.println();
-        System.out.println();
-        System.out.println();
+        SecurityQuestions newSQ1 = new SecurityQuestions();
+        newSQ1.setQA1(); //set both security question #1 AND its respective answer
 
-        scanner.close();
-        WriteToFile newFile = new WriteToFile();
-        newFile.saveNewAccount(email, pswd, name, secQ_1, ans1, secQ_2, ans2);
+        SecurityQuestions newSQ2 = new SecurityQuestions();
+        newSQ1.setQA2(); //set both security question #2 AND its respective answer
+
+        WriteToFile write = new WriteToFile();
+        write.saveNewAccount(newEmail.email, newPassword.newPswd, newUser.name, newSQ1.sq1, newSQ1.ans1, newSQ2.sq2, newSQ2.ans2);
     }
 
-    public Account(String email, String oldPswd){ //reset password
-        setPswd();
-        WriteToFile updateFile = new WriteToFile();
-        updateFile.updatePswd(email, oldPswd, pswd);
+    public void resetForgottenPassword(){
+
     }
 
-    /*******************************
-     *           NAME               *
-     *******************************/
-    public void setName() {
-        System.out.print("Name: ");
-        name = (scanner.nextLine()).toUpperCase();
-        if(name.isEmpty()) {
-            System.out.println("Error: Please enter your name.\n");
-            setName();
-        }
-    }
+    public void changeName(){}
+
+    public void changePassword(){}
+
+    public void changeSQ(){}
+
 
     /*******************************
      *           EMAIL              *
@@ -100,40 +90,7 @@ public class Account{
     /*******************************
      *           PASSWORD           *
      *******************************/
-    public void setPswd(){
-        System.out.println("\nPassword Requirements: " +
-                "\n \t(1) 6-20 characters " +
-                "\n \t(2) at least 1 upper-case letter " +
-                "\n \t(3) at least 1 digit " +
-                "\n \t(4) at least 1 special character");
-        System.out.print("Password: ");
-        pswd = scanner.nextLine();
-        testPswd = pswd.toCharArray();
 
-        newPswd = new CheckPassword();
-
-        if(!newPswd.meetsRequirements(testPswd)) {
-            System.out.println("Input does not meet Password Requirements. Try Again.");
-            setPswd();
-        }
-        else{
-            confirmPswd();
-        }
-    }
-
-    public void confirmPswd() {
-        System.out.println("Enter 1 to change your password.");
-        System.out.print("Confirm Password: ");
-        String input = scanner.nextLine();
-        if(input.equals("1")){ //Redo password process
-            setPswd();
-        }
-        else if(!(input.equals(pswd))) { //does not match
-            System.out.println("\n\nPassword does not match. Try again.");
-            confirmPswd();
-        }
-        else{}
-    }
 
     /*******************************
      *      SECURITY QUESTIONS      *
