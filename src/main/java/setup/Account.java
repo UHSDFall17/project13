@@ -1,11 +1,10 @@
 package setup;
 
+import java.awt.*;
 import java.io.*;
 import java.util.*;
 
 public class Account {
-    Scanner scanner = new Scanner(System.in);
-
     private String name, email, pswd, ans1, ans2;
     private int secQ_1, secQ_2;
 
@@ -38,6 +37,22 @@ public class Account {
 
         WriteToFile write = new WriteToFile();
         write.saveNewAccount(newEmail.email, newPassword.newPswd, newUser.name, newSQ1.sq1, newSQ1.ans1, newSQ2.sq2, newSQ2.ans2);
+    }
+
+    public void logIn(){
+        Email email = new Email();
+        String emailAttempt = email.logIn();
+
+        Password password = new Password();
+        String pswdAttempt = password.logIn();
+
+        CheckEmail checkEmail = new CheckEmail();
+        CheckPassword checkPassword = new CheckPassword();
+        if(!(checkEmail.isRegistered(emailAttempt) && checkPassword.isCorrectPswd(emailAttempt, pswdAttempt))){
+            System.out.println("Email and/or password is incorrect. Try Again.");
+            logIn();
+        }
+        else{} //MOVE ONTO USER'S DASHBOARD
     }
 
     public void resetForgottenPassword() {
