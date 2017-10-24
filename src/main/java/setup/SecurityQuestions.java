@@ -90,7 +90,11 @@ public class SecurityQuestions {
         else{
             setQA1();
             setQA2();
-            updateSQ = new WriteToFile(userEmail, userPassword, newSQ1, newAns1, newSQ2, newAns2);
+
+            /* REPLACE AND UPDATE IN FILE */
+            String[] newSQA = {Integer.toString(newSQ1), newAns1, Integer.toString(newSQ2), newAns2};
+            updateSQ = new WriteToFile();
+            updateSQ.updateSQ(userEmail, newSQA);
         }
     }
 
