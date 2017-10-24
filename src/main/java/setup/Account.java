@@ -29,14 +29,14 @@ public class Account {
         Password newPassword = new Password();
         newPassword.setNewPassword();
 
-        SecurityQuestions newSQ1 = new SecurityQuestions();
-        newSQ1.setQA1(); //set both security question #1 AND its respective answer
+        SecurityQuestions securityQuestions_1 = new SecurityQuestions();
+        securityQuestions_1.setQA1(); //set both security question #1 AND its respective answer
 
-        SecurityQuestions newSQ2 = new SecurityQuestions();
-        newSQ1.setQA2(); //set both security question #2 AND its respective answer
+        SecurityQuestions securityQuestions_2 = new SecurityQuestions();
+        securityQuestions_2.setQA2(); //set both security question #2 AND its respective answer
 
         WriteToFile write = new WriteToFile();
-        write.saveNewAccount(newEmail.email, newPassword.newPswd, newUser.name, newSQ1.sq1, newSQ1.ans1, newSQ2.sq2, newSQ2.ans2);
+        write.saveNewAccount(newEmail.email, newPassword.newPswd, newUser.name, securityQuestions_1.newSQ1, securityQuestions_1.newAns1, securityQuestions_2.newSQ2, securityQuestions_2.newAns1);
     }
 
     public void logIn(){
