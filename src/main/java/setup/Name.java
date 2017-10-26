@@ -1,11 +1,12 @@
 package setup;
 
+import java.io.*;
 import java.util.Scanner;
 
 public class Name {
     Scanner input = new Scanner(System.in);
 
-    private String userEmail, userPassword; //FOR verifying user
+    private String userEmail, userPassword, userName; //FOR verifying user
     protected String name;
 
     public Name(){}
@@ -18,23 +19,33 @@ public class Name {
     }
 
     public void changeName(){
-        userEmail = something;
-        userPassword = something;
-        String userName = something;
+        try{
+            BufferedReader lastLogin = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/Accounts/LastLogin.txt"));
+            userEmail = lastLogin.readLine();
+            lastLogin.close();
 
-        System.out.print("Log-In Password: ");
-        String inputPswd = input.nextLine();
+            BufferedReader userFile = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/Accounts/" + userEmail + "accountInfo.txt"));
+            userPassword = userFile.readLine(); // grabs password
+            userName = userFile.readLine(); //grabs user's name
+            userFile.close();
 
-        if(!inputPswd.matches(userPassword)){
-            System.out.println("Incorrect Password.");
-            changeName();
-        }
-        else{
-            setNewName();
+            System.out.print("Log-In Password: ");
+
+            if(!input.nextLine().matches(userPassword)){
+                System.out.println("Incorrect Password.");
+                changeName();
+            }
+            else{
+                setNewName();
 
             /* REPLACE AND UPDATE IN FILE */
-            WriteToFile updateName = new WriteToFile();
-            updateName.updateName(userEmail, userName, name);
+                WriteToFile updateName = new WriteToFile();
+                updateName.updateName(userEmail, userName, name);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

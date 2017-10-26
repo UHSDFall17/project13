@@ -1,5 +1,9 @@
 package setup;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.*;
 
 /****
@@ -74,8 +78,20 @@ public class SecurityQuestions {
     }
 
     public void changeSQ(){
-        userEmail = something;
-        userPassword = something;
+        try {
+            BufferedReader lastLogin = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/Accounts/LastLogin.txt"));
+            userEmail = lastLogin.readLine();
+            lastLogin.close();
+
+            BufferedReader userFile = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/Accounts/" + userEmail + "accountInfo.txt"));
+            userPassword = userFile.readLine(); // grabs password
+            userFile.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
         System.out.print("Log-In Password: ");
         inputPswd = input.nextLine();
@@ -93,6 +109,10 @@ public class SecurityQuestions {
             WriteToFile write = new WriteToFile();
             write.updateSQ(userEmail, newSQA);
         }
+    }
+
+    public String getQuestion(int index){
+        return questions[index];
     }
 
 }

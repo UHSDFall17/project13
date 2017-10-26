@@ -60,26 +60,39 @@ public class Password {
         }
     }
 
-    public String logIn(){
+    public boolean isGoodLogInPassword(String email){
         System.out.print("Password: ");
-        return input.nextLine();
+
+        checkPswd = new CheckPassword();
+        return checkPswd.isCorrectPswd(email, input.nextLine());
     }
 
 /**** CHANGE ****/
     public void changePassword(){
-        email = something;
-        oldPswd = something;
+        try {
+            BufferedReader lastLogin = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/Accounts/LastLogin.txt"));
+            email = lastLogin.readLine();
+            lastLogin.close();
 
-        //VERIFY - enter current password
-        System.out.print("Current Password: ");
+            BufferedReader userFile = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/Accounts/" + email + "accountInfo.txt"));
+            oldPswd = userFile.readLine(); // grabs password
+            userFile.close();
 
-        if(!input.nextLine().matches(oldPswd)) { //INPUT NOT CURRENT PASSWORD
-            System.out.println("Incorrect. Please enter your current password.");
-            changePassword();
-        }
-        else { //INPUT MATCHES CURRENT PASSWORD
-            write = new WriteToFile();
-            write.updatePswd(email, oldPswd, newPswd);
+            //VERIFY - enter current password
+            System.out.print("Current Password: ");
+
+            if(!input.nextLine().matches(oldPswd)) { //INPUT NOT CURRENT PASSWORD
+                System.out.println("Incorrect. Please enter your current password.");
+                changePassword();
+            }
+            else { //INPUT MATCHES CURRENT PASSWORD
+                write = new WriteToFile();
+                write.updatePswd(email, oldPswd, newPswd);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -97,7 +110,7 @@ public class Password {
             oldPswd = readAccount.readLine(); //old password
             System.out.println("\nHI, " + readAccount.readLine() + ".");
 
-            CheckSecurityQA pullUserQuestions = new CheckSecurityQA();
+            SecurityQuestions pullUserQuestions = new SecurityQuestions();
             savedSQ = pullUserQuestions.getQuestion(Integer.parseInt(readAccount.readLine())); //READ FROM FILE: SECURITY QUESTION #1, THEN CONVERT NUMBER TO ACTUAL QUESTION
             savedAns = readAccount.readLine(); //READ FROM FILE: ANSWER #1
             do{

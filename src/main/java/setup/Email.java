@@ -25,8 +25,8 @@ public class Email {
         }
     }
 
-    public String logIn(){
+    public String getAttemptLogInEmail(){
         System.out.print("Email: ");
-        return input.nextLine().toLowerCase();
+            return input.nextLine().toLowerCase();
     }
 }

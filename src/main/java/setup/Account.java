@@ -13,8 +13,6 @@ public class Account {
 
     CheckEmail newEmail;
     CheckPassword newPswd;
-    CheckSecurityQA newSQ1;
-    CheckSecurityQA newSQ2;
 
     public Account() {
     }
