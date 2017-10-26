@@ -30,12 +30,12 @@ public class AnyDo implements CommandUser
 
     private void splashScreen()
     {
-        stream.writeToConsole("    _,                     \n" +
-                "   / |                  /  \n" +
-                "  /--|  _ _   __  ,  __/ __\n" +
-                "_/   |_/ / /_/ (_/_o(_/_(_)\n" +
-                "                /          \n" +
-                "               '  \n");
+        stream.writeToConsole(" __    _   _                              _,                     \n" +
+                "( /   /   //                   _/_       / |                  /  \n" +
+                " / / /_  // _, __ _ _ _   _    /  __    /--|  _ _   __  ,  __/ __\n" +
+                "(_/_/(/_(/_(__(_)/ / / /_(/_  (__(_)  _/   |_/ / /_/ (_/_o(_/_(_)\n" +
+                "                                                      /          \n" +
+                "                                                     '           \n");
     }
 
     private void initCommands()
@@ -91,7 +91,7 @@ public class AnyDo implements CommandUser
                     throw new Exception();
 
                 commandReturn = commandCenter(command);
-
+                out.println("Test");
             }
             catch (Exception e)
             {
@@ -108,8 +108,8 @@ public class AnyDo implements CommandUser
         switch (command)
         {
             case 1: loginHandler(); break;
-            case 2:break;
-            case 3: out.println(commands.toString()); break;
+            case 2: createAccountHandler(); break;
+            case 3: out.println("(Any.do) "+commands.toString()); break;
             case 4: exit(0); break;
         }
 
@@ -125,5 +125,11 @@ public class AnyDo implements CommandUser
             dashboard = new Dashboard();
             dashboard.commandHandler();
         }
+    }
+
+    private void createAccountHandler()
+    {
+        create = new Account();
+        //stream.readLineFromConsole();
     }
 }
