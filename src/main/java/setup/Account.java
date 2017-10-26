@@ -12,8 +12,10 @@ public class Account{
     private char[] testPswd;
     private char testQ;
 
-    CheckPassword checkPswd;
-    CheckSecurityQA checkSQ;
+    CheckEmail newEmail;
+    CheckPassword newPswd;
+    CheckSecurityQA newSQ1;
+    CheckSecurityQA newSQ2;
 
     public Account(){ //create entire account from scratch
         //default constructor
@@ -65,12 +67,12 @@ public class Account{
         System.out.print("Email: ");
         email = (scanner.nextLine()).toLowerCase();
 
-        if(!goodEmail(email)){ //checks for '@' and valid extension
+        newEmail = new CheckEmail();
+        if(!newEmail.goodEmail(email)){ //checks for '@' and valid extension
             System.out.println("\nError: Invalid Email Format.");
             setEmail();
         }
-
-        if(rgsdEmail(email)) { //email had already been registered
+        else if(newEmail.isRegistered(email)) { //email had already been registered
             System.out.println("\nError: Email Already Registered.\n Press ENTER to try again or '0' to log in.");
             if((scanner.nextLine()).equals("0"))
                 System.exit(1);
@@ -95,35 +97,6 @@ public class Account{
         else{}
     }
 
-    protected boolean goodEmail(String email){
-        /** Check for ONE '@' **/
-        String[] parts = email.split("@");
-        if(parts.length != 2) // no "@" or too many
-            return false;
-
-        /** Check for VALID extensions **/
-        String[] subParts = parts[1].split("\\.");
-        if(subParts.length < 2) //no "." in domain-extension field
-            return false;
-        else if(subParts[subParts.length - 1].equals("com")
-                || subParts[subParts.length - 1].equals("net")
-                || subParts[subParts.length - 1].equals("org")
-                || subParts[subParts.length - 1].equals("gov")
-                || subParts[subParts.length - 1].equals("edu")
-                || subParts[subParts.length - 1].equals("info")){
-            return true;
-        }
-        else
-            return false;
-    }
-
-    protected boolean rgsdEmail(String email){
-        if(new File(System.getProperty("user.dir") + "/Accounts/" + email).exists())
-            return true;
-        return false;
-    }
-
-
     /*******************************
      *           PASSWORD           *
      *******************************/
@@ -137,9 +110,9 @@ public class Account{
         pswd = scanner.nextLine();
         testPswd = pswd.toCharArray();
 
-        checkPswd = new CheckPassword();
+        newPswd = new CheckPassword();
 
-        if(!checkPswd.goodPswd(testPswd)) {
+        if(!newPswd.meetsRequirements(testPswd)) {
             System.out.println("Input does not meet Password Requirements. Try Again.");
             setPswd();
         }
@@ -167,49 +140,57 @@ public class Account{
      *******************************/
 
     public void setSecurityQuestion1() { // Security Question and Answer #1
-        checkSQ = new CheckSecurityQA();
+        newSQ1 = new CheckSecurityQA();
         System.out.println("\nSelect Security Question #1");
         for (int i = 1; i <= 4; i++)
-            System.out.println("\t" + i + " - " + checkSQ.getQuestion(i));
+            System.out.println("\t" + i + " - " + newSQ1.getQuestion(i));
         testQ = scanner.nextLine().charAt(0);
 
 
-        if (!checkSQ.validSelection(1, testQ)) {
+        if (!newSQ1.validSelection(1, testQ)) {
             System.out.println("Input is invalid. Try again.");
             setSecurityQuestion1();
         }
         else {
             secQ_1 = Character.getNumericValue(testQ);
             System.out.println("\nPress 1 to change Security Question #1.");
-            System.out.println("Question: " + checkSQ.getQuestion(secQ_1));
+            System.out.println("Question: " + newSQ1.getQuestion(secQ_1));
             System.out.print("Answer: ");
             ans1 = scanner.nextLine().toUpperCase();
             if (ans1.equals("1")) {
                 setSecurityQuestion1();
             }
+            else if(ans1.isEmpty()){
+                System.out.println("Enter an answer for Security Question #1.");
+            }
+            else{}
         }
     }
 
     public void setSecurityQuestion2(){
-        checkSQ = new CheckSecurityQA();
+        newSQ2 = new CheckSecurityQA();
         System.out.println("\nSelect Security Question #2");
         for(int i = 5; i <= 8; i++)
-            System.out.println("\t" + i + " - " + checkSQ.getQuestion(i));
+            System.out.println("\t" + i + " - " + newSQ2.getQuestion(i));
        testQ = scanner.nextLine().charAt(0);
 
-        if (!checkSQ.validSelection(2, testQ)) {
+        if (!newSQ2.validSelection(2, testQ)) {
             System.out.println("Input is invalid. Try again.");
             setSecurityQuestion2();
         }
         else {
             secQ_2 = Character.getNumericValue(testQ);
             System.out.println("\nPress 1 to change Security Question #2.");
-            System.out.println("Question: " + checkSQ.getQuestion(secQ_2));
+            System.out.println("Question: " + newSQ2.getQuestion(secQ_2));
             System.out.print("Answer: ");
             ans2 = scanner.nextLine().toUpperCase();
             if (ans2.equals("1")) {
                 setSecurityQuestion2();
             }
+            else if(ans2.isEmpty()){
+                System.out.println("Enter an answer for Security Question #2.");
+            }
+            else{}
         }
     }
 }

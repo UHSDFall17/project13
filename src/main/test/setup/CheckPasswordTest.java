@@ -19,53 +19,53 @@ public class CheckPasswordTest {
     public void testPasswordIsTooShort(){
         testPswd = new CheckPassword();
 
-        char[] testValue = "12345".toCharArray(); //too short: MIN of 6 characters, ACTUAL has 5 characters
+        char[] testTooShort = "12345".toCharArray(); //too short: MIN of 6 characters, ACTUAL has 5 characters
 
-        assertFalse(testPswd.goodPswd(testValue));
+        assertFalse(testPswd.meetsRequirements(testTooShort));
     }
 
     @Test
     public void testPasswordIsTooLong(){
         testPswd = new CheckPassword();
 
-        char[] testValue = "abcdefghijklmnopqrstuvwxyz".toCharArray(); //too long: MAX 20 character, ACTUAL has 26 characters
+        char[] testTooLong = "abcdefghijklmnopqrstuvwxyz".toCharArray(); //too long: MAX 20 character, ACTUAL has 26 characters
 
-        assertFalse(testPswd.goodPswd(testValue));
+        assertFalse(testPswd.meetsRequirements(testTooLong));
     }
 
     @Test
     public void testPasswordHasNoCapitalLetter(){
         testPswd = new CheckPassword();
 
-        char[] testValue = "abc123+".toCharArray(); //no capitalized letter
+        char[] testNoCapitalizedLetter = "abc123+".toCharArray(); //no capitalized letter
 
-        assertFalse(testPswd.goodPswd(testValue));
+        assertFalse(testPswd.meetsRequirements(testNoCapitalizedLetter));
     }
 
     @Test
     public void testPasswordHasNoDigits(){
         testPswd = new CheckPassword();
 
-        char[] testValue = "AbcDef+".toCharArray(); //no numbers or digits
+        char[] testNoDigit = "AbcDef+".toCharArray(); //no numbers or digits
 
-        assertFalse(testPswd.goodPswd(testValue));
+        assertFalse(testPswd.meetsRequirements(testNoDigit));
     }
 
     @Test
     public void testPasswordHasNoSpecialCharacter(){
         testPswd = new CheckPassword();
 
-        char[] testValue = "Abc123".toCharArray(); //no special character
+        char[] testNoSpecial = "Abc123".toCharArray(); //no special character
 
-        assertFalse(testPswd.goodPswd(testValue));
+        assertFalse(testPswd.meetsRequirements(testNoSpecial));
     }
 
     @Test
     public void testPasswordMeetsAllRequirements(){
         testPswd = new CheckPassword();
 
-        char[] testValue = "Abc123+".toCharArray(); //Good, acceptable password
-        assertTrue(testPswd.goodPswd(testValue));
+        char[] testGood = "Abc123+".toCharArray(); //Good, acceptable password
+        assertTrue(testPswd.meetsRequirements(testGood));
     }
 
 }
