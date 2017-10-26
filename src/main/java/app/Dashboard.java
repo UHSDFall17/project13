@@ -1,14 +1,16 @@
 package app;
 
+import Utilities.*;
+
 import java.util.*;
 import static java.lang.System.*;
 
-public class Dashboard
+public class Dashboard implements CommandUser
 {
     private String userFileName;
     private String userName;
-
-    private Map<Integer, String> commands = new HashMap<Integer, String>();
+    private Commands commands;
+    private Stream stream;
 
     private ArrayList<List> lists;
 
@@ -22,74 +24,67 @@ public class Dashboard
         userFileName = fileName;
         lists = new ArrayList<List>();
 
-        commands.put(1, "Get all lists");
-        commands.put(2, "Create new list");
-        commands.put(3, "Edit lists");
-        commands.put(4, "logout");
-        commands.put(5, "help");
-        commands.put(6, "quit");
+        commands = new Commands();
 
-        //commandHandler();
+        commands.addCommand(1, "Get all lists");
+        commands.addCommand(2, "Create new list");
+        commands.addCommand(3, "Edit lists");
+        commands.addCommand(4, "logout");
+        commands.addCommand(5, "help");
+        commands.addCommand(6, "quit");
+
+        stream = new Stream();
+
+        stream.writeToConsole("(Dashboard) "+commands.toString());
     }
 
-    public void commandHandler()
+    public boolean commandHandler()
     {
         boolean cont = true;
-        int command = 0;
-        Scanner input;
+        int command;
+        int commandReturn = 0;
 
-        printCommands();
-        while(cont)
+        do
         {
-            out.print("\nEnter your command: ");
-            input = new Scanner(in);
+            out.print("\n(Dashboard) Enter your command: ");
+            //input = new Scanner(in);
 
             try{
-                command = input.nextInt();
+                command = stream.readIntFromConsole();
 
                 if(command > commands.size())
                     throw new Exception();
 
-                cont = commandControlCenter(command);
+                commandReturn = commandCenter(command);
+                if(commandReturn == 1 || commandReturn == 2)
+                    cont = false;
             }
             catch (Exception e)
             {
                 out.println("Unrecognized command. Try to use the command \"" + (commands.size() - 1) + "\" to get a list of the commands");
             }
-        }
+        }while(cont);
 
+        if(commandReturn == 2) //logout
+            return true;
+        else
+            return false;  //quit without logging out
     }
 
-    private boolean commandControlCenter(int command)
+    public int commandCenter(int command)
     {
         switch(command)
         {
             case 1: out.println(GetLists()); break;
             case 2: createNewList(); break;
             case 3: break;
-            case 4: return false;
-            case 5: printCommands(); break;
-            case 6: exit(0); break;
-
+            case 4: return 2;
+            case 5: stream.writeToConsole(commands.toString()); break;
+            case 6: return 1;
         }
 
-        return true;
+        return 0;
     }
-
-    protected void printCommands()
-    {
-        Set set = commands.entrySet();
-        Iterator iterate = set.iterator();
-
-        out.println("List of commands available:\n");
-        while(iterate.hasNext())
-        {
-            Map.Entry i = (Map.Entry) iterate.next();
-            out.println(i.getKey() + " - " + i.getValue());
-        }
-    }
-
-
 
     private boolean GetUserData()
     {
