@@ -1,5 +1,7 @@
 package Utilities;
 
+import setup.WriteToFile;
+
 import java.util.Scanner;
 import static java.lang.System.*;
 
@@ -14,23 +16,61 @@ public class Stream {
         scan = new Scanner(in);
     }
 
-    public void WriteToConsole(String output)  //use when writing to console
+    public void writeToConsole(String output)  //use when writing to console
     {
         out.print(output);
     }
 
-    public String ReadLineFromConsole()  //use when reading single string line from user
+    public String readLineFromConsole()  //use when reading single string line from user
     {
-        return scan.nextLine();
+        String input = "";
+
+        try
+        {
+            input = scan.nextLine();
+        }
+        catch(Exception e)
+        {
+            input = "*~$";  //default error return, check for this when checking
+        }
+
+        return input;
     }
 
-    public int ReadIntFromConsole()  //use when reading an integer from user
+    public int readIntFromConsole()  //use when reading an integer from user
     {
-        return scan.nextInt();
+        int input = 0;
+        boolean cont = true;
+
+        do
+        {
+            try {
+                input = scan.nextInt();
+                cont = false;
+            } catch (Exception e) {
+                writeToConsole("Input is not an integer. Try again: ");
+            }
+            scan.nextLine();
+        }while(cont);
+
+        return input;
     }
 
-    public double ReadDoubleFromConsole()  //use when reading a double from user
+    public double readDoubleFromConsole()  //use when reading a double from user
     {
-        return scan.nextDouble();
+        double input = 0;
+        boolean cont = true;
+
+        do {
+            try {
+                input = scan.nextDouble();
+                cont = false;
+            } catch (Exception e) {
+                writeToConsole("Input is not a decimal number. Try again: ");
+            }
+            scan.nextLine();
+        }while(cont);
+
+        return input;
     }
 }

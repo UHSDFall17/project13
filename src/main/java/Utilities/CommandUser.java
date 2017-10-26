@@ -4,6 +4,6 @@ public interface CommandUser {
 
     public boolean commandHandler();
 
-    public boolean commandCenter();
+    public int commandCenter(int command);
 
 }

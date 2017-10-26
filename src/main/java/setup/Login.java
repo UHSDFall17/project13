@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class Login
 {
-	public static void access()
+	public static String access()
 	{
 		//Console console = System.console();
 		Scanner s= new Scanner(System.in);
@@ -29,7 +29,12 @@ public class Login
 		String pwd = s.nextLine();
 		if(authorization(user.toLowerCase(), pwd))
 		{
-			/*Access account.*/
+			System.out.println("Login successful\n");
+			return user;
+		}
+		else {
+			System.out.println("Login failed\n");
+			return "";
 		}
 	}
 	private static boolean authorization(String user, String pass)
