@@ -16,7 +16,8 @@ public class Email {
         System.out.print("Email: ");
         inputEmail = input.nextLine().toLowerCase();
 
-        if(!checkEmail.goodEmail(inputEmail) || checkEmail.isRegistered(inputEmail)){
+        checkEmail = new CheckEmail();
+        if(!checkEmail.goodEmail(inputEmail)|| checkEmail.isRegistered(inputEmail)){
             System.out.println("Invalid: Email entered is already registered or does not follow standard formatting rules.");
             setNewEmail();
         }
