@@ -78,7 +78,7 @@ public class Dashboard implements CommandUser
             case 1: out.println(GetLists()); break;
             case 2: createNewList(); break;
             case 3: break;
-            case 4: return 2;
+            case 4: stream=null; return 2;
             case 5: stream.writeToConsole(commands.toString()); break;
             case 6: return 1;
         }

@@ -91,11 +91,10 @@ public class AnyDo implements CommandUser
                     throw new Exception();
 
                 commandReturn = commandCenter(command);
-                out.println("Test");
             }
             catch (Exception e)
             {
-                out.println("Unrecognized command. Try to use the command \"" + (commands.size() - 1) + "\" to get a list of the commands");
+                stream.writeToConsole("Unrecognized command. Try to use the command \"" + (commands.size() - 1) + "\" to get a list of the commands");
             }
 
         }while(cont);
@@ -130,6 +129,6 @@ public class AnyDo implements CommandUser
     private void createAccountHandler()
     {
         create = new Account();
-        //stream.readLineFromConsole();
+
     }
 }
