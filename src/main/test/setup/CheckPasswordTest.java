@@ -68,4 +68,21 @@ public class CheckPasswordTest {
         assertTrue(testPswd.meetsRequirements(testGood));
     }
 
+    @Test
+    public void testLogInPasswordAttemptIsNotCorrect(){
+        testPswd = new CheckPassword();
+
+        String email = "johnsmith@gmail.com";
+        String pswdAttempt = "notCorrectPassword";
+        assertFalse(testPswd.isCorrectPswd(email, pswdAttempt));
+    }
+
+    @Test
+    public void testLogInPasswordAttemptIsCorrect(){
+        testPswd = new CheckPassword();
+
+        String email = "johnsmith@gmail.com";
+        String pswdAttempt = "Asd123+";
+        assertTrue(testPswd.isCorrectPswd(email, pswdAttempt));
+    }
 }

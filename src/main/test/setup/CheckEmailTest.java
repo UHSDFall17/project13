@@ -8,6 +8,11 @@ public class CheckEmailTest {
     CheckEmail testEmail;
 
     @Test
+    public void Canary(){ //verifies good env
+        assertTrue(true);
+    }
+
+    @Test
     public void testEmailWithoutAtSymbol(){
         testEmail = new CheckEmail();
 
