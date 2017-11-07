@@ -24,6 +24,11 @@ public class Dashboard implements CommandUser
         userFileName = fileName;
         lists = new ArrayList<List>();
 
+        /*SET DEFAULT LISTS*/
+        storeNewList("Personal");
+        storeNewList("Work");
+        storeNewList("Grocery List");
+
         commands = new Commands();
 
         commands.addCommand(1, "Get all lists");
@@ -75,7 +80,7 @@ public class Dashboard implements CommandUser
     {
         switch(command)
         {
-            case 1: out.println(GetLists()); break;
+            case 1: out.println(displayLists()); break;
             case 2: createNewList(); break;
             case 3: break;
             case 4: return 2;
@@ -143,7 +148,7 @@ public class Dashboard implements CommandUser
 
 
     //handles fetching of all list names that the user has
-    public String GetLists()
+    public String displayLists()
     {
         String output = "";
 
@@ -154,9 +159,13 @@ public class Dashboard implements CommandUser
 
         for(int i=0; i<lists.size(); i++)
         {
-            output = output + "\n-- " + lists.get(i).getName();
+            output = output + "\n-- " + lists.get(i).getListName();
         }
 
         return output;
+    }
+
+    public ArrayList<List> getLists() {
+        return lists;
     }
 }
