@@ -2,6 +2,7 @@ package Utilities;
 
 import setup.WriteToFile;
 
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import static java.lang.System.*;
 
@@ -34,6 +35,7 @@ public class Stream {
             input = "*~$";  //default error return, check for this when checking
         }
 
+
         return input;
     }
 
@@ -47,11 +49,20 @@ public class Stream {
             try {
                 input = scan.nextInt();
                 cont = false;
-            } catch (Exception e) {
-                writeToConsole("Input is not an integer. Try again: ");
             }
-            scan.nextLine();
+            catch (NoSuchElementException n)
+            {
+                n.printStackTrace();
+                exit(0);
+            }
+            catch (Exception e) {
+                out.println(scan.next());
+                writeToConsole("Input is not an integer. Try again: ");
+
+            }
+
         }while(cont);
+
 
         return input;
     }
@@ -68,7 +79,6 @@ public class Stream {
             } catch (Exception e) {
                 writeToConsole("Input is not a decimal number. Try again: ");
             }
-            scan.nextLine();
         }while(cont);
 
         return input;
