@@ -12,7 +12,7 @@ public class Dashboard implements CommandUser
     private Commands commands;
     private Stream stream;
 
-    private ArrayList<List> lists;
+    private ArrayList<List> lists = null;
 
     public Dashboard()
     {
