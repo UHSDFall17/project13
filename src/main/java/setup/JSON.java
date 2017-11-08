@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class JSON {
     ObjectMapper mapper;
@@ -17,7 +16,12 @@ public class JSON {
     public void createDefaultJson(String userEmail){
         mapper = new ObjectMapper();
 
-        Dashboard dashboard = new Dashboard();
+        Dashboard dashboard = new Dashboard(userEmail);
+
+        /*SET DEFAULT LISTS*/
+        dashboard.storeNewList("Personal");
+        dashboard.storeNewList("Work");
+        dashboard.storeNewList("Grocery List");
 
         try {
             mapper.writerWithDefaultPrettyPrinter().writeValue(new File("Accounts/" + userEmail + "/data.json"), dashboard);

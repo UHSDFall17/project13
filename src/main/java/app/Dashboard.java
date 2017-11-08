@@ -24,11 +24,6 @@ public class Dashboard implements CommandUser
         userFileName = fileName;
         lists = new ArrayList<List>();
 
-        /*SET DEFAULT LISTS*/
-        storeNewList("Personal");
-        storeNewList("Work");
-        storeNewList("Grocery List");
-
         commands = new Commands();
 
         commands.addCommand(1, "Get all lists");
@@ -159,13 +154,9 @@ public class Dashboard implements CommandUser
 
         for(int i=0; i<lists.size(); i++)
         {
-            output = output + "\n-- " + lists.get(i).getListName();
+            output = output + "\n-- " + lists.get(i).getName();
         }
 
         return output;
-    }
-
-    public ArrayList<List> getLists() {
-        return lists;
     }
 }
