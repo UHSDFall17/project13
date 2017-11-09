@@ -12,7 +12,7 @@ public class Dashboard implements CommandUser
     private Commands commands;
     private Stream stream;
 
-    private ArrayList<List> lists;
+    private ArrayList<List> lists = null;
 
     public Dashboard()
     {
@@ -75,7 +75,7 @@ public class Dashboard implements CommandUser
     {
         switch(command)
         {
-            case 1: out.println(GetLists()); break;
+            case 1: out.println(displayLists()); break;
             case 2: createNewList(); break;
             case 3: break;
             case 4: stream=null; return 2;
@@ -143,7 +143,7 @@ public class Dashboard implements CommandUser
 
 
     //handles fetching of all list names that the user has
-    public String GetLists()
+    public String displayLists()
     {
         String output = "";
 
