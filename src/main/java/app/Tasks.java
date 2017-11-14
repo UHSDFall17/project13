@@ -1,68 +1,74 @@
 package app;
 
-import java.io.Console;
+import Utilities.*;
+
+import java.util.*;
 import java.sql.Timestamp;
-import java.util.Date;
-import java.util.Calendar;
 import java.text.SimpleDateFormat;
-import java.util.Stack;
-import java.util.Scanner;
 
-public class Tasks 
+
+public class Tasks
 {
-	private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH:mm:SS");
-	protected String description = null;
-	private String date = null; //date due for task
-	private String timeStamp = null; //time created for task
-	private boolean isRepeated = false;
-	private boolean isCompleted = false;
-	protected Stack<String> subtasks= null;
-	protected String note = null;
-	Scanner scanner = new Scanner(System.in);
+    private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH:mm:SS");
+    private String description = null;
+    private String notification = null; //date due for task
+    private String timeStamp = null; //time created for task
+    private boolean isRepeated = false;
+    private boolean isCompleted = false;
+    private Stack<String> subtasks = null;
+    private String note = null;
+    private Stream stream;
 
-	protected void addDescription()
+    public Tasks()
+    {
+        stream =  new Stream();
+        subtasks = new Stack<String>();
+    }
+    /*Task creation helper*/
+    protected void addDescription()
     {
         do
         {
             System.out.println("Enter the task description: ");
-            description = scanner.nextLine();
+            description = stream.readLineFromConsole();
             if (description.equals(null) || description.equals(""))
                 System.out.println("Not an appropriate description.\nPlease try again!\n\n");
-        }while(description != null || description !=  "");
+        }while(description == null || description == "");
     }
-	protected void addDate()
+    protected void addDate()
     {
         int year, month, day;
 
         do
         {
             System.out.println("\nYear number: ");
-            year = scanner.nextInt();
+            year = stream.readIntFromConsole();
         }while(!isValidYear(year));
 
         do
         {
             System.out.println("Month number: ");
-            month = scanner.nextInt();
+            month = stream.readIntFromConsole();
         }while(!isValidMonth(month));
 
         do
         {
             System.out.println("Day number: ");
-            day = scanner.nextInt();
+            day = stream.readIntFromConsole();
         }while(!isValidDay(year,month,day));
 
-        System.out.print("Do you wish to enter a time for completion? (Y/N)");
-        String ans = scanner.nextLine().toUpperCase();
+        stream.readLineFromConsole();
+        System.out.println("Do you wish to enter a time for completion? (Y/N)");
+        String ans = stream.readLineFromConsole().toUpperCase();
         if(ans.equals("Y"))
         {
             int hour, min;
             do
             {
                 System.out.println("Enter hour (0-23): ");
-                hour = scanner.nextInt();
+                hour = stream.readIntFromConsole();
                 System.out.println("Enter minute (0-59):");
-                min = scanner.nextInt();
+                min = stream.readIntFromConsole();
             }while(!isValidTime(hour,min));
 
             setDate(year, month, day, hour, min);
@@ -72,91 +78,121 @@ public class Tasks
             setDate(year, month, day);
         }
     }
-	protected void addSubsask(String st)
-	{
-		if (st == null || st.equals(""))
-			System.out.println("Subtask has no description.");
-		else
-			subtasks.push(st);
-	}
-	protected void printSubtask()
-	{
-		System.out.println("Subtasks:");
-		if(subtasks == null)
-			return;
-		else
-		{
-			for(int i = 0; i < subtasks.size(); i++)
-			{
-				String temp = subtasks.pop();
-				System.out.println("         "+ temp);
-			}
-		}
-	}
-	protected String getDescription()
-	{
-		return description;
-	}
-	
-	protected void setDate(int y, int m, int d, int hr, int min) //date has assigned hh:mm
-	{
-		Calendar taskCal = Calendar.getInstance();
-		taskCal.set(y, m, d, hr, min);
-		Date taskDate = taskCal.getTime();
-		date = sdf.format(taskDate);
-	}
-	protected void setDate(int y, int m, int d) //date is a reminder for a day w/o hh:mm
-	{
-		Calendar taskCal = Calendar.getInstance();
-		taskCal.set(y, m, d);
-		Date taskDate = taskCal.getTime(); 
-		date = sdf.format(taskDate);
-	}	
-	protected String getDate()
-	{
-		return date;
-	}
-	
-	protected void setTimestamp() //creation date for sorting purposes
-	{
-		timeStamp = sdf.format(currentTimeStamp());
-	}
-	protected Timestamp currentTimeStamp() 
-	{
-		Date current = new Date();
-		return new Timestamp(current.getTime());
-	}
-	protected String getTimestamp()
-	{
-		return timeStamp;
-	}
-	
-	protected boolean markCompleted(Console console)
-	{
-		if(!isCompleted)
-			return isCompleted = true;
-		else
-		{
-			System.out.println("\nTask has already been mark completed.");
-			System.out.println("Would you like to mark it as incomplete? (Y/N)");
-			//Console input
-			String temp = (console.readLine()).toUpperCase();
-			 if(temp.equals(""))
-			 {
-				 System.out.println("Please enter Y or N.");
-		         markCompleted(console);
-		     }
-		     else if(temp.equals("Y"))
-		     {
-		    	 return isCompleted = false;
-		     }
-		     else if(temp.equals("N"))
-		     {
-		    	 return isCompleted;
-		     }
-		}
-		return isCompleted;
-	}
+    protected void addNote()
+    {
+        do
+        {
+            stream.readLineFromConsole();
+            System.out.println("Enter the note for the task: ");
+            note = stream.readLineFromConsole();
+            if (description.equals(null) || description.equals(""))
+                System.out.println("Not an appropriate note.\nPlease try again!\n\n");
+        }while(description == null || description == "");
+    }
+    protected void addSubtask()
+    {
+        System.out.println("Enter the subtask description: ");
+        String st = stream.readLineFromConsole();
+        if (st == null || st.equals(""))
+            System.out.println("Subtask has no description.");
+        else
+        {
+            subtasks.push(st);
+        }
+    }
+    protected void printSubtask()
+    {
+        System.out.println("Subtasks:");
+        if(subtasks == null)
+            return;
+        else
+        {
+            Stack<String> stCopy = new Stack();
+            stCopy.addAll(subtasks);
+            for(int i = 0; i < subtasks.size(); i++)
+            {
+                String temp = stCopy.pop();
+                System.out.println("         "+ temp);
+            }
+        }
+    }
+    protected void flipRepeated() //flip false to true or true to false
+    {
+        if(isRepeated == false)
+            isRepeated = true;
+        else
+            isRepeated = false;
+    }
+
+    protected void deleteSubtask()
+    {
+
+    }
+    protected String getDescription()
+    {
+        return description;
+    }
+
+    private void setDate(int y, int m, int d, int hr, int min) //date has assigned hh:mm
+    {
+        Calendar taskCal = Calendar.getInstance();
+        taskCal.set(y, m, d, hr, min);
+        Date taskDate = taskCal.getTime();
+        notification = sdf.format(taskDate);
+    }
+    private void setDate(int y, int m, int d) //date is a reminder for a day w/o hh:mm
+    {
+        Calendar taskCal = Calendar.getInstance();
+        taskCal.set(y, m, d);
+        Date taskDate = taskCal.getTime();
+        notification = sdf.format(taskDate);
+    }
+    protected String getNotificationDate()
+    {
+        return notification;
+    }
+
+    protected void setTimestamp() //creation date for sorting purposes
+    {
+        timeStamp = sdf.format(currentTimeStamp());
+    }
+    private Timestamp currentTimeStamp()
+    {
+        Date current = new Date();
+        return new Timestamp(current.getTime());
+    }
+    protected String getTimestamp()
+    {
+        return timeStamp;
+    }
+
+    protected boolean markCompleted()
+    {
+        if(!isCompleted)
+            return isCompleted = true;
+        else
+        {
+            System.out.println("\nTask has already been mark completed.");
+            System.out.println("Would you like to mark it as incomplete? (Y/N)");
+            //Console input
+            String temp = (stream.readLineFromConsole().toUpperCase());
+            if(temp.equals(""))
+            {
+                System.out.println("Please enter Y or N.");
+                markCompleted();
+            }
+            else if(temp.equals("Y"))
+            {
+                return isCompleted = false;
+            }
+            else if(temp.equals("N"))
+            {
+                return isCompleted;
+            }
+        }
+        return isCompleted;
+    }
+
     /*Date Validation*/
     private boolean isValidYear(int y)
     {
