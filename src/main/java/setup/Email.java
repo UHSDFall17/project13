@@ -1,28 +1,30 @@
 package setup;
 
-import java.util.Scanner;
+import Utilities.Stream;
 
 public class Email {
     private String inputEmail = "";
 
-    Scanner input = new Scanner(System.in);
+    Stream stream;
     CheckEmail checkEmail;
 
     protected String email;
 
-    public Email(){}
+    public Email(){
+        stream = new Stream();
+    }
 
     public String setAndGetNewEmail(){
         String emailConfirmer = "1";
         while(emailConfirmer.equals("1")) {
-            System.out.print("\nEmail: ");
-            inputEmail = input.nextLine().toLowerCase();
+            stream.writeToConsole("\nEmail: ");
+            inputEmail = stream.readLineFromConsole().toLowerCase();
 
             /* CONFIRM EMAIL */
             while(!emailConfirmer.equals(inputEmail)) {
-                System.out.println("Press 1 to change initial input.");
-                System.out.print("Confirm Email: ");
-                emailConfirmer = input.nextLine().toLowerCase();
+                stream.writeToConsole("Press 1 to change initial input.\n");
+                stream.writeToConsole("Confirm Email: ");
+                emailConfirmer = stream.readLineFromConsole().toLowerCase();
                 if(emailConfirmer.equals("1"))
                     break;
             }
@@ -30,7 +32,7 @@ public class Email {
 
         checkEmail = new CheckEmail();
         if(!checkEmail.goodEmail(inputEmail)|| checkEmail.isRegistered(inputEmail)){
-            System.out.println("Invalid: Email entered is already registered or does not follow standard formatting rules.");
+            stream.writeToConsole("Invalid: Email entered is already registered or does not follow standard formatting rules.\n");
             return setAndGetNewEmail();
         }
         else{
@@ -39,7 +41,7 @@ public class Email {
     }
 
     public String getAttemptLogInEmail(){
-        System.out.print("Email: ");
-            return input.nextLine().toLowerCase();
+        stream.writeToConsole("Email: ");
+            return stream.readLineFromConsole().toLowerCase();
     }
 }

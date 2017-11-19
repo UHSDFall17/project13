@@ -1,5 +1,7 @@
 package setup;
 
+import Utilities.Stream;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -13,7 +15,7 @@ import java.util.*;
  */
 
 public class SecurityQuestions {
-    Scanner input = new Scanner(System.in);
+    Stream stream;
 
     private String noInputChecker; //user did not make a selection
     private char secQuestionChecker; //FOR verifying that selection is in given range
@@ -33,7 +35,9 @@ public class SecurityQuestions {
             "What is the first name of the person you first kissed?",
             "What elementary/ primary school did you go to?"};
 
-    public SecurityQuestions(){}
+    public SecurityQuestions(){
+        stream = new Stream();
+    }
 
     public String[] setAndGetQA1() {
         String[] secQA1 = new String[2];
@@ -41,12 +45,12 @@ public class SecurityQuestions {
 
         while(secQA1[1].equals("1")) {
             do {
-                System.out.println("\nSelect Security Question #1");
+                stream.writeToConsole("\nSelect Security Question #1\n");
                 for (int i = 1; i <= 4; i++)
-                    System.out.println("\t" + i + " - " + questions[i]);
-                noInputChecker = input.nextLine();
+                    stream.writeToConsole("\t" + i + " - " + questions[i] + "\n");
+                noInputChecker = stream.readLineFromConsole();
                 if (noInputChecker.isEmpty()) {
-                    System.out.println("Invalid: Selection required.");
+                    stream.writeToConsole("Invalid: Selection required.\n");
                     secQuestionChecker = 'e';
                 } else
                     secQuestionChecker = noInputChecker.charAt(0);
@@ -54,10 +58,10 @@ public class SecurityQuestions {
 
 
             do {
-                System.out.println("\nPress 1 to change Security Question #1.");
-                System.out.println("Question: " + questions[Character.getNumericValue(secQuestionChecker)]);
-                System.out.print("Answer: ");
-                secQA1[1] = input.nextLine().toUpperCase();
+                stream.writeToConsole("\nPress 1 to change Security Question #1.\n");
+                stream.writeToConsole("Question: " + questions[Character.getNumericValue(secQuestionChecker)] + "\n");
+                stream.writeToConsole("Answer: ");
+                secQA1[1] = stream.readLineFromConsole().toUpperCase();
             } while (secQA1[1].isEmpty());
         }
         secQA1[0] = Character.toString(secQuestionChecker);
@@ -70,22 +74,22 @@ public class SecurityQuestions {
 
         while(secQA2[1].equals("1")) {
             do {
-                System.out.println("\nSelect Security Question #2");
+                stream.writeToConsole("\nSelect Security Question #2.\n");
                 for (int i = 5; i <= 8; i++)
-                    System.out.println("\t" + i + " - " + questions[i]);
-                noInputChecker = input.nextLine();
+                    stream.writeToConsole("\t" + i + " - " + questions[i] + "\n");
+                noInputChecker = stream.readLineFromConsole();
                 if (noInputChecker.isEmpty()) {
-                    System.out.println("Invalid: Selection required.");
+                    stream.writeToConsole("Invalid: Selection required.\n");
                     secQuestionChecker = 'e';
                 } else
                     secQuestionChecker = noInputChecker.charAt(0);
             } while (secQuestionChecker < 53 || secQuestionChecker > 56);
 
             do {
-                System.out.println("\nPress 1 to change Security Question #2.");
-                System.out.println("Question: " + questions[Character.getNumericValue(secQuestionChecker)]);
-                System.out.print("Answer: ");
-                secQA2[1] = input.nextLine().toUpperCase();
+                stream.writeToConsole("\nPress 1 to change Security Question #2.\n");
+                stream.writeToConsole("Question: " + questions[Character.getNumericValue(secQuestionChecker)] + "\n");
+                stream.writeToConsole("Answer: ");
+                secQA2[1] = stream.readLineFromConsole().toUpperCase();
             } while (secQA2[1].isEmpty());
         }
 
@@ -102,18 +106,15 @@ public class SecurityQuestions {
             BufferedReader userFile = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/Accounts/" + userEmail + "accountInfo.txt"));
             userPassword = userFile.readLine(); // grabs password
             userFile.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-
-        System.out.print("Log-In Password: ");
-        inputPswd = input.nextLine();
+        stream.writeToConsole("Log-In Password: ");
+        inputPswd = stream.readLineFromConsole();
 
         if(!inputPswd.matches(userPassword)){
-            System.out.println("Incorrect Password.");
+            stream.writeToConsole("Incorrect Password.\n");
             changeSQ();
         }
         else{

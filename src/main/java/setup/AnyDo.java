@@ -7,7 +7,6 @@ import Utilities.CommandUser;
 import java.io.*;
 
 import static java.lang.System.exit;
-import static java.lang.System.out;
 
 
 public class AnyDo implements CommandUser
@@ -79,7 +78,7 @@ public class AnyDo implements CommandUser
         boolean cont = true;
         int command = 0;
         int commandReturn = 0;
-        out.println("\n(Any.do) "+commands.toString());
+        stream.writeToConsole("\n(Any.do) "+commands.toString() + "\n");
 
         do {
             stream.writeToConsole("(Any.do)Enter your command: ");
@@ -108,7 +107,7 @@ public class AnyDo implements CommandUser
         {
             case 1: loginHandler(); break;
             case 2: createAccountHandler(); break;
-            case 3: out.println("(Any.do) "+commands.toString()); break;
+            case 3: stream.writeToConsole("(Any.do) "+commands.toString() + "\n"); break;
             case 4: exit(0); break;
         }
 
