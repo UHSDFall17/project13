@@ -1,6 +1,6 @@
 package Utilities;
 
-import setup.WriteToFile;
+import setup.FileOutstream;
 
 import java.util.NoSuchElementException;
 import java.util.Scanner;
