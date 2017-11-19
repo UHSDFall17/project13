@@ -1,5 +1,6 @@
 package app;
 
+import Utilities.Stream;
 import setup.*;
 
 import java.io.*;
@@ -27,6 +28,7 @@ public class Account {
     }
 
     public String[] logIn(){
+        Stream stream = new Stream();
         String[] loginInfo = new String[2];
         loginInfo[0] = "";
         loginInfo[1] = "";
@@ -46,7 +48,7 @@ public class Account {
             if(bufferedReader.readLine().equals(userPassword))
             {
                 bufferedReader.close();
-                System.out.println("Login successful\n");
+                stream.writeToConsole("Login successful\n");
                 loginInfo[0] = userEmail;
                 loginInfo[1] = userPassword;
                 return loginInfo;
@@ -54,17 +56,17 @@ public class Account {
             else
             {
 
-                System.out.println("Password is invalid.");
+                stream.writeToConsole("Password is invalid.");
                 bufferedReader.close();
-                System.out.println("Login failed\n");
+                stream.writeToConsole("Login failed\n");
 
             }
         }
         catch(FileNotFoundException e) {
-            System.out.println("User not found: '" + userEmail + "'.");
+            stream.writeToConsole("User not found: '" + userEmail + "'.");
         }
         catch(IOException e) {
-            System.out.println("Error reading file: '" + fileName + "'.");
+            stream.writeToConsole("Error reading file: '" + fileName + "'.");
         }
         return loginInfo;
     }

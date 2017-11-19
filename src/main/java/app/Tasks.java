@@ -29,10 +29,10 @@ public class Tasks
     {
         do
         {
-            System.out.println("Enter the task description: ");
+            stream.writeToConsole("Enter the task description: \n");
             description = stream.readLineFromConsole();
             if (description.equals(null) || description.equals(""))
-                System.out.println("Not an appropriate description.\nPlease try again!\n\n");
+                stream.writeToConsole("Not an appropriate description.\nPlease try again!\n\n\n");
         }while(description == null || description == "");
     }
     protected void addDate()
@@ -41,33 +41,33 @@ public class Tasks
 
         do
         {
-            System.out.println("\nYear number: ");
+            stream.writeToConsole("\nYear number: \n");
             year = stream.readIntFromConsole();
         }while(!isValidYear(year));
 
         do
         {
-            System.out.println("Month number: ");
+            stream.writeToConsole("Month number: \n");
             month = stream.readIntFromConsole();
         }while(!isValidMonth(month));
 
         do
         {
-            System.out.println("Day number: ");
+            stream.writeToConsole("Day number: \n");
             day = stream.readIntFromConsole();
         }while(!isValidDay(year,month,day));
 
         stream.readLineFromConsole();
-        System.out.println("Do you wish to enter a time for completion? (Y/N)");
+        stream.writeToConsole("Do you wish to enter a time for completion? (Y/N)\n");
         String ans = stream.readLineFromConsole().toUpperCase();
         if(ans.equals("Y"))
         {
             int hour, min;
             do
             {
-                System.out.println("Enter hour (0-23): ");
+                stream.writeToConsole("Enter hour (0-23): ");
                 hour = stream.readIntFromConsole();
-                System.out.println("Enter minute (0-59):");
+                stream.writeToConsole("Enter minute (0-59): ");
                 min = stream.readIntFromConsole();
             }while(!isValidTime(hour,min));
 
@@ -83,18 +83,18 @@ public class Tasks
         do
         {
             stream.readLineFromConsole();
-            System.out.println("Enter the note for the task: ");
+            stream.writeToConsole("Enter the note for the task: \n");
             note = stream.readLineFromConsole();
             if (description.equals(null) || description.equals(""))
-                System.out.println("Not an appropriate note.\nPlease try again!\n\n");
+                stream.writeToConsole("Not an appropriate note.\nPlease try again!\n\n\n");
         }while(description == null || description == "");
     }
     protected void addSubtask()
     {
-        System.out.println("Enter the subtask description: ");
+        stream.writeToConsole("Enter the subtask description: \n");
         String st = stream.readLineFromConsole();
         if (st == null || st.equals(""))
-            System.out.println("Subtask has no description.");
+            stream.writeToConsole("Subtask has no description.\n");
         else
         {
             subtasks.push(st);
@@ -102,7 +102,7 @@ public class Tasks
     }
     protected void printSubtask()
     {
-        System.out.println("Subtasks:");
+        stream.writeToConsole("Subtasks:\n");
         if(subtasks == null)
             return;
         else
@@ -112,7 +112,7 @@ public class Tasks
             for(int i = 0; i < subtasks.size(); i++)
             {
                 String temp = stCopy.pop();
-                System.out.println("         "+ temp);
+                stream.writeToConsole("         "+ temp + "\n"); //To whom it may concern: You can use "/t" if you want the String indented. -Stacy
             }
         }
     }
@@ -172,13 +172,13 @@ public class Tasks
             return isCompleted = true;
         else
         {
-            System.out.println("\nTask has already been mark completed.");
-            System.out.println("Would you like to mark it as incomplete? (Y/N)");
+            stream.writeToConsole("\nTask has already been mark completed.\n");
+            stream.writeToConsole("Would you like to mark it as incomplete? (Y/N)\n");
             //Console input
             String temp = (stream.readLineFromConsole().toUpperCase());
             if(temp.equals(""))
             {
-                System.out.println("Please enter Y or N.");
+                stream.writeToConsole("Please enter Y or N.\n");
                 markCompleted();
             }
             else if(temp.equals("Y"))
@@ -200,7 +200,7 @@ public class Tasks
             return true;
         else
         {
-            System.out.println("\nPlease enter a valid year integer.\n");
+            stream.writeToConsole("\nPlease enter a valid year integer.\n\n");
             return false;
         }
 
@@ -211,7 +211,7 @@ public class Tasks
             return true;
         else
         {
-            System.out.println("\nPlease enter a valid month integer.\n");
+            stream.writeToConsole("\nPlease enter a valid month integer.\n\n");
             return false;
         }
     }
@@ -232,12 +232,12 @@ public class Tasks
     {
         if(!(h >= 0 && h <= 23))
         {
-            System.out.println("\nHour is not within range (0-23).");
+            stream.writeToConsole("\nHour is not within range (0-23).\n");
             return false;
         }
         if(!(m >= 0 && m <=59))
         {
-            System.out.println("\nMinutes are noth within range (0-59).");
+            stream.writeToConsole("\nMinutes are noth within range (0-59).\n");
             return false;
         }
         return true;

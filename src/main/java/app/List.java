@@ -36,7 +36,7 @@ public class List
 	{
 		switch(command)
 		{
-			case 1: System.out.println(GetTasks()); break;
+			case 1: stream.writeToConsole(GetTasks()); break;
 //            case 2: createTask(); break;
 //            case 3: editTask(); break;
 //            case 4: deleteTask(); break;
@@ -77,20 +77,20 @@ public class List
 		task.setTimestamp();
 
 		String ans;
-		System.out.println("\nWould you like to set a date for this task? (Y/N)");
+		stream.writeToConsole("\nWould you like to set a date for this task? (Y/N)\n");
 		ans = stream.readLineFromConsole().toUpperCase();
 		if(ans.equals("Y")) //add date
 		{
 			task.addDate();
 
 		}
-		System.out.println("\nWould you like to add a note? (Y/N)");
+		stream.writeToConsole("\nWould you like to add a note? (Y/N)\n");
 		ans = stream.readLineFromConsole().toUpperCase();
 		if (ans.equals("Y"))
 		{
 			task.addNote();
 		}
-		System.out.println("\nWould you like to add a subtask? (Y/N)");
+		stream.writeToConsole("\nWould you like to add a subtask? (Y/N)\n");
 		ans = stream.readLineFromConsole().toUpperCase();
 		if (ans.equals("Y"))
 		{
@@ -98,7 +98,7 @@ public class List
 			do
 			{
 				task.addSubtask();
-				System.out.println("Would you like to add another subtask? (Y/N)");
+				stream.writeToConsole("Would you like to add another subtask? (Y/N)\n");
 				ans = stream.readLineFromConsole();
 				if(ans.equals("Y"))
 					addMore = false;
@@ -106,7 +106,7 @@ public class List
 					addMore = true;
 			} while(!addMore);
 		}
-		System.out.println("\nIs this task repeated? (Y/N)");
+		stream.writeToConsole("\nIs this task repeated? (Y/N)\n");
 		ans = stream.readLineFromConsole().toUpperCase();
 		if (ans.equals("Y"))
 		{
@@ -123,24 +123,15 @@ public class List
 		{
 			mapper.writerWithDefaultPrettyPrinter()
 					.writeValue(new File("Accounts/" + userEmail + "/data.json"), json);
-		}
-		catch (JsonGenerationException e)
+		} catch (IOException e)
 		{
 			e.printStackTrace();
 		}
-		catch (JsonMappingException e)
-		{
-			e.printStackTrace();
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-		System.out.println("\nTask has been created!");
+		stream.writeToConsole("\nTask has been created!\n");
 	}
 	protected void deleteTask(int index)
 	{
-		System.out.println("\nAre you sure you want to delete this task? (Y/N)");
+		stream.writeToConsole("\nAre you sure you want to delete this task? (Y/N)\n");
 		String ans = stream.readLineFromConsole();
 		if(ans.toUpperCase() == "Y")
 		{
