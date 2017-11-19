@@ -13,14 +13,19 @@ public class Email {
     public Email(){}
 
     public String setAndGetNewEmail(){
-        String emailConfirmer = "not confirmed";
-        while(!emailConfirmer.equals(inputEmail)) {
-            System.out.print("Email: ");
+        String emailConfirmer = "1";
+        while(emailConfirmer.equals("1")) {
+            System.out.print("\nEmail: ");
             inputEmail = input.nextLine().toLowerCase();
 
             /* CONFIRM EMAIL */
-            System.out.print("Confirm Email: ");
-            emailConfirmer = input.nextLine().toLowerCase();
+            while(!emailConfirmer.equals(inputEmail)) {
+                System.out.println("Press 1 to change initial input.");
+                System.out.print("Confirm Email: ");
+                emailConfirmer = input.nextLine().toLowerCase();
+                if(emailConfirmer.equals("1"))
+                    break;
+            }
         }
 
         checkEmail = new CheckEmail();
