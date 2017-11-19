@@ -11,11 +11,13 @@ public class Name {
 
     public Name(){}
 
-    public void setNewName(){
+    public String setAndGetNewName(){
         do {
             System.out.print("Name: ");
             name = input.nextLine().toUpperCase();
         }while(name.isEmpty());
+
+        return name;
     }
 
     public void changeName(){
@@ -36,10 +38,10 @@ public class Name {
                 changeName();
             }
             else{
-                setNewName();
+                name = setAndGetNewName();
 
             /* REPLACE AND UPDATE IN FILE */
-                WriteToFile updateName = new WriteToFile();
+                FileOutstream updateName = new FileOutstream();
                 updateName.updateName(userEmail, userName, name);
             }
         } catch (FileNotFoundException e) {
