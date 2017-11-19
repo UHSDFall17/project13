@@ -19,14 +19,14 @@ public class Password {
 
     //CheckEmail checkEmail;
     CheckPassword checkPswd;
-    WriteToFile write;
+    FileOutstream write;
     //Account newPassword;
 
     /* CONSTRUCTOR*/
     public Password(){}
 
 /**** CREATE NEW PASSWORD ****/
-    public void setNewPassword(){
+    public String setAndGetNewPassword(){
         System.out.println("\nPassword Requirements: " +
                 "\n \t(1) 6-20 characters " +
                 "\n \t(2) at least 1 upper-case letter " +
@@ -40,10 +40,11 @@ public class Password {
 
         if(!checkPswd.meetsRequirements(testPswd)) {
             System.out.println("Input does not meet Password Requirements. Try Again.");
-            setNewPassword();
+            return setAndGetNewPassword();
         }
         else{
             confirmNewPswd();
+            return newPswd;
         }
     }
 
@@ -52,7 +53,7 @@ public class Password {
         System.out.print("Confirm Password: ");
         String inputConfirm = input.nextLine();
         if (input.equals("1")) { //Redo password process
-            setNewPassword();
+            setAndGetNewPassword();
         } else if (!(inputConfirm.equals(newPswd))) { //does not match
             System.out.println("\n\nPassword does not match. Try again.");
             confirmNewPswd();
@@ -60,11 +61,9 @@ public class Password {
         }
     }
 
-    public boolean isGoodLogInPassword(String email){
+    public String getAttemptLogInPassword(){
         System.out.print("Password: ");
-
-        checkPswd = new CheckPassword();
-        return checkPswd.isCorrectPswd(email, input.nextLine());
+            return input.nextLine();
     }
 
 /**** CHANGE ****/
@@ -86,7 +85,7 @@ public class Password {
                 changePassword();
             }
             else { //INPUT MATCHES CURRENT PASSWORD
-                write = new WriteToFile();
+                write = new FileOutstream();
                 write.updatePswd(email, oldPswd, newPswd);
             }
         } catch (FileNotFoundException e) {
@@ -127,9 +126,9 @@ public class Password {
                 inputAns = input.nextLine().toUpperCase();
             }while(!inputAns.matches(savedAns));
 
-            setNewPassword();
+            setAndGetNewPassword();
 
-            write = new WriteToFile();
+            write = new FileOutstream();
             write.updatePswd(email, oldPswd, newPswd);
 
             readAccount.close(); //close BufferedReader
