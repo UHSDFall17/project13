@@ -15,9 +15,11 @@ import java.util.*;
 public class SecurityQuestions {
     Scanner input = new Scanner(System.in);
 
-    private char inputSecQuestion; //FOR verifying that selection is in given range
+    private String noInputChecker; //user did not make a selection
+    private char secQuestionChecker; //FOR verifying that selection is in given range
+
     private String userEmail, userPassword; //FOR verifying user
-    private String inputPswd ; //FOR changing security questions
+    private String inputPswd; //FOR changing security questions
 
     protected int newSQ1,newSQ2;
     protected String newAns1,newAns2;
@@ -33,48 +35,62 @@ public class SecurityQuestions {
 
     public SecurityQuestions(){}
 
-    public void setQA1() {
-        do {
-            System.out.println("\nSelect Security Question #1");
-            for (int i = 1; i <= 4; i++)
-                System.out.println("\t" + i + " - " + questions[i]);
-            inputSecQuestion = input.nextLine().charAt(0);
-        } while (inputSecQuestion < 49 || inputSecQuestion > 52);
+    public String[] setAndGetQA1() {
+        String[] secQA1 = new String[2];
+        secQA1[1] = "1";
 
-        newSQ1 = Character.getNumericValue(inputSecQuestion);
+        while(secQA1[1].equals("1")) {
+            do {
+                System.out.println("\nSelect Security Question #1");
+                for (int i = 1; i <= 4; i++)
+                    System.out.println("\t" + i + " - " + questions[i]);
+                noInputChecker = input.nextLine();
+                if (noInputChecker.isEmpty()) {
+                    System.out.println("Invalid: Selection required.");
+                    secQuestionChecker = 'e';
+                } else
+                    secQuestionChecker = noInputChecker.charAt(0);
+            } while (secQuestionChecker < 49 || secQuestionChecker > 52);
 
-        do {
-            System.out.println("\nPress 1 to change Security Question #1.");
-            System.out.println("Question: " + questions[newSQ1]);
-            System.out.print("Answer: ");
-            newAns1 = input.nextLine().toUpperCase();
-        }while(newAns1.isEmpty());
 
-        if (newAns1.equals("1")) {
-            setQA1();
+            do {
+                System.out.println("\nPress 1 to change Security Question #1.");
+                System.out.println("Question: " + questions[Character.getNumericValue(secQuestionChecker)]);
+                System.out.print("Answer: ");
+                secQA1[1] = input.nextLine().toUpperCase();
+            } while (secQA1[1].isEmpty());
         }
+        secQA1[0] = Character.toString(secQuestionChecker);
+        return secQA1;
     }
 
-    public void setQA2(){
-        do {
-            System.out.println("\nSelect Security Question #2");
-            for (int i = 5; i <= 8; i++)
-                System.out.println("\t" + i + " - " + questions[i]);
-            inputSecQuestion = input.nextLine().charAt(0);
-        } while (inputSecQuestion < 53 || inputSecQuestion > 56);
+    public String[] setAndGetQA2(){
+        String[] secQA2 = new String[2];
+        secQA2[1] = "1";
 
-        newSQ2 = Character.getNumericValue(inputSecQuestion);
+        while(secQA2[1].equals("1")) {
+            do {
+                System.out.println("\nSelect Security Question #2");
+                for (int i = 5; i <= 8; i++)
+                    System.out.println("\t" + i + " - " + questions[i]);
+                noInputChecker = input.nextLine();
+                if (noInputChecker.isEmpty()) {
+                    System.out.println("Invalid: Selection required.");
+                    secQuestionChecker = 'e';
+                } else
+                    secQuestionChecker = noInputChecker.charAt(0);
+            } while (secQuestionChecker < 53 || secQuestionChecker > 56);
 
-        do {
-            System.out.println("\nPress 1 to change Security Question #2.");
-            System.out.println("Question: " + questions[newSQ2]);
-            System.out.print("Answer: ");
-            newAns2 = input.nextLine().toUpperCase();
-        }while(newAns2.isEmpty());
-
-        if (newAns2.equals("1")) {
-            setQA2();
+            do {
+                System.out.println("\nPress 1 to change Security Question #2.");
+                System.out.println("Question: " + questions[Character.getNumericValue(secQuestionChecker)]);
+                System.out.print("Answer: ");
+                secQA2[1] = input.nextLine().toUpperCase();
+            } while (secQA2[1].isEmpty());
         }
+
+        secQA2[0] = Character.toString(secQuestionChecker);
+        return secQA2;
     }
 
     public void changeSQ(){
@@ -101,12 +117,12 @@ public class SecurityQuestions {
             changeSQ();
         }
         else{
-            setQA1();
-            setQA2();
+            String[] secQA1 = setAndGetQA1();
+            String[] secQA2 = setAndGetQA2();
 
             /* REPLACE AND UPDATE IN FILE */
-            String[] newSQA = {Integer.toString(newSQ1), newAns1, Integer.toString(newSQ2), newAns2};
-            WriteToFile write = new WriteToFile();
+            String[] newSQA = {secQA1[0], secQA1[1], secQA2[0], secQA1[1]};
+            FileOutstream write = new FileOutstream();
             write.updateSQ(userEmail, newSQA);
         }
     }
