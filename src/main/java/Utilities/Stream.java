@@ -28,7 +28,8 @@ public class Stream {
 
         try
         {
-            input = scan.nextLine();
+            if(scan.hasNext())
+                input = scan.nextLine();
         }
         catch(Exception e)
         {
