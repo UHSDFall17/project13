@@ -41,6 +41,16 @@ public class Dashboard implements CommandUser
 //        for(String e : listNames)
 //            storeNewList(e);
 
+
+        stream = new Stream();
+
+        stream.writeToConsole("(Dashboard) "+commands.toString());
+    }
+
+    public boolean commandHandler()
+    {
+        stream = new Stream();
+
         commands = new Commands();
 
         commands.addCommand(1, "Get all lists");
@@ -51,13 +61,6 @@ public class Dashboard implements CommandUser
         commands.addCommand(6, "help");
         commands.addCommand(7, "quit");
 
-        stream = new Stream();
-
-        stream.writeToConsole("(Dashboard) "+commands.toString());
-    }
-
-    public boolean commandHandler()
-    {
         boolean cont = true;
         int command;
         int commandReturn = 0;
