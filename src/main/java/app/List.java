@@ -8,8 +8,7 @@ import java.io.IOException;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.*;
-import javafx.concurrent.Task;
+
 
 public class List implements CommandUser
 {
@@ -102,17 +101,17 @@ public class List implements CommandUser
 		ans = stream.readLineFromConsole().toUpperCase();
 		if (ans.equals("Y"))
 		{
-			boolean addMore;
+            boolean addMore;
 			do
 			{
 				task.addSubtask();
 				stream.writeToConsole("Would you like to add another subtask? (Y/N)\n");
-				ans = stream.readLineFromConsole();
+				ans = stream.readLineFromConsole().toUpperCase();
 				if(ans.equals("Y"))
-					addMore = false;
-				else
 					addMore = true;
-			} while(!addMore);
+				else
+					addMore = false;
+			} while(addMore);
 		}
 		stream.writeToConsole("\nIs this task repeated? (Y/N)\n");
 		ans = stream.readLineFromConsole().toUpperCase();
@@ -125,12 +124,11 @@ public class List implements CommandUser
 
 		/*Serialize to Json*/
 		mapper = new ObjectMapper();
-		Gson gson = new Gson();
-		String json = gson.toJson(task);
+
 		try
 		{
 			mapper.writerWithDefaultPrettyPrinter()
-					.writeValue(new File("Accounts/" + userEmail + "/data.json"), json);
+					.writeValue(new File("Accounts/" + userEmail + "/data.json"), task);
 		} catch (IOException e)
 		{
 			e.printStackTrace();

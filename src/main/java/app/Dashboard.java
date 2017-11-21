@@ -1,27 +1,34 @@
 package app;
 
 import Utilities.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 import static java.lang.System.*;
 
 public class Dashboard implements CommandUser
 {
-    private String userFileName;
+    private String jsonFile;
     private String userName;
     private Commands commands;
     private Stream stream;
+    private Gson gson;
+
 
     private ArrayList<List> lists = null;
 
     public Dashboard()
     {
         this("default.txt");
+//        lists = new ArrayList<List>();
     }
 
     public Dashboard(String fileName)
     {
-        userFileName = fileName;
+        jsonFile = "Accounts/" + fileName + "/data.json";
         lists = new ArrayList<List>();
 
         commands = new Commands();
@@ -101,6 +108,14 @@ public class Dashboard implements CommandUser
         {
             newList = new List(listName);
             lists.add(newList);
+
+            gson = new GsonBuilder().setPrettyPrinting().create();
+            try (FileWriter writer = new FileWriter(jsonFile)) {
+                gson.toJson(newList, writer);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
             return true;
         }
 
@@ -137,7 +152,6 @@ public class Dashboard implements CommandUser
             }
         }
     }
-
 
     //handles fetching of all list names that the user has
     public String displayLists()
