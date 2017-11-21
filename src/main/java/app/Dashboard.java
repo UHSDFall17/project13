@@ -25,8 +25,7 @@ public class Dashboard implements CommandUser
 
     public Dashboard()
     {
-        this(null);
-//        lists = new ArrayList<List>();
+        lists = new ArrayList<List>();
     }
 
     public Dashboard(User u)
