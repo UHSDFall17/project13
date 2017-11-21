@@ -18,7 +18,7 @@ public class AnyDo implements CommandUser
     private Login login;
     private Stream stream;
     private Commands commands;
-    private String User;
+    private User user;
 
     public AnyDo()
     {
@@ -57,13 +57,13 @@ public class AnyDo implements CommandUser
         try(BufferedReader fileReader = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/Accounts/" + "LastLogin.txt"))) {
 
             fileUserName = fileReader.readLine();
-            User = fileReader.readLine();
 
             if(fileUserName == null || fileUserName.isEmpty()) //checking if valid file name is found
                 throw new IOException();
 
             //dashboard = new Dashboard(fileUserName);
             //dashboard.commandHandler();
+            user = Login.getUserInfo(fileUserName);
             dashboardHandler();
             commandHandler();
             //System.out.println(fileUserName);
@@ -120,14 +120,14 @@ public class AnyDo implements CommandUser
     private void loginHandler()
     {
         login = new Login();
-        User = login.access();
+        user = login.access();
 
-        if(User != "") {
+        if(user != null) {
             //dashboard = new Dashboard();
             //dashboard.commandHandler();
             try(BufferedWriter fileWriter = new BufferedWriter(new FileWriter(System.getProperty("user.dir") + "/Accounts/" + "LastLogin.txt"))) {
 
-                fileWriter.write(User);
+                fileWriter.write(user.getUsername());
             }
             catch(IOException e)
             {
@@ -146,7 +146,7 @@ public class AnyDo implements CommandUser
 
     private void dashboardHandler()
     {
-        dashboard = new Dashboard();
+        dashboard = new Dashboard(user);
         boolean loggedOut = dashboard.commandHandler();
 
         if(loggedOut)
@@ -163,7 +163,7 @@ public class AnyDo implements CommandUser
         }
         else
         {
-            stream.writeToConsole("Goodbye, "+ User);
+            stream.writeToConsole("Goodbye, "+ user.getName());
             commandCenter(4);
         }
 

@@ -1,6 +1,7 @@
 package app;
 
 import Utilities.*;
+import setup.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -16,19 +17,21 @@ public class Dashboard implements CommandUser
     private Commands commands;
     private Stream stream;
     private Gson gson;
+    private User user;
 
 
     private ArrayList<List> lists = null;
 
     public Dashboard()
     {
-        this("default.txt");
+        this(null);
 //        lists = new ArrayList<List>();
     }
 
-    public Dashboard(String fileName)
+    public Dashboard(User u)
     {
-        jsonFile = "Accounts/" + fileName + "/data.json";
+        user = u;
+        jsonFile = "Accounts/" + user.getUsername() + "/data.json";
         lists = new ArrayList<List>();
 
         commands = new Commands();

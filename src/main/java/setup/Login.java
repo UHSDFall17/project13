@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class Login
 {
-	public static String access()
+	public static User access()
 	{
 		//Console console = System.console();
 		Scanner s= new Scanner(System.in);
@@ -30,11 +30,11 @@ public class Login
 		if(authorization(user.toLowerCase(), pwd))
 		{
 			System.out.println("Login successful\n");
-			return user;
+			return getUserInfo(user);
 		}
 		else {
 			System.out.println("Login failed\n");
-			return "";
+			return null;
 		}
 	}
 	private static boolean authorization(String user, String pass)
@@ -74,5 +74,21 @@ public class Login
 			System.out.println("Error reading file: '" + fileName + "'.");
 		}
 		return autherized;
+	}
+
+	public static User getUserInfo(String userEmail)
+	{
+		User user = null;
+
+		try(BufferedReader fileReader = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/Accounts/" + userEmail + "/accountInfo.txt")))
+		{
+			user = new User(userEmail, fileReader.readLine(), fileReader.readLine(), fileReader.readLine(), fileReader.readLine(), fileReader.readLine(), fileReader.readLine());
+		}
+		catch(Exception e)
+		{
+
+		}
+
+		return user;
 	}
 }
