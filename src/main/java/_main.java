@@ -6,11 +6,17 @@ public class _main
 {
     public static void main(String args[])
     {
-        //Account newAccount = new Account();
-        //newAccount.logIn();
+        Account account = new Account();
+        account.createNewAccount();
+        //account.logIn();
+//        account.resetForgottenPassword();
+//        account.changeName();
+//        account.changePassword();
+//        account.changeSQ();;
 
-        JSON obj = new JSON();
-        obj.createDefaultJson("@test.com");
+//        JSON obj = new JSON();
+//        obj.createDefaultJson("johnsmith@gmail.com");
+
         //obj.addTasktoJson("johnsmith@gmail.com");
 
         //ResetPswd recoverForgotten = new ResetPswd();

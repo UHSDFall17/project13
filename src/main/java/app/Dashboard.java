@@ -46,8 +46,7 @@ public class Dashboard implements CommandUser
 
         do
         {
-            out.print("\n(Dashboard) Enter your command: ");
-            //input = new Scanner(in);
+            stream.writeToConsole("\n(Dashboard) Enter your command: ");
 
             try{
                 command = stream.readIntFromConsole();
@@ -61,7 +60,7 @@ public class Dashboard implements CommandUser
             }
             catch (Exception e)
             {
-                out.println("Unrecognized command. Try to use the command \"" + (commands.size() - 1) + "\" to get a list of the commands");
+                stream.writeToConsole("Unrecognized command. Try to use the command \"" + (commands.size() - 1) + "\" to get a list of the commands.\n");
             }
         }while(cont);
 
@@ -75,7 +74,7 @@ public class Dashboard implements CommandUser
     {
         switch(command)
         {
-            case 1: out.println(displayLists()); break;
+            case 1: stream.writeToConsole(displayLists() + "\n"); break;
             case 2: createNewList(); break;
             case 3: break;
             case 4: stream=null; return 2;
@@ -110,22 +109,20 @@ public class Dashboard implements CommandUser
 
     private void createNewList()
     {
-        Scanner input = new Scanner(in);
-        out.print("Enter new list name: ");
-        String listName = input.nextLine();
+        stream.writeToConsole("Enter new list name: ");
+        String listName = stream.readLineFromConsole();
 
         boolean stored = storeNewList(listName);
 
         if(stored)
-            out.println("Saved successfully!");
+            stream.writeToConsole("Saved successfully!\n");
         else {
             boolean loop = true;
-            out.print("Could not save new list. ");
+            stream.writeToConsole("Could not save new list. ");
             while(loop)
             {
-                out.println("Try again?(Y/N)");
-                String ans = input.nextLine();
-                ans = ans.toLowerCase();
+                stream.writeToConsole("Try again?(Y/N)\n");
+                String ans = stream.readLineFromConsole().toLowerCase();
                 if (ans.compareTo("y") == 0)
                 {
                     loop = false;
@@ -133,7 +130,7 @@ public class Dashboard implements CommandUser
                 }
                 else if (ans.compareTo("n") > 0 || ans.compareTo("n") < 0)
                 {
-                    out.println("Invalid option. ");
+                    stream.writeToConsole("Invalid option. \n");
                 }
                 else
                     loop = false;

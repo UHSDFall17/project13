@@ -1,21 +1,26 @@
 package setup;
 
+import Utilities.Stream;
+
 import java.io.*;
-import java.util.Scanner;
 
 public class Name {
-    Scanner input = new Scanner(System.in);
+    Stream stream;
 
     private String userEmail, userPassword, userName; //FOR verifying user
     protected String name;
 
-    public Name(){}
+    public Name(){
+        stream = new Stream();
+    }
 
-    public void setNewName(){
+    public String setAndGetNewName(){
         do {
-            System.out.print("Name: ");
-            name = input.nextLine().toUpperCase();
+            stream.writeToConsole("Name: ");
+            name = stream.readLineFromConsole().toUpperCase();
         }while(name.isEmpty());
+
+        return name;
     }
 
     public void changeName(){
@@ -29,17 +34,17 @@ public class Name {
             userName = userFile.readLine(); //grabs user's name
             userFile.close();
 
-            System.out.print("Log-In Password: ");
+            stream.writeToConsole("Log-In Password: ");
 
-            if(!input.nextLine().matches(userPassword)){
-                System.out.println("Incorrect Password.");
+            if(!stream.readLineFromConsole().matches(userPassword)){
+                stream.writeToConsole("Incorrect Password.\n");
                 changeName();
             }
             else{
-                setNewName();
+                name = setAndGetNewName();
 
             /* REPLACE AND UPDATE IN FILE */
-                WriteToFile updateName = new WriteToFile();
+                FileOutstream updateName = new FileOutstream();
                 updateName.updateName(userEmail, userName, name);
             }
         } catch (FileNotFoundException e) {

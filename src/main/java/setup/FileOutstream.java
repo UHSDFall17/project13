@@ -1,12 +1,16 @@
 package setup;
 
+import Utilities.Stream;
+
 import java.io.*;
 
-public class WriteToFile {
+public class FileOutstream {
 
-    public WriteToFile(){}
+    Stream stream;
 
-    public void saveNewAccount(String email, String pswd, String name, int Q1, String A1, int Q2, String A2) {
+    public FileOutstream(){ stream = new Stream();}
+
+    public void saveNewAccount(String email, String pswd, String name, String Q1, String A1, String Q2, String A2) {
         try {
             File key = new File(System.getProperty("user.dir") + "/Accounts/" + email);
             key.mkdirs();
@@ -24,10 +28,10 @@ public class WriteToFile {
             account.print(A2);
 
             account.close();
-            System.out.println("\nWELCOME, " + name + "!\nYou have successfully created an account.\n");
+            stream.writeToConsole("\nWELCOME, " + name + "!\nYou have successfully created an account.\n");
         }
         catch(IOException e) {
-            System.out.println("Something went wrong! Please try again.");
+            stream.writeToConsole("Something went wrong! Please try again.");
             System.exit(1);
         }
         //return to LOGIN PAGE
@@ -53,10 +57,10 @@ public class WriteToFile {
             outStream.write(line.getBytes());
             outStream.close();
 
-            System.out.println("\nSUCCESS! Your password has been updated.");//SUCCESS
+            stream.writeToConsole("\nSUCCESS! Your password has been updated.");//SUCCESS
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("\nFAILED: Your password has not been updated. Program Terminated.");
+            stream.writeToConsole("\nFAILED: Your password has not been updated. Program Terminated.");
         }
     }
 
@@ -80,10 +84,10 @@ public class WriteToFile {
             outStream.write(line.getBytes());
             outStream.close();
 
-            System.out.println("\nSUCCESS! Your password has been updated.");//SUCCESS
+            stream.writeToConsole("\nSUCCESS! Your password has been updated.");//SUCCESS
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("\nFAILED: Your password has not been updated. Program Terminated.");
+            stream.writeToConsole("\nFAILED: Your password has not been updated. Program Terminated.");
         }
     }
 
@@ -119,10 +123,10 @@ public class WriteToFile {
             }
             outStream.close();
 
-            System.out.println("\nSUCCESS! Your security questions and answers have been updated.");//SUCCESS
+            stream.writeToConsole("\nSUCCESS! Your security questions and answers have been updated.");//SUCCESS
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("\nFAILED: Your security questions and/or answers have not been updated. Program Terminated.");
+            stream.writeToConsole("\nFAILED: Your security questions and/or answers have not been updated. Program Terminated.");
         }
     }
 }
