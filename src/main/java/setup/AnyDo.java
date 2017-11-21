@@ -3,6 +3,7 @@ import Utilities.Commands;
 import app.*;
 import Utilities.Stream;
 import Utilities.CommandUser;
+import com.google.gson.Gson;
 
 import java.io.*;
 
@@ -146,7 +147,17 @@ public class AnyDo implements CommandUser
 
     private void dashboardHandler()
     {
-        dashboard = new Dashboard(user);
+        Gson gson = new Gson();
+        try (Reader reader = new FileReader("Accounts/" + user.getUsername() + "/data.json")) {
+            // Convert JSON to Java Object
+            dashboard = gson.fromJson(reader, Dashboard.class);
+            dashboard.commandHandler();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         boolean loggedOut = dashboard.commandHandler();
 
         if(loggedOut)
