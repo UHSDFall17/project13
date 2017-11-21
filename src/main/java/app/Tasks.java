@@ -71,11 +71,11 @@ public class Tasks
                 min = stream.readIntFromConsole();
             }while(!isValidTime(hour,min));
 
-            setDate(year, month, day, hour, min);
+            setDate(year, month-1, day, hour, min);
         }
         else
         {
-            setDate(year, month, day);
+            setDate(year, month-1, day);
         }
     }
     protected void addNote()
