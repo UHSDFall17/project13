@@ -2,9 +2,9 @@ package app;
 
 import Utilities.*;
 import setup.User;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import setup.DataStorageGSON;
+//import com.google.gson.Gson;
+//import com.google.gson.GsonBuilder;
+//import setup.DataStorageGSON;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -17,6 +17,7 @@ public class Dashboard implements CommandUser
     private String userName;
     private Commands commands;
     private Stream stream;
+    //private Gson gson;
     private User user;
 
 
@@ -24,8 +25,8 @@ public class Dashboard implements CommandUser
 
     public Dashboard()
     {
-//        this(null);
-        lists = new ArrayList<List>();
+        this(null);
+//        lists = new ArrayList<List>();
     }
 
     public Dashboard(User u)
@@ -34,6 +35,22 @@ public class Dashboard implements CommandUser
         jsonFile = "Accounts/" + user.getUsername() + "/data.json";
         lists = new ArrayList<List>();
 
+
+        //DataStorageGSON dataStorageGSON = new DataStorageGSON(jsonFile);
+//        ArrayList<String> listNames  = dataStorageGSON.getJsonLists();
+//        for(String e : listNames)
+//            storeNewList(e);
+
+        commands = new Commands();
+
+        commands.addCommand(1, "Get all lists");
+        commands.addCommand(2, "Create new list");
+        commands.addCommand(3, "Edit list");
+        commands.addCommand(4, "Delete list");
+        commands.addCommand(5, "logout");
+        commands.addCommand(6, "help");
+        commands.addCommand(7, "quit");
+
         stream = new Stream();
 
         stream.writeToConsole("(Dashboard) "+commands.toString());
@@ -41,17 +58,6 @@ public class Dashboard implements CommandUser
 
     public boolean commandHandler()
     {
-        stream = new Stream();
-
-        commands = new Commands();
-
-        commands.addCommand(1, "Get all lists");
-        commands.addCommand(2, "Create new list");
-        commands.addCommand(3, "Edit lists");
-        commands.addCommand(4, "logout");
-        commands.addCommand(5, "help");
-        commands.addCommand(6, "quit");
-
         boolean cont = true;
         int command;
         int commandReturn = 0;
@@ -63,7 +69,7 @@ public class Dashboard implements CommandUser
             try{
                 command = stream.readIntFromConsole();
 
-                if(command > commands.size())
+                if(command > commands.size() || command == 0)
                     throw new Exception();
 
                 commandReturn = commandCenter(command);
@@ -89,9 +95,10 @@ public class Dashboard implements CommandUser
             case 1: stream.writeToConsole(displayLists() + "\n"); break;
             case 2: createNewList(); break;
             case 3: editList();break;
-            case 4: stream=null; return 2;
-            case 5: stream.writeToConsole(commands.toString()); break;
-            case 6: return 1;
+            case 4: deleteList(); break;
+            case 5: stream=null; return 2;
+            case 6: stream.writeToConsole(commands.toString()); break;
+            case 7: return 1;
         }
 
         return 0;
@@ -113,6 +120,14 @@ public class Dashboard implements CommandUser
         {
             newList = new List(listName);
             lists.add(newList);
+
+//            gson = new GsonBuilder().setPrettyPrinting().create();
+//            try (FileWriter writer = new FileWriter(jsonFile)) {
+//                gson.toJson(newList, writer);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+
             return true;
         }
 
@@ -181,5 +196,30 @@ public class Dashboard implements CommandUser
 
         lists.get(listNum-1).commandCenter(1);
 
+    }
+
+    public void deleteList()
+    {
+        stream.writeToConsole("Which list do you want to delete?\n" + displayLists() + "\n\n");
+        stream.writeToConsole("Enter list number: ");
+
+        int listNum = stream.readIntFromConsole();
+
+        stream.writeToConsole("Are you sure you want to delete " + lists.get(listNum-1).getName() + "(Y/N)?\n");
+
+        String doubt = stream.readLineFromConsole().toLowerCase();
+
+        if(doubt.compareTo("y") == 0) {
+            lists.remove(listNum - 1);
+            stream.writeToConsole("Deletion successful!\n");
+        }
+        else if(doubt.compareTo("n") == 0)
+        {
+            stream.writeToConsole("Deletion cancelled...\n");
+        }
+        else
+        {
+            stream.writeToConsole("Not a valid option.\n");
+        }
     }
 }
