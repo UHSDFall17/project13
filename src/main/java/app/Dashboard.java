@@ -3,6 +3,7 @@ package app;
 import Utilities.*;
 
 import java.util.*;
+import static java.lang.System.*;
 
 public class Dashboard implements CommandUser
 {
@@ -158,5 +159,10 @@ public class Dashboard implements CommandUser
 
     public ArrayList<List> getLists() {
         return lists;
+    }
+
+    public void editList(int n)
+    {
+
     }
 }
