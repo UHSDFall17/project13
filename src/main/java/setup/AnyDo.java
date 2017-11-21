@@ -7,6 +7,7 @@ import Utilities.CommandUser;
 import java.io.*;
 
 import static java.lang.System.exit;
+import static java.lang.System.out;
 
 
 public class AnyDo implements CommandUser
@@ -56,12 +57,14 @@ public class AnyDo implements CommandUser
         try(BufferedReader fileReader = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/Accounts/" + "LastLogin.txt"))) {
 
             fileUserName = fileReader.readLine();
+            User = fileReader.readLine();
 
             if(fileUserName == null || fileUserName.isEmpty()) //checking if valid file name is found
                 throw new IOException();
 
-            dashboard = new Dashboard(fileUserName);
-            dashboard.commandHandler();
+            //dashboard = new Dashboard(fileUserName);
+            //dashboard.commandHandler();
+            dashboardHandler();
             commandHandler();
             //System.out.println(fileUserName);
         }
@@ -93,7 +96,7 @@ public class AnyDo implements CommandUser
             }
             catch (Exception e)
             {
-                stream.writeToConsole("Unrecognized command. Try to use the command \"" + (commands.size() - 1) + "\" to get a list of the commands");
+                stream.writeToConsole("Unrecognized command. Try to use the command \"" + (commands.size() - 1) + "\" to get a list of the commands.\n");
             }
 
         }while(cont);
@@ -120,8 +123,18 @@ public class AnyDo implements CommandUser
         User = login.access();
 
         if(User != "") {
-            dashboard = new Dashboard();
-            dashboard.commandHandler();
+            //dashboard = new Dashboard();
+            //dashboard.commandHandler();
+            try(BufferedWriter fileWriter = new BufferedWriter(new FileWriter(System.getProperty("user.dir") + "/Accounts/" + "LastLogin.txt"))) {
+
+                fileWriter.write(User);
+            }
+            catch(IOException e)
+            {
+                stream.writeToConsole("Error occurred while logging in!");
+            }
+
+            dashboardHandler();
         }
     }
 
@@ -129,5 +142,31 @@ public class AnyDo implements CommandUser
     {
         create = new Account();
         create.createNewAccount();
+    }
+
+    private void dashboardHandler()
+    {
+        dashboard = new Dashboard();
+        boolean loggedOut = dashboard.commandHandler();
+
+        if(loggedOut)
+        {
+            try(BufferedWriter fileWriter = new BufferedWriter(new FileWriter(System.getProperty("user.dir") + "/Accounts/" + "LastLogin.txt"))) {
+
+                fileWriter.write("");
+            }
+            catch(IOException e)
+            {
+                //go to login screen here
+                stream.writeToConsole("Error occurred while logging out!");
+            }
+        }
+        else
+        {
+            stream.writeToConsole("Goodbye, "+ User);
+            commandCenter(4);
+        }
+
+        //saving will go here...
     }
 }

@@ -6,8 +6,8 @@ public class _main
 {
     public static void main(String args[])
     {
-        Account account = new Account();
-        account.createNewAccount();
+        //Account account = new Account();
+        //account.createNewAccount();
         //account.logIn();
 //        account.resetForgottenPassword();
 //        account.changeName();
@@ -20,11 +20,11 @@ public class _main
         //obj.addTasktoJson("johnsmith@gmail.com");
 
         //ResetPswd recoverForgotten = new ResetPswd();
-//        Dashboard test = new Dashboard();
-//        test.commandHandler();
+        //Dashboard test = new Dashboard();
+        //test.commandHandler();
 //        Login test = new Login();
 //        test.access();
-        //AnyDo test = new AnyDo();
+        AnyDo test = new AnyDo();
 
 
 

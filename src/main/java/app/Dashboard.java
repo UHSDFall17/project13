@@ -76,7 +76,7 @@ public class Dashboard implements CommandUser
         {
             case 1: stream.writeToConsole(displayLists() + "\n"); break;
             case 2: createNewList(); break;
-            case 3: break;
+            case 3: editList();break;
             case 4: stream=null; return 2;
             case 5: stream.writeToConsole(commands.toString()); break;
             case 6: return 1;
@@ -109,7 +109,7 @@ public class Dashboard implements CommandUser
 
     private void createNewList()
     {
-        stream.writeToConsole("Enter new list name: ");
+        stream.writeToConsole("Enter new list name:\n");
         String listName = stream.readLineFromConsole();
 
         boolean stored = storeNewList(listName);
@@ -151,7 +151,7 @@ public class Dashboard implements CommandUser
 
         for(int i=0; i<lists.size(); i++)
         {
-            output = output + "\n-- " + lists.get(i).getName();
+            output = output + "\n" + (i+1) + " -- " + lists.get(i).getName();
         }
 
         return output;
@@ -161,8 +161,14 @@ public class Dashboard implements CommandUser
         return lists;
     }
 
-    public void editList(int n)
+    public void editList()
     {
+        stream.writeToConsole("Which list?\n");
+        stream.writeToConsole(displayLists() + "\n\nEnter list number: ");
+
+        int listNum = stream.readIntFromConsole();
+
+        lists.get(listNum-1).commandCenter(1);
 
     }
 }

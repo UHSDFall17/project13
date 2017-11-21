@@ -62,7 +62,7 @@ public class Stream {
             }
 
         }while(cont);
-
+        scan.nextLine();
 
         return input;
     }

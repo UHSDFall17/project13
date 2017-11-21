@@ -11,7 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.*;
 import javafx.concurrent.Task;
 
-public class List
+public class List implements CommandUser
 {
 	private Commands commands;
 	private Stream stream;
@@ -31,6 +31,12 @@ public class List
         taskList = new ArrayList<Tasks>();
 //		stream.writeToConsole("(List) "+commands.toString());
 	}
+
+	@Override
+	public boolean commandHandler() {
+		return false;
+	}
+
 	/*Command Handling*/
 	public int commandCenter(int command)
 	{
@@ -64,6 +70,7 @@ public class List
 	{
 		Name = name;
 		taskList = new ArrayList<Tasks>();
+		stream = new Stream();
 	}
 
 	public String getName()
