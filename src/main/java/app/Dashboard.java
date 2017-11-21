@@ -3,6 +3,7 @@ package app;
 import Utilities.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import setup.DataStorageGSON;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -30,6 +31,12 @@ public class Dashboard implements CommandUser
     {
         jsonFile = "Accounts/" + fileName + "/data.json";
         lists = new ArrayList<List>();
+
+
+        DataStorageGSON dataStorageGSON = new DataStorageGSON(jsonFile);
+        ArrayList<String> listNames  = dataStorageGSON.getJsonLists();
+        for(String e : listNames)
+            storeNewList(e);
 
         commands = new Commands();
 
