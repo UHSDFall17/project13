@@ -69,7 +69,6 @@ public class List implements CommandUser
 	{
 		Name = name;
 		taskList = new ArrayList<Tasks>();
-		stream = new Stream();
 	}
 
 	public String getName()
