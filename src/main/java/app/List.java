@@ -63,6 +63,7 @@ public class List
 	public List(String name)
 	{
 		Name = name;
+		taskList = new ArrayList<Tasks>();
 	}
 
 	public String getName()
