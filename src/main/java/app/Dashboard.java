@@ -7,6 +7,7 @@ import com.google.gson.GsonBuilder;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
+import static java.lang.System.*;
 
 public class Dashboard implements CommandUser
 {
@@ -172,5 +173,10 @@ public class Dashboard implements CommandUser
 
     public ArrayList<List> getLists() {
         return lists;
+    }
+
+    public void editList(int n)
+    {
+
     }
 }

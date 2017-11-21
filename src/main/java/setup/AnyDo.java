@@ -128,6 +128,6 @@ public class AnyDo implements CommandUser
     private void createAccountHandler()
     {
         create = new Account();
-
+        create.createNewAccount();
     }
 }

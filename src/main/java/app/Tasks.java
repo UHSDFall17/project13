@@ -128,10 +128,6 @@ public class Tasks
     {
 
     }
-    protected String getDescription()
-    {
-        return description;
-    }
 
     private void setDate(int y, int m, int d, int hr, int min) //date has assigned hh:mm
     {
@@ -147,10 +143,6 @@ public class Tasks
         Date taskDate = taskCal.getTime();
         notification = sdf.format(taskDate);
     }
-    protected String getNotificationDate()
-    {
-        return notification;
-    }
 
     protected void setTimestamp() //creation date for sorting purposes
     {
@@ -160,10 +152,6 @@ public class Tasks
     {
         Date current = new Date();
         return new Timestamp(current.getTime());
-    }
-    protected String getTimestamp()
-    {
-        return timeStamp;
     }
 
     protected boolean markCompleted()
@@ -192,6 +180,32 @@ public class Tasks
         }
         return isCompleted;
     }
+    /*Getters*/
+    public String getDescription()
+    {
+        return description;
+    }
+    public Boolean getIsRepeated(){ return isRepeated; }
+    public Boolean getIsCompleted(){ return isCompleted; }
+    public String getNote(){ return note; }
+    public String getNotificationDate()
+    {
+        return notification;
+    }
+    public String getTimestamp()
+    {
+        return timeStamp;
+    }
+    public Stack<String> getSubtasks() { return subtasks; }
+
+    /*Setters*/
+    protected void setDescription(String description){ this.description = description; }
+    protected void setNotification(String notification) { this.notification = notification; }
+    protected void setTimeStamp(String timeStamp) { this.timeStamp = timeStamp; }
+    protected void setRepeated(Boolean isRepeated){ this.isRepeated = isRepeated; }
+    protected void setCompleted(Boolean isCompleted){ this.isCompleted = isCompleted; }
+    protected void setSubtasks(Stack<String> subtasks){ this.subtasks = subtasks; }
+    protected void setNote(String note){ this.note = note; }
 
     /*Date Validation*/
     private boolean isValidYear(int y)
