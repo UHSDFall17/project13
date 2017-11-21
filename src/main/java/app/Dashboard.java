@@ -24,8 +24,8 @@ public class Dashboard implements CommandUser
 
     public Dashboard()
     {
-        this(null);
-//        lists = new ArrayList<List>();
+//        this(null);
+        lists = new ArrayList<List>();
     }
 
     public Dashboard(User u)
@@ -33,6 +33,15 @@ public class Dashboard implements CommandUser
         user = u;
         jsonFile = "Accounts/" + user.getUsername() + "/data.json";
         lists = new ArrayList<List>();
+
+        stream = new Stream();
+
+        stream.writeToConsole("(Dashboard) "+commands.toString());
+    }
+
+    public boolean commandHandler()
+    {
+        stream = new Stream();
 
         commands = new Commands();
 
@@ -43,13 +52,6 @@ public class Dashboard implements CommandUser
         commands.addCommand(5, "help");
         commands.addCommand(6, "quit");
 
-        stream = new Stream();
-
-        stream.writeToConsole("(Dashboard) "+commands.toString());
-    }
-
-    public boolean commandHandler()
-    {
         boolean cont = true;
         int command;
         int commandReturn = 0;
