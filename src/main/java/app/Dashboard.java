@@ -159,4 +159,13 @@ public class Dashboard implements CommandUser
 
         return output;
     }
+
+    public ArrayList<List> getLists() {
+        return lists;
+    }
+
+    public void editList(int n)
+    {
+
+    }
 }

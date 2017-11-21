@@ -10,7 +10,7 @@ public class _main
         //newAccount.logIn();
 
         JSON obj = new JSON();
-        obj.createDefaultJson("steven@yahoo.com");
+        obj.createDefaultJson("@test.com");
         //obj.addTasktoJson("johnsmith@gmail.com");
 
         //ResetPswd recoverForgotten = new ResetPswd();

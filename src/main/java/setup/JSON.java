@@ -16,7 +16,7 @@ public class JSON {
     public void createDefaultJson(String userEmail){
         mapper = new ObjectMapper();
 
-        Dashboard dashboard = new Dashboard(userEmail);
+        Dashboard dashboard = new Dashboard();
 
         /*SET DEFAULT LISTS*/
         dashboard.storeNewList("Personal");
@@ -24,7 +24,7 @@ public class JSON {
         dashboard.storeNewList("Grocery List");
 
         try {
-            mapper.writerWithDefaultPrettyPrinter().writeValue(new File("Accounts/" + userEmail + "/data.json"), dashboard);
+            mapper.writerWithDefaultPrettyPrinter().writeValue(new File("Accounts/" + userEmail + "/data.json"), dashboard.getLists());
         } catch (JsonGenerationException e) {
             e.printStackTrace();
         } catch (JsonMappingException e) {
