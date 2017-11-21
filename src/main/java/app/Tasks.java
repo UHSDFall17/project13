@@ -24,6 +24,13 @@ public class Tasks
         stream =  new Stream();
         subtasks = new Stack<String>();
     }
+    public void printTask()
+    {
+        stream.writeToConsole("Task: " + getDescription());
+        stream.writeToConsole("Notification time: (Y-M-D-Hr:Min:Sec) " + getNotificationDate());
+        stream.writeToConsole("Note: " + getNote());
+        printSubtask();
+    }
     /*Task creation helper*/
     protected void addDescription()
     {
@@ -112,7 +119,7 @@ public class Tasks
             for(int i = 0; i < subtasks.size(); i++)
             {
                 String temp = stCopy.pop();
-                stream.writeToConsole("         "+ temp + "\n"); //To whom it may concern: You can use "/t" if you want the String indented. -Stacy
+                stream.writeToConsole("         "+ (i+1) + temp + "\n"); //To whom it may concern: You can use "/t" if you want the String indented. -Stacy
             }
         }
     }
@@ -126,7 +133,24 @@ public class Tasks
 
     protected void deleteSubtask()
     {
-
+        if(subtasks.isEmpty())
+            stream.writeToConsole("\nThere are no subtasks!\n\n");
+        else
+        {
+            printSubtask();
+            int index;
+            do
+            {
+                stream.writeToConsole("Enter the number of the subtask you wish to delete: ");
+                index = stream.readIntFromConsole();
+                if(index > 0 && index < subtasks.size())
+                {
+                    subtasks.remove(index-1);
+                }
+                else
+                    stream.writeToConsole("Invalid index!");
+            } while(!(index > 0 && index < subtasks.size()));
+        }
     }
 
     private void setDate(int y, int m, int d, int hr, int min) //date has assigned hh:mm
@@ -179,6 +203,56 @@ public class Tasks
             }
         }
         return isCompleted;
+    }
+    /*Task Editing Helper*/
+    protected void editDescription()
+    {
+        stream.writeToConsole("\nCurrent description: " + description);
+        String newDescription;
+        do
+        {
+            stream.writeToConsole("\nEnter the new description: ");
+            newDescription = stream.readLineFromConsole();
+            if (newDescription == null || newDescription == "")
+                stream.writeToConsole("Invalid argument! Please enter a valid description.\n");
+            else
+                description = newDescription;
+        } while(newDescription == null || newDescription == "");
+    }
+    protected void editNote()
+    {
+        stream.writeToConsole("\nCurrent note: " + note);
+        String newNote;
+        do
+        {
+            stream.writeToConsole("\nEnter the new note: ");
+            newNote = stream.readLineFromConsole();
+            if (newNote == null || newNote == "")
+                stream.writeToConsole("Invalid argument! Please enter a valid note.\n");
+            else
+                note = newNote;
+        } while(newNote == null || newNote == "");
+    }
+    protected void editNotification()
+    {
+        stream.writeToConsole("\nCurrent notification time: " + notification);
+        addDate();
+    }
+    protected void editSubtask()
+    {
+        printSubtask();
+        int index;
+        do
+        {
+            stream.writeToConsole("\nEnter the number of the subtask you wish to edit: ");
+            index = stream.readIntFromConsole();
+            if(index > 0 && index < subtasks.size())
+            {
+                //TODO
+            }
+            else
+                stream.writeToConsole("Invalid index!");
+        } while(!(index > 0 && index < subtasks.size()));
     }
     /*Getters*/
     public String getDescription()
