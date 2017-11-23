@@ -82,9 +82,9 @@ public class AnyDo implements CommandUser
         boolean cont = true;
         int command = 0;
         int commandReturn = 0;
-        stream.writeToConsole("\n(Any.do) "+commands.toString() + "\n");
 
         do {
+            stream.writeToConsole("\n(Any.do) "+commands.toString() + "\n");
             stream.writeToConsole("(Any.do)Enter your command: ");
 
             try{
@@ -151,9 +151,6 @@ public class AnyDo implements CommandUser
         try (Reader reader = new FileReader("Accounts/" + user.getUsername() + "/data.json")) {
             // Convert JSON to Java Object
             dashboard = gson.fromJson(reader, Dashboard.class);
-            dashboard.commandHandler();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
