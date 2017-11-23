@@ -19,6 +19,7 @@ public class List implements CommandUser
 	private ObjectMapper mapper;
 	public List()
 	{
+		commands = new Commands();
 		commands.addCommand(1, "Get all tasks");
 		commands.addCommand(2, "Create new task");
 		commands.addCommand(3, "Edit a task");
