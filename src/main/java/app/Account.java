@@ -56,6 +56,7 @@ public class Account {
 
         try(FileWriter writer = new FileWriter("Accounts/" + email + "/data.json")){
             gson.toJson(dashboard, writer);
+            writer.close();
         }catch(IOException e){
             e.printStackTrace();
         }
