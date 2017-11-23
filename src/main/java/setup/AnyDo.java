@@ -15,8 +15,8 @@ public class AnyDo implements CommandUser
 {
     private String lastLogin;
     private Dashboard dashboard;
-    private Account create;
-    private Login login;
+    private Account account;
+    //private Login login;
     private Stream stream;
     private Commands commands;
     private User user;
@@ -64,7 +64,7 @@ public class AnyDo implements CommandUser
 
             //dashboard = new Dashboard(fileUserName);
             //dashboard.commandHandler();
-            user = Login.getUserInfo(fileUserName);
+            user = Account.getUserInfo(fileUserName);
             dashboardHandler();
             commandHandler();
             //System.out.println(fileUserName);
@@ -120,8 +120,8 @@ public class AnyDo implements CommandUser
 
     private void loginHandler()
     {
-        login = new Login();
-        user = login.access();
+        account = new Account();
+        user = account.logIn();
 
         if(user != null) {
             //dashboard = new Dashboard();
@@ -141,8 +141,8 @@ public class AnyDo implements CommandUser
 
     private void createAccountHandler()
     {
-        create = new Account();
-        create.createNewAccount();
+        account = new Account();
+        account.createNewAccount();
     }
 
     private void dashboardHandler()
