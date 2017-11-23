@@ -28,7 +28,6 @@ public class FileOutstream {
             account.print(A2);
 
             account.close();
-            stream.writeToConsole("\nWELCOME, " + name + "!\nYou have successfully created an account.\n");
         }
         catch(IOException e) {
             stream.writeToConsole("Something went wrong! Please try again.");
