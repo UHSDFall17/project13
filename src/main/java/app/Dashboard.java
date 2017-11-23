@@ -64,6 +64,7 @@ public class Dashboard implements CommandUser
         int command;
         int commandReturn = 0;
 
+        stream.writeToConsole(commands.toString());
         do
         {
             stream.writeToConsole("\n(Dashboard) Enter your command: ");
