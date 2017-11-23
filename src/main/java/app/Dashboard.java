@@ -17,7 +17,6 @@ public class Dashboard implements CommandUser
     private String userName;
     private Commands commands;
     private Stream stream;
-    //private Gson gson;
     private User user;
 
 
@@ -33,13 +32,6 @@ public class Dashboard implements CommandUser
         user = u;
         jsonFile = "Accounts/" + user.getUsername() + "/data.json";
         lists = new ArrayList<List>();
-
-
-        //DataStorageGSON dataStorageGSON = new DataStorageGSON(jsonFile);
-//        ArrayList<String> listNames  = dataStorageGSON.getJsonLists();
-//        for(String e : listNames)
-//            storeNewList(e);
-
 
         stream = new Stream();
 
@@ -123,14 +115,6 @@ public class Dashboard implements CommandUser
         {
             newList = new List(listName);
             lists.add(newList);
-
-//            gson = new GsonBuilder().setPrettyPrinting().create();
-//            try (FileWriter writer = new FileWriter(jsonFile)) {
-//                gson.toJson(newList, writer);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-
             return true;
         }
 
