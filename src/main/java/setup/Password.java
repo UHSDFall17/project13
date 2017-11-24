@@ -84,7 +84,7 @@ public class Password {
             //VERIFY - enter current password
             stream.writeToConsole("Current Password: ");
 
-            if(!stream.readLineFromConsole().matches(oldPswd)) { //INPUT NOT CURRENT PASSWORD
+            if(!stream.readLineFromConsole().equals(oldPswd)) { //INPUT NOT CURRENT PASSWORD
                 stream.writeToConsole("Incorrect. Please enter your current password.\n");
                 changePassword();
             }
@@ -100,42 +100,50 @@ public class Password {
 /**** RESET ****/
     public void resetPassword(){ //FROM OUTSIDE OF APPLICATION; HAS NOT LOGGED IN
         CheckEmail checkEmail = new CheckEmail();
+        boolean registered;
         do{
-            stream.writeToConsole("\nEnter your Registered Email: ");
+            stream.writeToConsole("\n(Reset Password) Enter your Registered Email: ");
             email = stream.readLineFromConsole().toLowerCase();
-        } while(email.isEmpty() || !checkEmail.isRegistered(email));
+            registered = checkEmail.isRegistered(email);
+            if(!registered){ break; }
+        } while(email.isEmpty());
 
-        /* READ */
-        try {
-            BufferedReader readAccount = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/Accounts/" + email + "/accountInfo.txt"));
-            oldPswd = readAccount.readLine(); //old password
-            stream.writeToConsole("\nHI, " + readAccount.readLine() + ".\n");
+        if(registered) { /* READ, TEST ACCESS, ACCESS GRANTED -- RESET PASSWORD */
+            try {
+                BufferedReader readAccount = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/Accounts/" + email + "/accountInfo.txt"));
+                oldPswd = readAccount.readLine(); //old password
+                stream.writeToConsole("\nHELLO, " + readAccount.readLine() + ".\n");
 
-            SecurityQuestions pullUserQuestions = new SecurityQuestions();
-            savedSQ = pullUserQuestions.getQuestion(Integer.parseInt(readAccount.readLine())); //READ FROM FILE: SECURITY QUESTION #1, THEN CONVERT NUMBER TO ACTUAL QUESTION
-            savedAns = readAccount.readLine(); //READ FROM FILE: ANSWER #1
-            do{
-                stream.writeToConsole("\nSecurity Question #1:\n\t" + savedSQ + "\n"); // PRINT SECURITY QUESTION
-                stream.writeToConsole("Answer: ");
-                inputAns = stream.readLineFromConsole().toUpperCase();
-            }while(!inputAns.matches(savedAns));
+                SecurityQuestions pullUserQuestions = new SecurityQuestions();
+                savedSQ = pullUserQuestions.getQuestion(Integer.parseInt(readAccount.readLine())); //READ FROM FILE: SECURITY QUESTION #1, THEN CONVERT NUMBER TO ACTUAL QUESTION
+                savedAns = readAccount.readLine(); //READ FROM FILE: ANSWER #1
+                do {
+                    stream.writeToConsole("\nSecurity Question #1: " + savedSQ + "\n"); // PRINT SECURITY QUESTION
+                    stream.writeToConsole("Answer: ");
+                    inputAns = stream.readLineFromConsole().toUpperCase();
+                } while (!inputAns.equals(savedAns) || inputAns.isEmpty());
 
-            savedSQ = pullUserQuestions.getQuestion(Integer.parseInt(readAccount.readLine())); //READ FROM FILE: SECURITY QUESTION #2, THEN CONVERT NUMBER TO ACTUAL QUESTION
-            savedAns = readAccount.readLine(); //READ FROM FILE: ANSWER #2
-            do{
-                stream.writeToConsole("\nSecurity Question #2:\n\t" + savedSQ + "\n"); // PRINT SECURITY QUESTION
-                stream.writeToConsole("Answer: ");
-                inputAns = stream.readLineFromConsole().toUpperCase();
-            }while(!inputAns.matches(savedAns));
+                savedSQ = pullUserQuestions.getQuestion(Integer.parseInt(readAccount.readLine())); //READ FROM FILE: SECURITY QUESTION #2, THEN CONVERT NUMBER TO ACTUAL QUESTION
+                savedAns = readAccount.readLine(); //READ FROM FILE: ANSWER #2
+                do {
+                    stream.writeToConsole("\nSecurity Question #2: " + savedSQ + "\n"); // PRINT SECURITY QUESTION
+                    stream.writeToConsole("Answer: ");
+                    inputAns = stream.readLineFromConsole().toUpperCase();
+                } while (!inputAns.equals(savedAns) || inputAns.isEmpty());
 
-            setAndGetNewPassword();
+                stream.writeToConsole("\n(Reset Password) Access Granted.");
+                setAndGetNewPassword();
 
-            write = new FileOutstream();
-            write.updatePswd(email, oldPswd, newPswd);
+                write = new FileOutstream();
+                write.updatePswd(email, oldPswd, newPswd);
 
-            readAccount.close(); //close BufferedReader
-        } catch (IOException e) {
-            e.printStackTrace();
+                readAccount.close(); //close BufferedReader
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else{
+            stream.writeToConsole("OH NO! This email isn't registered. Create an Account!\n");
         }
     }
 
