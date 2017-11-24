@@ -12,14 +12,19 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class List implements CommandUser
 {
-	private Commands commands;
-	private Stream stream;
+//	private Commands commands;
+//	private Stream stream;
 	private String Name;
 	private ArrayList<Tasks> taskList;
-	private ObjectMapper mapper;
+
 	public List()
 	{
-		commands = new Commands();
+		taskList = new ArrayList<Tasks>();
+	}
+
+	@Override
+	public boolean commandHandler() {
+		Commands commands = new Commands();
 		commands.addCommand(1, "Get all tasks");
 		commands.addCommand(2, "Create new task");
 		commands.addCommand(3, "Edit a task");
@@ -28,16 +33,14 @@ public class List implements CommandUser
 		commands.addCommand(6, "help");
 		commands.addCommand(7, "go back");
 
-		stream = new Stream();
-        taskList = new ArrayList<>();
-	}
+		String availableCommands = commands.toString();
 
-	@Override
-	public boolean commandHandler() {
         boolean cont = true;
         int command;
         int commandReturn = 0;
-        stream.writeToConsole("(List \""+ Name +"\") "+commands.toString());
+
+		Stream stream = new Stream();
+        stream.writeToConsole("(List \""+ Name +"\") "+ availableCommands);
 
         do{
             stream.writeToConsole("\n(List \""+ Name + "\") Enter your command: ");
@@ -48,7 +51,7 @@ public class List implements CommandUser
                 if(command > commands.size() || command == 0)
                     throw new Exception();
 
-                commandReturn = commandCenter(command);
+                commandReturn = commandCenter(command, availableCommands);
                 if(commandReturn == 1)
                     cont = false;
             }
@@ -63,8 +66,9 @@ public class List implements CommandUser
 	}
 
 	/*Command Handling*/
-	public int commandCenter(int command)
+	public int commandCenter(int command, String availableCommands)
 	{
+		Stream stream = new Stream();
 		switch(command)
 		{
 			case 1: stream.writeToConsole(GetTasks()); break;
@@ -72,7 +76,7 @@ public class List implements CommandUser
             case 3: editTask(0); break;
             case 4: deleteTask(); break;
             case 5: break;
-			case 6: stream.writeToConsole(commands.toString()); break;
+			case 6: stream.writeToConsole(availableCommands); break;
 			case 7: return 1;
 		}
 		return 0;
@@ -111,6 +115,7 @@ public class List implements CommandUser
 		task.addDescription();
 		task.setTimestamp();
 
+		Stream stream = new Stream();
 		String ans;
 		stream.writeToConsole("\nWould you like to set a date for this task? (Y/N)\n");
 		ans = stream.readLineFromConsole().toUpperCase();
@@ -153,6 +158,7 @@ public class List implements CommandUser
 	}
 	protected void deleteTask()
 	{
+		Stream stream = new Stream();
 	    stream.writeToConsole("Which task do you want to delete?\n" + GetTasks() + "\n\n");
 	    stream.writeToConsole("Enter task number: ");
 
@@ -168,6 +174,7 @@ public class List implements CommandUser
 	}
 	protected void editTask(int index)
 	{
+		Stream stream = new Stream();
 		//command list to edit description, date, note, or subtasks;
 	}
 }
