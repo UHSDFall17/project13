@@ -42,6 +42,6 @@ public class Email {
 
     public String getAttemptLogInEmail(){
         stream.writeToConsole("User Email: ");
-            return stream.readLineFromConsole().toLowerCase();
+        return stream.readLineFromConsole().toLowerCase();
     }
 }
