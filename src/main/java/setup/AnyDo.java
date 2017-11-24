@@ -86,8 +86,9 @@ public class AnyDo implements CommandUser
         String availableCommands = commands.toString();
 
         do {
-            stream.writeToConsole("\n(Any.do) "+ availableCommands + "\n");
-            stream.writeToConsole("(Any.do)Enter your command: ");
+            stream.writeToConsole("\n(Any.do) "+ availableCommands);
+            stream.writeToConsole("\n(Any.do) "); //DISPLAY PAGE NAME
+            stream.writeToConsole("Press \"" + (commands.size() - 1) + "\" to Display Available Commands.\nEnter your command: ");
 
             try{
                 command = stream.readIntFromConsole();
@@ -113,7 +114,7 @@ public class AnyDo implements CommandUser
         {
             case 1: loginHandler(); break;
             case 2: createAccountHandler(); break;
-            case 3: stream.writeToConsole("(Any.do) "+ availableCommands + "\n"); break;
+            case 3: stream.writeToConsole("\n(Any.do) "+ availableCommands); break;
             case 4: exit(0); break;
         }
 

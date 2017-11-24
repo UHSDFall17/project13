@@ -34,23 +34,22 @@ public class Dashboard implements CommandUser
         commands.addCommand(2, "Create new list");
         commands.addCommand(3, "Edit list");
         commands.addCommand(4, "Delete list");
-        commands.addCommand(5, "logout");
-        commands.addCommand(6, "help");
-        commands.addCommand(7, "quit");
+        commands.addCommand(5, "Logout");
+        commands.addCommand(6, "Help");
+        commands.addCommand(7, "Quit");
 
         String availableCommands = commands.toString();
-
-        Stream stream = new Stream();
-        stream.writeToConsole("(Dashboard) ");
 
         boolean cont = true;
         int command;
         int commandReturn = 0;
 
-        stream.writeToConsole(availableCommands);
+        Stream stream = new Stream();
+        stream.writeToConsole("\n(Dashboard) "+ availableCommands);
         do
         {
-            stream.writeToConsole("\n(Dashboard) Enter your command: ");
+            stream.writeToConsole("\n(Dashboard) "); //DISPLAY PAGE NAME
+            stream.writeToConsole("Press \"" + (commands.size() - 1) + "\" to Display Available Commands.\nEnter your command: ");
 
             try{
                 command = stream.readIntFromConsole();
@@ -85,7 +84,7 @@ public class Dashboard implements CommandUser
             case 3: editList();break;
             case 4: deleteList(); break;
             case 5: stream=null; return 2;
-            case 6: stream.writeToConsole(availableCommands); break;
+            case 6: stream.writeToConsole("\n(Dashboard) " + availableCommands); break;
             case 7: return 1;
         }
 
@@ -155,11 +154,11 @@ public class Dashboard implements CommandUser
         if(lists.size() == 0)
             output = "\nNo lists";
         else
-            output = "\nYour lists:\n";
+            output = "\nYour lists:";
 
         for(int i=0; i<lists.size(); i++)
         {
-            output = output + "\n" + (i+1) + " -- " + lists.get(i).getName();
+            output = output + "\n\t" + (i+1) + " -- " + lists.get(i).getName();
         }
 
         return output;
@@ -173,7 +172,7 @@ public class Dashboard implements CommandUser
     {
         Stream stream = new Stream();
 
-        stream.writeToConsole("Which list?\n");
+        stream.writeToConsole("Which list do you want to Edit?\n");
         stream.writeToConsole(displayLists() + "\n\nEnter list number: ");
 
         int listNum = stream.readIntFromConsole();
@@ -186,7 +185,7 @@ public class Dashboard implements CommandUser
     {
         Stream stream = new Stream();
 
-        stream.writeToConsole("Which list do you want to delete?\n" + displayLists() + "\n\n");
+        stream.writeToConsole("Which list do you want to Delete?\n" + displayLists() + "\n\n");
         stream.writeToConsole("Enter list number: ");
 
         int listNum = stream.readIntFromConsole();

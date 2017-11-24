@@ -30,8 +30,8 @@ public class List implements CommandUser
 		commands.addCommand(3, "Edit a task");
 		commands.addCommand(4, "Delete a task");
 		commands.addCommand(5, "Edit list name");
-		commands.addCommand(6, "help");
-		commands.addCommand(7, "go back");
+		commands.addCommand(6, "Help");
+		commands.addCommand(7, "Go Back");
 
 		String availableCommands = commands.toString();
 
@@ -43,7 +43,8 @@ public class List implements CommandUser
         stream.writeToConsole("(List \""+ Name +"\") "+ availableCommands);
 
         do{
-            stream.writeToConsole("\n(List \""+ Name + "\") Enter your command: ");
+			stream.writeToConsole("\n(List \""+ Name +"\") "); //DISPLAY PAGE NAME
+			stream.writeToConsole("Press " + Integer.toString(commands.size()-1) + " to Display Available Commands.\nEnter your command: ");
 
             try{
                 command = stream.readIntFromConsole();
