@@ -103,29 +103,33 @@ public class SecurityQuestions {
             userEmail = lastLogin.readLine();
             lastLogin.close();
 
-            BufferedReader userFile = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/Accounts/" + userEmail + "accountInfo.txt"));
+            BufferedReader userFile = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/Accounts/" + userEmail + "/accountInfo.txt"));
             userPassword = userFile.readLine(); // grabs password
+            String name = userFile.readLine(); //name
             userFile.close();
+
+            boolean accessGranted;
+            do {
+                stream.writeToConsole("Log-In Password: ");
+                inputPswd = stream.readLineFromConsole();
+                accessGranted = inputPswd.equals(userPassword);
+                if(!accessGranted) { stream.writeToConsole("Incorrect Password.\n"); }
+            }while(!accessGranted);
+
+            stream.writeToConsole("\n(Change Security Questions) Access Granted.\n");
+
+            String[] secQA1 = setAndGetQA1();
+            String[] secQA2 = setAndGetQA2();
+
+        /* REPLACE AND UPDATE IN FILE */
+            String[] newSQA = {secQA1[0], secQA1[1], secQA2[0], secQA2[1]}; //Q1, A1, Q2, A2
+            FileOutstream write = new FileOutstream();
+            write.updateSQ(userEmail, userPassword, name, newSQA);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        stream.writeToConsole("Log-In Password: ");
-        inputPswd = stream.readLineFromConsole();
 
-        if(!inputPswd.matches(userPassword)){
-            stream.writeToConsole("Incorrect Password.\n");
-            changeSQ();
-        }
-        else{
-            String[] secQA1 = setAndGetQA1();
-            String[] secQA2 = setAndGetQA2();
-
-            /* REPLACE AND UPDATE IN FILE */
-            String[] newSQA = {secQA1[0], secQA1[1], secQA2[0], secQA1[1]};
-            FileOutstream write = new FileOutstream();
-            write.updateSQ(userEmail, newSQA);
-        }
     }
 
     public String getQuestion(int index){
