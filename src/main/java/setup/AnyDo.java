@@ -140,6 +140,9 @@ public class AnyDo implements CommandUser
 
             dashboardHandler();
         }
+        else{
+            commandHandler();
+        }
     }
 
     private void createAccountHandler()
@@ -183,11 +186,9 @@ public class AnyDo implements CommandUser
         }
         else
         {
-            stream.writeToConsole("Goodbye, "+ user.getName());
+            user = Account.getUserInfo(user.getUsername());
+            stream.writeToConsole("\nGoodbye, "+ user.getName() + "!");
             commandCenter(4, "");
         }
-
-        //saving will go here...
-
     }
 }
