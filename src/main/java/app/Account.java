@@ -46,22 +46,21 @@ public class Account {
         FileOutstream write = new FileOutstream();
         write.saveNewAccount(email, password, name, secQA1[0], secQA1[1], secQA2[0], secQA2[1]);
 
-        /* JSON FILE */
+        /* JSON FILE SETUP */
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         Dashboard dashboard = new Dashboard();
         // SET DEFAULT LISTS
         dashboard.storeNewList("Personal");
         dashboard.storeNewList("Work");
         dashboard.storeNewList("Grocery List");
-
+        // WRITE TO JSON FILE
         try(FileWriter writer = new FileWriter("Accounts/" + email + "/data.json")){
             gson.toJson(dashboard, writer);
             writer.close();
+            stream.writeToConsole("\nWELCOME, " + name + "!\nYou have successfully created an account.\n");
         }catch(IOException e){
             e.printStackTrace();
         }
-
-        stream.writeToConsole("\nWELCOME, " + name + "!\nYou have successfully created an account.\n");
     }
 
     public User logIn(){
@@ -95,10 +94,10 @@ public class Account {
             }
         }
         catch(FileNotFoundException e) {
-            stream.writeToConsole("User not found: '" + userEmail + "'.");
+            stream.writeToConsole("User not found: '" + userEmail + "'.\n");
         }
         catch(IOException e) {
-            stream.writeToConsole("Error reading file: '" + fileName + "'.");
+            stream.writeToConsole("Error reading file: '" + fileName + "'.\n");
         }
         return null;
     }
