@@ -31,7 +31,7 @@ public class List implements CommandUser
 		commands.addCommand(4, "Delete a task");
 		commands.addCommand(5, "Edit list name");
 		commands.addCommand(6, "Help");
-		commands.addCommand(7, "Go Back");
+		commands.addCommand(7, "Back To Dashboard");
 
 		String availableCommands = commands.toString();
 
