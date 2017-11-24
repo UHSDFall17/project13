@@ -89,37 +89,21 @@ public class FileOutstream {
         }
     }
 
-    public void updateSQ(String email, String[] newSQA){
+    public void updateSQ(String email, String pswd, String name, String[] newSQA){
         /* newSQA: size = 4 {newSQ1, newAns1, newSQ2, newAns2} */
+        try{
+            PrintWriter account = new PrintWriter(System.getProperty("user.dir") + "/Accounts/" + email + "/accountInfo.txt");
 
-        try {
-            BufferedReader inStream = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/Accounts/" + email + "/accountInfo.txt"));
-            StringBuffer getLine = new StringBuffer();
-            String oldLine;
+            account.println(pswd);
+            account.println(name);
 
-            /* GRAB ALL LINES AND OLD SECURITY QUESTIONS AND ANSWERS */
-            int lineNum = 1;
-            String[] oldSQA = new String[4];
-            while((oldLine = inStream.readLine()) != null){
-                getLine.append(oldLine);
-                getLine.append("\n");
+            account.println(newSQA[0]);
+            account.println(newSQA[1]);
 
-                if(lineNum > 2) //password: lineNum = 1 //name: lineNum = 2
-                {
-                    oldSQA[lineNum - 3] = oldLine;
-                }
-                lineNum++;
-            }
-            String line = getLine.toString();
-            inStream.close();
+            account.println(newSQA[2]);
+            account.print(newSQA[3]);
 
-            /* REPLACE OLD SECURITY QUESTIONS AND ANSWERS WITH NEW */
-            FileOutputStream outStream = new FileOutputStream(System.getProperty("user.dir") + "/Accounts/" + email + "/accountInfo.txt");
-            for(int i = 0; i < 4; i++){
-                line = line.replace(oldSQA[i], newSQA[i]);
-                outStream.write(line.getBytes());
-            }
-            outStream.close();
+            account.close();
 
             stream.writeToConsole("\nSUCCESS! Your security questions and answers have been updated.");//SUCCESS
         } catch (IOException e) {
