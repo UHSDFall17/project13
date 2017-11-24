@@ -77,21 +77,24 @@ public class Password {
             email = lastLogin.readLine();
             lastLogin.close();
 
-            BufferedReader userFile = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/Accounts/" + email + "accountInfo.txt"));
+            BufferedReader userFile = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/Accounts/" + email + "/accountInfo.txt"));
             oldPswd = userFile.readLine(); // grabs password
             userFile.close();
 
             //VERIFY - enter current password
-            stream.writeToConsole("Current Password: ");
+            boolean accessGranted;
+            do{
+                stream.writeToConsole("\nCurrent Password: ");
+                accessGranted = stream.readLineFromConsole().equals(oldPswd);
+                if(!accessGranted)
+                    stream.writeToConsole("\nIncorrect. Please enter your current password.\n");
+            } while(!accessGranted);
 
-            if(!stream.readLineFromConsole().equals(oldPswd)) { //INPUT NOT CURRENT PASSWORD
-                stream.writeToConsole("Incorrect. Please enter your current password.\n");
-                changePassword();
-            }
-            else { //INPUT MATCHES CURRENT PASSWORD
-                write = new FileOutstream();
-                write.updatePswd(email, oldPswd, newPswd);
-            }
+            stream.writeToConsole("\n(Change Password) Access Granted.\n");
+            newPswd = setAndGetNewPassword();
+
+            write = new FileOutstream();
+            write.updatePswd(email, oldPswd, newPswd);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -132,7 +135,7 @@ public class Password {
                 } while (!inputAns.equals(savedAns) || inputAns.isEmpty());
 
                 stream.writeToConsole("\n(Reset Password) Access Granted.");
-                setAndGetNewPassword();
+                newPswd = setAndGetNewPassword();
 
                 write = new FileOutstream();
                 write.updatePswd(email, oldPswd, newPswd);
