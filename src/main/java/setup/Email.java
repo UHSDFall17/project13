@@ -17,7 +17,7 @@ public class Email {
     public String setAndGetNewEmail(){
         String emailConfirmer = "1";
         while(emailConfirmer.equals("1")) {
-            stream.writeToConsole("\nUser Email: ");
+            stream.writeToConsole("\nEmail: ");
             inputEmail = stream.readLineFromConsole().toLowerCase();
 
             /* CONFIRM EMAIL */
@@ -41,7 +41,7 @@ public class Email {
     }
 
     public String getAttemptLogInEmail(){
-        stream.writeToConsole("Email: ");
+        stream.writeToConsole("User Email: ");
             return stream.readLineFromConsole().toLowerCase();
     }
 }
