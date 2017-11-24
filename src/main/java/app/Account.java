@@ -65,39 +65,44 @@ public class Account {
 
     public User logIn(){
         stream = new Stream();
-
         Email email = new Email();
-        String userEmail = email.getAttemptLogInEmail();
+        String userEmail = "";
+        while(userEmail.isEmpty()) {
+         userEmail = email.getAttemptLogInEmail();
+        }
 
+        stream.writeToConsole("\nForgot your password? That's okay, just Press 1!\n");
         Password password = new Password();
-        String userPassword = password.getAttemptLogInPassword();
-
-        String fileName = "Accounts/" + userEmail + "/accountInfo.txt";
-        try
-        {
-            FileReader fileReader = new FileReader(fileName);
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-
-            if(bufferedReader.readLine().equals(userPassword))
-            {
-                bufferedReader.close();
-                stream.writeToConsole("Login successful\n\n");
-                return getUserInfo(userEmail);
-            }
-            else
-            {
-
-                stream.writeToConsole("Password is invalid.");
-                bufferedReader.close();
-                stream.writeToConsole("Login failed\n");
-
-            }
+        String userPassword = "";
+        while(userPassword.isEmpty()) {
+            userPassword = password.getAttemptLogInPassword();
         }
-        catch(FileNotFoundException e) {
-            stream.writeToConsole("User not found: '" + userEmail + "'.\n");
+
+        if(userPassword.equals("1")){
+            resetForgottenPassword();
         }
-        catch(IOException e) {
-            stream.writeToConsole("Error reading file: '" + fileName + "'.\n");
+        else {
+            String fileName = "Accounts/" + userEmail + "/accountInfo.txt";
+            try {
+                FileReader fileReader = new FileReader(fileName);
+                BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+                if (bufferedReader.readLine().equals(userPassword)) {
+                    bufferedReader.close();
+                    stream.writeToConsole("Login successful.\n\n");
+                    return getUserInfo(userEmail);
+                } else {
+
+                    stream.writeToConsole("Incorrect Password. ");
+                    bufferedReader.close();
+                    stream.writeToConsole("Login failed.\n");
+
+                }
+            } catch (FileNotFoundException e) {
+                stream.writeToConsole("User not found: '" + userEmail + "'.\n");
+            } catch (IOException e) {
+                stream.writeToConsole("Error reading file: '" + fileName + "'.\n");
+            }
         }
         return null;
     }
