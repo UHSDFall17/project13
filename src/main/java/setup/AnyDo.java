@@ -3,7 +3,9 @@ import Utilities.Commands;
 import app.*;
 import Utilities.Stream;
 import Utilities.CommandUser;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.io.*;
 
@@ -16,10 +18,10 @@ public class AnyDo implements CommandUser
     private String lastLogin;
     private Dashboard dashboard;
     private Account account;
-    //private Login login;
     private Stream stream;
     private Commands commands;
     private User user;
+    private Gson gson;
 
     public AnyDo()
     {
@@ -46,8 +48,6 @@ public class AnyDo implements CommandUser
         commands.addCommand(2,"Create account");
         commands.addCommand(3,"Help");
         commands.addCommand(4,"Quit");
-
-
     }
 
     //handles startup of app, will handle whether to go to login screen or dashboard
@@ -83,8 +83,10 @@ public class AnyDo implements CommandUser
         int command = 0;
         int commandReturn = 0;
 
+        String availableCommands = commands.toString();
+
         do {
-            stream.writeToConsole("\n(Any.do) "+commands.toString() + "\n");
+            stream.writeToConsole("\n(Any.do) "+ availableCommands + "\n");
             stream.writeToConsole("(Any.do)Enter your command: ");
 
             try{
@@ -93,7 +95,7 @@ public class AnyDo implements CommandUser
                 if(command > commands.size())
                     throw new Exception();
 
-                commandReturn = commandCenter(command);
+                commandReturn = commandCenter(command, availableCommands);
             }
             catch (Exception e)
             {
@@ -105,13 +107,13 @@ public class AnyDo implements CommandUser
         return false;
     }
 
-    public int commandCenter(int command)
+    public int commandCenter(int command, String availableCommands)
     {
         switch (command)
         {
             case 1: loginHandler(); break;
             case 2: createAccountHandler(); break;
-            case 3: stream.writeToConsole("(Any.do) "+commands.toString() + "\n"); break;
+            case 3: stream.writeToConsole("(Any.do) "+ availableCommands + "\n"); break;
             case 4: exit(0); break;
         }
 
@@ -147,16 +149,25 @@ public class AnyDo implements CommandUser
 
     private void dashboardHandler()
     {
-        Gson gson = new Gson();
-        try (Reader reader = new FileReader("Accounts/" + user.getUsername() + "/data.json")) {
-            // Convert JSON to Java Object
+        boolean loggedOut = false;
+
+        /* READ OLD, WRITE UPDATED JSON FILE*/
+        gson = new GsonBuilder().setPrettyPrinting().create();
+        try{
+            FileReader reader = new FileReader("Accounts/" + user.getUsername() + "/data.json");
             dashboard = gson.fromJson(reader, Dashboard.class);
+            reader.close();
+
+            loggedOut = dashboard.commandHandler();
+
+            FileWriter writer = new FileWriter("Accounts/" + user.getUsername() + "/data.json");
+            gson.toJson(dashboard, writer);
+            writer.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        boolean loggedOut = dashboard.commandHandler();
-
+        /* EXITING DASHBOARD*/
         if(loggedOut)
         {
             try(BufferedWriter fileWriter = new BufferedWriter(new FileWriter(System.getProperty("user.dir") + "/Accounts/" + "LastLogin.txt"))) {
@@ -172,9 +183,10 @@ public class AnyDo implements CommandUser
         else
         {
             stream.writeToConsole("Goodbye, "+ user.getName());
-            commandCenter(4);
+            commandCenter(4, "");
         }
 
         //saving will go here...
+
     }
 }
