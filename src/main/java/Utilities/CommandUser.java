@@ -4,6 +4,6 @@ public interface CommandUser {
 
     public boolean commandHandler();
 
-    public int commandCenter(int command);
+    public int commandCenter(int command, String availableCommands);
 
 }
