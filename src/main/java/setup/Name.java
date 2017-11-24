@@ -29,26 +29,25 @@ public class Name {
             userEmail = lastLogin.readLine();
             lastLogin.close();
 
-            BufferedReader userFile = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/Accounts/" + userEmail + "accountInfo.txt"));
+            BufferedReader userFile = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/Accounts/" + userEmail + "/accountInfo.txt"));
             userPassword = userFile.readLine(); // grabs password
             userName = userFile.readLine(); //grabs user's name
             userFile.close();
 
-            stream.writeToConsole("Log-In Password: ");
+            boolean accessGranted;
+            do{
+                stream.writeToConsole("Log-In Password: ");
+                accessGranted = stream.readLineFromConsole().equals(userPassword);
+                if(!accessGranted)
+                    stream.writeToConsole("Incorrect Password.\n");
+            } while(!accessGranted);
 
-            if(!stream.readLineFromConsole().matches(userPassword)){
-                stream.writeToConsole("Incorrect Password.\n");
-                changeName();
-            }
-            else{
-                name = setAndGetNewName();
+            stream.writeToConsole("\n(Change Account Name) Access Granted.\n");
+            name = setAndGetNewName();
 
             /* REPLACE AND UPDATE IN FILE */
-                FileOutstream updateName = new FileOutstream();
-                updateName.updateName(userEmail, userName, name);
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            FileOutstream updateName = new FileOutstream();
+            updateName.updateName(userEmail, userName, name);
         } catch (IOException e) {
             e.printStackTrace();
         }
