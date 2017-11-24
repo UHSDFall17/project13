@@ -1,15 +1,12 @@
 package app;
 
 import Utilities.*;
-import setup.User;
+import setup.AnyDo;
 //import com.google.gson.Gson;
 //import com.google.gson.GsonBuilder;
 //import setup.DataStorageGSON;
 
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.*;
-import static java.lang.System.*;
 
 public class Dashboard implements CommandUser
 {
@@ -34,9 +31,10 @@ public class Dashboard implements CommandUser
         commands.addCommand(2, "Create new list");
         commands.addCommand(3, "Edit list");
         commands.addCommand(4, "Delete list");
-        commands.addCommand(5, "Logout");
-        commands.addCommand(6, "Help");
-        commands.addCommand(7, "Quit");
+        commands.addCommand(5, "Settings/ Preferences");
+        commands.addCommand(6, "Logout");
+        commands.addCommand(7, "Help");
+        commands.addCommand(8, "Quit");
 
         String availableCommands = commands.toString();
 
@@ -79,13 +77,14 @@ public class Dashboard implements CommandUser
 
         switch(command)
         {
-            case 1: stream.writeToConsole(displayLists() + "\n"); break;
+            case 1: stream.writeToConsole(displayLists() + "\n"); break; //display all lists
             case 2: createNewList(); break;
             case 3: editList();break;
             case 4: deleteList(); break;
-            case 5: stream=null; return 2;
-            case 6: stream.writeToConsole("\n(Dashboard) " + availableCommands); break;
-            case 7: return 1;
+            case 5: Preference preference = new Preference(); preference.commandHandler(); break; //settings/ preferences
+            case 6: stream=null; return 2; //logout
+            case 7: stream.writeToConsole("\n(Dashboard) " + availableCommands); break; //display available commands
+            case 8: return 1; //quit
         }
 
         return 0;
