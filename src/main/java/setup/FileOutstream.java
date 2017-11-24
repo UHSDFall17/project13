@@ -16,7 +16,6 @@ public class FileOutstream {
             key.mkdirs();
 
             PrintWriter account = new PrintWriter(System.getProperty("user.dir") + "/Accounts/" + email + "/accountInfo.txt");
-            account.flush();
 
             account.println(pswd);
             account.println(name);
@@ -56,10 +55,10 @@ public class FileOutstream {
             outStream.write(line.getBytes());
             outStream.close();
 
-            stream.writeToConsole("\nSUCCESS! Your password has been updated.");//SUCCESS
+            stream.writeToConsole("\nSUCCESS! HELLO, " + newName + ".");//SUCCESS
         } catch (IOException e) {
             e.printStackTrace();
-            stream.writeToConsole("\nFAILED: Your password has not been updated. Program Terminated.");
+            stream.writeToConsole("\nFAILED: Your name has not been updated. Program Terminated.");
         }
     }
 
