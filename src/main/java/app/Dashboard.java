@@ -13,13 +13,6 @@ import static java.lang.System.*;
 
 public class Dashboard implements CommandUser
 {
-    private String jsonFile;
-    private String userName;
-    private Commands commands;
-    private Stream stream;
-    private User user;
-
-
     private ArrayList<List> lists = null;
 
     public Dashboard()
@@ -27,22 +20,15 @@ public class Dashboard implements CommandUser
         lists = new ArrayList<List>();
     }
 
-    public Dashboard(User u)
-    {
-        user = u;
-        jsonFile = "Accounts/" + user.getUsername() + "/data.json";
-        lists = new ArrayList<List>();
-
-        stream = new Stream();
-
-        stream.writeToConsole("(Dashboard) "+commands.toString());
-    }
+//    public Dashboard(User u)
+//    {
+//        lists = new ArrayList<List>();
+//        Stream stream = new Stream();
+//    }
 
     public boolean commandHandler()
     {
-        stream = new Stream();
-
-        commands = new Commands();
+        Commands commands = new Commands();
 
         commands.addCommand(1, "Get all lists");
         commands.addCommand(2, "Create new list");
@@ -52,11 +38,16 @@ public class Dashboard implements CommandUser
         commands.addCommand(6, "help");
         commands.addCommand(7, "quit");
 
+        String availableCommands = commands.toString();
+
+        Stream stream = new Stream();
+        stream.writeToConsole("(Dashboard) ");
+
         boolean cont = true;
         int command;
         int commandReturn = 0;
 
-        stream.writeToConsole(commands.toString());
+        stream.writeToConsole(availableCommands);
         do
         {
             stream.writeToConsole("\n(Dashboard) Enter your command: ");
@@ -67,7 +58,7 @@ public class Dashboard implements CommandUser
                 if(command > commands.size() || command == 0)
                     throw new Exception();
 
-                commandReturn = commandCenter(command);
+                commandReturn = commandCenter(command, availableCommands);
                 if(commandReturn == 1 || commandReturn == 2)
                     cont = false;
             }
@@ -83,8 +74,10 @@ public class Dashboard implements CommandUser
             return false;  //quit without logging out
     }
 
-    public int commandCenter(int command)
+    public int commandCenter(int command, String availableCommands)
     {
+        Stream stream = new Stream();
+
         switch(command)
         {
             case 1: stream.writeToConsole(displayLists() + "\n"); break;
@@ -92,7 +85,7 @@ public class Dashboard implements CommandUser
             case 3: editList();break;
             case 4: deleteList(); break;
             case 5: stream=null; return 2;
-            case 6: stream.writeToConsole(commands.toString()); break;
+            case 6: stream.writeToConsole(availableCommands); break;
             case 7: return 1;
         }
 
@@ -123,6 +116,8 @@ public class Dashboard implements CommandUser
 
     private void createNewList()
     {
+        Stream stream = new Stream();
+
         stream.writeToConsole("Enter new list name:\n");
         String listName = stream.readLineFromConsole();
 
@@ -176,17 +171,21 @@ public class Dashboard implements CommandUser
 
     public void editList()
     {
+        Stream stream = new Stream();
+
         stream.writeToConsole("Which list?\n");
         stream.writeToConsole(displayLists() + "\n\nEnter list number: ");
 
         int listNum = stream.readIntFromConsole();
 
-        lists.get(listNum-1).commandCenter(1);
+        lists.get(listNum-1).commandCenter(1, "");
 
     }
 
     public void deleteList()
     {
+        Stream stream = new Stream();
+
         stream.writeToConsole("Which list do you want to delete?\n" + displayLists() + "\n\n");
         stream.writeToConsole("Enter list number: ");
 
