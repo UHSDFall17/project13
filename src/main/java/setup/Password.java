@@ -8,8 +8,7 @@ import java.lang.*;
 public class Password {
     Stream stream;
 
-    private String email,savedSQ, savedAns, oldPswd;
-    private String inputOldPswd, inputAns;
+    private String email,savedSQ, savedAns, oldPswd, inputAns;
 
     protected String newPswd;
 
@@ -19,10 +18,7 @@ public class Password {
     * resetPassword //user has NOT logged in
     * */
 
-    //CheckEmail checkEmail;
-    CheckPassword checkPswd;
     FileOutstream write;
-    //Account newPassword;
 
     /* CONSTRUCTOR*/
     public Password(){
@@ -40,9 +36,7 @@ public class Password {
         newPswd = stream.readLineFromConsole();
         char[] testPswd = newPswd.toCharArray();
 
-        checkPswd = new CheckPassword();
-
-        if(!checkPswd.meetsRequirements(testPswd)) {
+        if(!meetsRequirements(testPswd)) {
             stream.writeToConsole("Input does not meet Password Requirements. Try Again.\n");
             return setAndGetNewPassword();
         }
@@ -63,6 +57,25 @@ public class Password {
             confirmNewPswd();
         } else {
         }
+    }
+
+    public boolean meetsRequirements(char[] testPswd){
+        if(testPswd.length >= 6 && testPswd.length <= 20) //Criterion: MIN 6, MAX 20 characters
+        {
+            int countUpper = 0;    int countDigit = 0;   int countSpecial = 0;
+            for(char c : testPswd){
+                if(c >= 65 && c <= 90) {countUpper++;} //Upper-case letter
+                else if(c >= 48 && c <= 57) {countDigit++;} //Digit
+                else if(c >= 97 && c <= 122) {} //lowercase letter, do nothing
+                else{countSpecial++;} //Special character
+            }
+
+            //MIN 1 special character, MIN 1 uppercase, MIN 1 digit
+            if(countUpper > 0 && countDigit > 0 && countSpecial > 0)
+                return true;
+            return false; //missing upper, digit, or special character
+        }
+        return false; //too short or too long
     }
 
     public String getAttemptLogInPassword(){
@@ -102,7 +115,7 @@ public class Password {
 
 /**** RESET ****/
     public void resetPassword(){ //FROM OUTSIDE OF APPLICATION; HAS NOT LOGGED IN
-        CheckEmail checkEmail = new CheckEmail();
+        Email checkEmail = new Email();
         boolean registered;
         do{
             stream.writeToConsole("\n(Reset Password) Enter your Registered Email: ");
