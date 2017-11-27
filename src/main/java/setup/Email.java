@@ -4,6 +4,7 @@ import Utilities.Stream;
 
 public class Email {
     private String inputEmail = "";
+    private String corporate;
 
     Stream stream;
     CheckEmail checkEmail;
@@ -43,5 +44,20 @@ public class Email {
     public String getAttemptLogInEmail(){
         stream.writeToConsole("User Email: ");
         return stream.readLineFromConsole().toLowerCase();
+    }
+
+    public String getCorporate(String email){
+        /*PARSE EMAIL, GRAB DOMAIN*/
+        String[] parts = email.split("@");
+        String[] subParts = parts[1].split("\\.");
+        //subParts[0] == email domain
+        String[] nonCorpDomains = {"gmail","aol","yahoo","hotmail","outlook","comcast","msn","sbcglobal","version","roadrunner","optimum", "inbox","icloud","mail","zoho","yandex","live","passport","protonmail"};
+        for(String e: nonCorpDomains){
+            if(subParts[0].equals(e))
+                return "0"; //NOT corporate
+            else
+                return "1"; //corporate
+        }
+        return "0"; //not corporate
     }
 }
