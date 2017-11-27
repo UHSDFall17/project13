@@ -11,6 +11,9 @@ import java.util.Scanner;
 public class Account {
     private Stream stream;
 
+    private String userEmail, userPassword, name, corporate;
+    private String[] secQA1, secQA2;
+
     public Account() {
         stream = new Stream();
     }
@@ -21,7 +24,7 @@ public class Account {
 
         try(BufferedReader fileReader = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/Accounts/" + userEmail + "/accountInfo.txt")))
         {
-            user = new User(userEmail, fileReader.readLine(), fileReader.readLine(), fileReader.readLine(), fileReader.readLine(), fileReader.readLine(), fileReader.readLine());
+            user = new User(userEmail, fileReader.readLine(), fileReader.readLine(), fileReader.readLine(),fileReader.readLine(), fileReader.readLine(), fileReader.readLine(), fileReader.readLine());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -31,20 +34,21 @@ public class Account {
 
     public void createNewAccount() {
         Name newUser = new Name();
-        String name = newUser.setAndGetNewName();
+        name = newUser.setAndGetNewName();
 
         Email newEmail = new Email();
-        String email = newEmail.setAndGetNewEmail();
+        userEmail = newEmail.setAndGetNewEmail();
+        corporate = newEmail.getCorporate(userEmail);
 
         Password newPassword = new Password();
-        String password = newPassword.setAndGetNewPassword();
+        userPassword = newPassword.setAndGetNewPassword();
 
         SecurityQuestions securityQuestions = new SecurityQuestions();
-        String[] secQA1 = securityQuestions.setAndGetQA1(); //set both security question #1 AND its respective answer
-        String[] secQA2 = securityQuestions.setAndGetQA2(); //set both security question #2 AND its respective answer
+        secQA1 = securityQuestions.setAndGetQA1(); //set both security question #1 AND its respective answer
+        secQA2 = securityQuestions.setAndGetQA2(); //set both security question #2 AND its respective answer
 
         FileOutstream write = new FileOutstream();
-        write.saveNewAccount(email, password, name, secQA1[0], secQA1[1], secQA2[0], secQA2[1]);
+        write.saveNewAccount(userEmail, userPassword, name, corporate, secQA1, secQA2);
 
         /* JSON FILE SETUP */
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -54,7 +58,7 @@ public class Account {
         dashboard.storeNewList("Work");
         dashboard.storeNewList("Grocery List");
         // WRITE TO JSON FILE
-        try(FileWriter writer = new FileWriter("Accounts/" + email + "/data.json")){
+        try(FileWriter writer = new FileWriter("Accounts/" + userEmail + "/data.json")){
             gson.toJson(dashboard, writer);
             writer.close();
             stream.writeToConsole("\nWELCOME, " + name + "!\nYou have successfully created an account.\n");
@@ -64,16 +68,15 @@ public class Account {
     }
 
     public User logIn(){
-        stream = new Stream();
         Email email = new Email();
-        String userEmail = "";
+        userEmail = "";
         while(userEmail.isEmpty()) {
-         userEmail = email.getAttemptLogInEmail();
+            userEmail = email.getAttemptLogInEmail();
         }
 
         stream.writeToConsole("\nForgot your password? That's okay, just Press 1!\n");
         Password password = new Password();
-        String userPassword = "";
+        userPassword = "";
         while(userPassword.isEmpty()) {
             userPassword = password.getAttemptLogInPassword();
         }
