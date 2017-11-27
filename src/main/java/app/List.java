@@ -74,7 +74,7 @@ public class List implements CommandUser
 		{
 			case 1: stream.writeToConsole(GetTasks()); break;
             case 2: createTask(); break;
-            case 3: editTask(0); break;
+            case 3: int i = indexer(); editTask(i); break;
             case 4: deleteTask(); break;
             case 5: break;
 			case 6: stream.writeToConsole(availableCommands); break;
@@ -110,7 +110,7 @@ public class List implements CommandUser
 		return Name;
 	}
 
-	public void createTask()
+	private void createTask()
 	{
 		Tasks task = new Tasks();
 		task.addDescription();
@@ -157,7 +157,7 @@ public class List implements CommandUser
 
 		stream.writeToConsole("\nTask has been created!\n");
 	}
-	protected void deleteTask()
+	private void deleteTask()
 	{
 		Stream stream = new Stream();
 	    stream.writeToConsole("Which task do you want to delete?\n" + GetTasks() + "\n\n");
@@ -173,9 +173,25 @@ public class List implements CommandUser
 			taskList.remove(taskPos-1);
 		}
 	}
-	protected void editTask(int index)
+	private int indexer()
+    {
+        Stream stream = new Stream();
+        int j = 1;
+        for (int i = 0; i < taskList.size(); i++)
+        {
+            stream.writeToConsole((j++) + ": " + taskList.get(i).getDescription());
+        }
+        int returnInteger;
+        do
+        {
+            stream.writeToConsole("Enter the index of the task: ");
+            returnInteger = stream.readIntFromConsole();
+        } while(returnInteger > 0);
+        return returnInteger-1;
+    }
+	private void editTask(int index)
 	{
 		Stream stream = new Stream();
-		//command list to edit description, date, note, or subtasks;
+		taskList.get(index).commandHandler();
 	}
 }
