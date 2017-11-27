@@ -18,11 +18,12 @@ public class Tasks
     private Stack<String> subtasks = null;
     private String note = null;
     private Stream stream;
-
+    protected Commands commands;
     public Tasks()
     {
         stream =  new Stream();
         subtasks = new Stack<String>();
+        commands = new Commands();
     }
     public void printTask()
     {
@@ -30,6 +31,66 @@ public class Tasks
         stream.writeToConsole("Notification time: (Y-M-D-Hr:Min:Sec) " + getNotificationDate());
         stream.writeToConsole("Note: " + getNote());
         printSubtask();
+    }
+    /*Command Handling*/
+    public boolean commandHandler()
+    {
+        Commands commands = new Commands();
+        commands.addCommand(1, "Edit task description");
+        commands.addCommand(2, "Edit note");
+        commands.addCommand(3, "Edit notification");
+        commands.addCommand(4, "Edit a subtask");
+        commands.addCommand(5, "Delete a subtask");
+        commands.addCommand(6, "Help");
+        commands.addCommand(7, "Back To Dashboard");
+
+        String availableCommands = commands.toString();
+
+        boolean cont = true;
+        int command;
+        int commandReturn = 0;
+
+        Stream stream = new Stream();
+        stream.writeToConsole("(Task \""+ getDescription() +"\") "+ availableCommands);
+
+        do{
+            stream.writeToConsole("\n(Task \""+ getDescription() +"\") "); //DISPLAY PAGE NAME
+            stream.writeToConsole("Press " + Integer.toString(commands.size()-1) + " to Display Available Commands.\nEnter your command: ");
+
+            try
+            {
+                command = stream.readIntFromConsole();
+
+                if(command > commands.size() || command == 0)
+                    throw new Exception();
+
+                commandReturn = commandCenter(command, availableCommands);
+                if(commandReturn == 1)
+                    cont = false;
+            }
+            catch (Exception e)
+            {
+                stream.writeToConsole("Unrecognized command. Try to use the command \"" + (commands.size() - 1) + "\" to get a list of the commands.\n");
+            }
+
+        }while(cont);
+
+        return false;
+    }
+    public int commandCenter(int command, String availableCommands)
+    {
+        Stream stream = new Stream();
+        switch(command)
+        {
+            case 1: editDescription(); break;
+            case 2: editNote(); break;
+            case 3: editNotification(); break;
+            case 4: editSubtask(); break;
+            case 5: deleteSubtask(); break;
+            case 6: stream.writeToConsole(availableCommands); break;
+            case 7: return 1;
+        }
+        return 0;
     }
     /*Task creation helper*/
     protected void addDescription()
@@ -205,7 +266,7 @@ public class Tasks
         return isCompleted;
     }
     /*Task Editing Helper*/
-    protected void editDescription()
+    private void editDescription()
     {
         stream.writeToConsole("\nCurrent description: " + description);
         String newDescription;
@@ -219,7 +280,7 @@ public class Tasks
                 description = newDescription;
         } while(newDescription == null || newDescription == "");
     }
-    protected void editNote()
+    private void editNote()
     {
         stream.writeToConsole("\nCurrent note: " + note);
         String newNote;
@@ -233,12 +294,12 @@ public class Tasks
                 note = newNote;
         } while(newNote == null || newNote == "");
     }
-    protected void editNotification()
+    private void editNotification()
     {
         stream.writeToConsole("\nCurrent notification time: " + notification);
         addDate();
     }
-    protected void editSubtask()
+    private void editSubtask()
     {
         printSubtask();
         int index;
@@ -248,7 +309,20 @@ public class Tasks
             index = stream.readIntFromConsole();
             if(index > 0 && index < subtasks.size())
             {
-                //TODO
+                String newSubtask;
+               do
+               {
+                   stream.writeToConsole("Enter a new subtask to replace: ");
+                   newSubtask = stream.readLineFromConsole();
+                   if (newSubtask.equals(null) || newSubtask.equals(""))
+                       stream.writeToConsole("Please enter a valid argument.");
+                   else
+                   {
+                       subtasks.remove(index);
+                       subtasks.push(newSubtask);
+                   }
+               } while(newSubtask.equals(null) || newSubtask.equals(""));
+
             }
             else
                 stream.writeToConsole("Invalid index!");
