@@ -3,9 +3,9 @@ package setup;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-public class CheckEmailTest {
+public class EmailTest {
 
-    CheckEmail testEmail;
+    Email testEmail;
 
     @Test
     public void Canary(){ //verifies good env
@@ -14,7 +14,7 @@ public class CheckEmailTest {
 
     @Test
     public void testNullInput(){
-        testEmail = new CheckEmail();
+        testEmail = new Email();
 
         String testNull = ""; //NULL, EMPTY
 
@@ -23,7 +23,7 @@ public class CheckEmailTest {
 
     @Test
     public void testEmailWithoutUsername(){
-        testEmail = new CheckEmail();
+        testEmail = new Email();
 
         String testNoUsername = "@gmail.com"; //NO USERNAME
 
@@ -32,7 +32,7 @@ public class CheckEmailTest {
 
     @Test
     public void testEmailWithoutAtSymbol(){
-        testEmail = new CheckEmail();
+        testEmail = new Email();
 
         String testNoAtSymbol = "johnsmithgmail.com"; //NO @-SYMBOL
 
@@ -41,7 +41,7 @@ public class CheckEmailTest {
 
     @Test
     public void testEmailWithOnlyAtSymbol(){
-        testEmail = new CheckEmail();
+        testEmail = new Email();
 
         String testOnlyAtSymbol = "@"; //ONLY @-SYMBOL
 
@@ -50,7 +50,7 @@ public class CheckEmailTest {
 
     @Test
     public void testEmailWithOnlyExtension(){
-        testEmail = new CheckEmail();
+        testEmail = new Email();
 
         String testOnlyExtension = ".com"; //ONLY EXTENSION
 
@@ -58,7 +58,7 @@ public class CheckEmailTest {
     }
 
     public void testEmailWithoutDomain(){
-        testEmail = new CheckEmail();
+        testEmail = new Email();
 
         String testNoDomain = "username@.com"; //NO DOMAIN
 
@@ -67,7 +67,7 @@ public class CheckEmailTest {
 
     @Test
     public void testEmailWithDomainWithPeriod(){
-        testEmail = new CheckEmail();
+        testEmail = new Email();
 
         String testDomainWithPeriod = "username@g.mail.com"; //DOMAIN WITH PERIOD
 
@@ -76,7 +76,7 @@ public class CheckEmailTest {
 
     @Test
     public void testEmailWithInvalidExtension(){
-        testEmail = new CheckEmail();
+        testEmail = new Email();
 
         String testInvalidExt = "johnsmith@gmail.orgg";
 
@@ -85,7 +85,7 @@ public class CheckEmailTest {
 
     @Test
     public void testEmailNoPeriodNorExtension(){
-        testEmail = new CheckEmail();
+        testEmail = new Email();
 
         String testNoPeriodNoExtension = "username@domain"; //NO PERIOD NOR EXTENSION
 
@@ -94,7 +94,7 @@ public class CheckEmailTest {
 
     @Test
     public void testEmailWithPeriodButNoExtension(){
-        testEmail = new CheckEmail();
+        testEmail = new Email();
 
         String testPeriodButNoExtension = "username@domain."; //PERIOD BUT NO EXTENSION
 
@@ -103,7 +103,7 @@ public class CheckEmailTest {
 
     @Test
     public void testGoodEmail(){
-        testEmail = new CheckEmail();
+        testEmail = new Email();
 
         String testGoodEmail = "johnsmith@gmail.com";
 
@@ -112,7 +112,7 @@ public class CheckEmailTest {
 
     @Test
     public void testNotRegisteredEmail(){
-        testEmail = new CheckEmail();
+        testEmail = new Email();
 
         String testNotRegisteredEmail = "clearSteven18plastic@gmail.com";
 
@@ -121,10 +121,28 @@ public class CheckEmailTest {
 
     @Test
     public void testRegisteredEmail(){
-        testEmail = new CheckEmail();
+        testEmail = new Email();
 
         String testRegisteredEmail = "johnsmith@gmail.com";
 
         assertTrue(testEmail.isRegistered(testRegisteredEmail));
+    }
+
+    @Test
+    public void testNonCorporateUser(){
+        testEmail = new Email();
+
+        String testNonCorporateEmail = "johnsmith@gmail.com";
+
+        assertEquals(testEmail.getCorporate(testNonCorporateEmail), "0");
+    }
+
+    @Test
+    public void testCorporateUser(){
+        testEmail = new Email();
+
+        String testCorporateEmail = "johnsmith@uh.edu";
+
+        assertEquals(testEmail.getCorporate(testCorporateEmail), "1");
     }
 }
