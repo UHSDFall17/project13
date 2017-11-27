@@ -2,12 +2,13 @@ package setup;
 
 import Utilities.Stream;
 
+import java.io.File;
+
 public class Email {
     private String inputEmail = "";
     private String corporate;
 
     Stream stream;
-    CheckEmail checkEmail;
 
     protected String email;
 
@@ -31,14 +32,45 @@ public class Email {
             }
         }
 
-        checkEmail = new CheckEmail();
-        if(!checkEmail.goodEmail(inputEmail)|| checkEmail.isRegistered(inputEmail)){
+        if(!goodEmail(inputEmail)|| isRegistered(inputEmail)){
             stream.writeToConsole("Invalid: Email entered is already registered or does not follow standard formatting rules.\n");
             return setAndGetNewEmail();
         }
         else{
            return inputEmail;
         }
+    }
+
+    public boolean goodEmail(String testEmail){
+        /** Email requires a username, at-symbol, domain, '.', and ext => MINIMUM OF 6 CHARACTERS **/
+        if(testEmail.length() < 6)
+            return false;
+
+        /** Check for ONE '@' **/
+        String[] parts = testEmail.split("@");
+        if(parts[0].isEmpty() || parts.length != 2) // no name OR more or less than one "@"
+            return false;
+
+        /** Check for VALID extensions **/
+        String[] subParts = parts[1].split("\\.");
+        if(subParts.length < 2 || subParts[0].isEmpty() || subParts[subParts.length-1].isEmpty()) //no "." , or no domain, or no extension
+            return false;
+        else if(subParts[subParts.length - 1].equals("com")
+                || subParts[subParts.length - 1].equals("net")
+                || subParts[subParts.length - 1].equals("org")
+                || subParts[subParts.length - 1].equals("gov")
+                || subParts[subParts.length - 1].equals("edu")
+                || subParts[subParts.length - 1].equals("info")){
+            return true;
+        }
+        else
+            return false;
+    }
+
+    public boolean isRegistered(String email){
+        if(new File(System.getProperty("user.dir") + "/Accounts/" + email).exists())
+            return true;
+        return false;
     }
 
     public String getAttemptLogInEmail(){
@@ -59,5 +91,18 @@ public class Email {
                 return "1"; //corporate
         }
         return "0"; //not corporate
+
+        /* MORE THOROUGH BUT TOO SLOW*/
+//        String line;
+//        try(BufferedReader domains = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/all_email_provider_domains.txt"))) {
+//            line = domains.readLine();
+//            while(line != null){
+//                if(parts[1].equals(line)) //NOT CORPORATE USER
+//                    return "0";
+//            }
+//            return "1"; //NO MATCHES -> CORPORATE USER
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 }
