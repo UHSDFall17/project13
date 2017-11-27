@@ -10,7 +10,7 @@ public class FileOutstream {
 
     public FileOutstream(){ stream = new Stream();}
 
-    public void saveNewAccount(String email, String pswd, String name, String Q1, String A1, String Q2, String A2) {
+    public void saveNewAccount(String email, String pswd, String name, String corporate, String[] QA1, String[] QA2) {
         try {
             File key = new File(System.getProperty("user.dir") + "/Accounts/" + email);
             key.mkdirs();
@@ -20,11 +20,13 @@ public class FileOutstream {
             account.println(pswd);
             account.println(name);
 
-            account.println(Q1);
-            account.println(A1);
+            account.println(corporate); //1 for corporate user -- 0 for non-corporate user
 
-            account.println(Q2);
-            account.print(A2);
+            account.println(QA1[0]);
+            account.println(QA1[1]);
+
+            account.println(QA2[0]);
+            account.print(QA2[1]);
 
             account.close();
         }
@@ -89,13 +91,15 @@ public class FileOutstream {
         }
     }
 
-    public void updateSQ(String email, String pswd, String name, String[] newSQA){
+    public void updateSQ(String email, String pswd, String name, String corporate, String[] newSQA){
         /* newSQA: size = 4 {newSQ1, newAns1, newSQ2, newAns2} */
         try{
             PrintWriter account = new PrintWriter(System.getProperty("user.dir") + "/Accounts/" + email + "/accountInfo.txt");
 
             account.println(pswd);
             account.println(name);
+
+            account.println(corporate);
 
             account.println(newSQA[0]);
             account.println(newSQA[1]);
