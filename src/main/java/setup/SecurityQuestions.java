@@ -106,6 +106,7 @@ public class SecurityQuestions {
             BufferedReader userFile = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/Accounts/" + userEmail + "/accountInfo.txt"));
             userPassword = userFile.readLine(); // grabs password
             String name = userFile.readLine(); //name
+            String corporate = userFile.readLine(); //1 for corporate user -- 0 for non-corporate user
             userFile.close();
 
             boolean accessGranted;
@@ -124,7 +125,7 @@ public class SecurityQuestions {
         /* REPLACE AND UPDATE IN FILE */
             String[] newSQA = {secQA1[0], secQA1[1], secQA2[0], secQA2[1]}; //Q1, A1, Q2, A2
             FileOutstream write = new FileOutstream();
-            write.updateSQ(userEmail, userPassword, name, newSQA);
+            write.updateSQ(userEmail, userPassword, name, corporate, newSQA);
         } catch (IOException e) {
             e.printStackTrace();
         }
