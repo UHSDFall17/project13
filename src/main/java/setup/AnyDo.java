@@ -157,14 +157,38 @@ public class AnyDo implements CommandUser
 
         /* READ OLD, WRITE UPDATED JSON FILE*/
         gson = new GsonBuilder().setPrettyPrinting().create();
+        String filePath = "Accounts/" + user.getUsername() + "/data.json";
         try{
-            FileReader reader = new FileReader("Accounts/" + user.getUsername() + "/data.json");
-            dashboard = gson.fromJson(reader, Dashboard.class);
+            /* CHECK FOR EMPTY FILE */
+            BufferedReader reader = new BufferedReader(new FileReader(filePath));
+            if (reader.readLine() == null) {
+                stream.writeToConsole("Something's wrong!\nPlease contact our Office to restore your data.\nWe apologize for the inconvenience.\n");
+
+                /*CONTACT INFO*/
+                String ourBusinessHours = "Monday-Friday 9AM - 5PM";
+                String ourEmail = "skgiang@uh.edu, ramirez.roberto45@gmail.com, tom_t_huynh@outlook.com";
+                String ourTelephone = "713-743-2611";
+                String ourFacebook="https://www.facebook.com/uhnsm";
+                // PRINT CONTACT INFO
+                stream.writeToConsole("\nBusiness Hours: " + ourBusinessHours);
+                stream.writeToConsole("\n\tEmail Us: " + ourEmail);
+                stream.writeToConsole("\n\tCall Us: " + ourTelephone);
+                stream.writeToConsole("\n\tJoin Us: " + ourFacebook);
+
+                stream.writeToConsole("\n\nPress Enter to exit...");
+                stream.readLineFromConsole();
+                System.exit(0);
+            }
+            reader.close();
+
+
+            FileReader fileReader = new FileReader(filePath);
+            dashboard = gson.fromJson(fileReader, Dashboard.class);
             reader.close();
 
             loggedOut = dashboard.commandHandler();
 
-            FileWriter writer = new FileWriter("Accounts/" + user.getUsername() + "/data.json");
+            FileWriter writer = new FileWriter(filePath);
             gson.toJson(dashboard, writer);
             writer.close();
         } catch (IOException e) {
@@ -187,7 +211,7 @@ public class AnyDo implements CommandUser
         else
         {
             user = Account.getUserInfo(user.getUsername());
-            stream.writeToConsole("\nGoodbye, "+ user.getName() + "!");
+            stream.writeToConsole("\nGOODBYE, "+ user.getName() + "!");
             commandCenter(4, "");
         }
     }
