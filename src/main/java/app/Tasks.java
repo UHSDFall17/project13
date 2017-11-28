@@ -26,9 +26,10 @@ public class Tasks implements Comparator<String>
     {
         Stream stream =  new Stream();
         stream.writeToConsole("\nTask: " + getDescription());
-        stream.writeToConsole("\nNotification time: (Y-M-D-Hr:Min:Sec) " + getNotificationDate());
+        stream.writeToConsole("\nNotification time: (Y-M-D H:M) " + getNotificationDate());
         stream.writeToConsole("\nNote: " + getNote() + "\n");
         printSubtask();
+        stream.writeToConsole("\n");
     }
 
     /*Command Handling*/
