@@ -34,10 +34,9 @@ public class Preference implements CommandUser{
         commands.addCommand(1, "Change Account Name");
         commands.addCommand(2, "Change Password");
         commands.addCommand(3, "Change Security Questions");
-        commands.addCommand(4, "Completed Tasks");
-        commands.addCommand(5, "Send us your Feedback!");
-        commands.addCommand(6, "Help");
-        commands.addCommand(7, "Back to Dashboard");
+        commands.addCommand(4, "Send us your Feedback!");
+        commands.addCommand(5, "Help");
+        commands.addCommand(6, "Back to Dashboard");
 
         String availableCommands = commands.toString();
 
@@ -83,10 +82,9 @@ public class Preference implements CommandUser{
             case 1: account.changeName(); break;
             case 2: account.changePassword(); break;
             case 3: account.changeSQ(); break;
-            case 4: stream.writeToConsole("\n(Completed Tasks) Sorry for the inconvenience. This feature is unavailable right now.\n"); break;
-            case 5: contactUs(); break;
-            case 6: stream.writeToConsole("\n(Preference) " + availableCommands); break; //display available commands
-            case 7: return 1; //back to dashboard
+            case 4: contactUs(); break;
+            case 5: stream.writeToConsole("\n(Preference) " + availableCommands); break; //display available commands
+            case 6: return 1; //back to dashboard
         }
 
         return 0;
