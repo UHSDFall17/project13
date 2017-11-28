@@ -12,16 +12,9 @@ public class EmailTest {
 
     Email testEmail;
 
-    public EmailTest() {createRegisteredFile();}
-
     @Test
     public void Canary(){ //verifies good env
         assertTrue(true);
-    }
-
-    public void createRegisteredFile(){
-        File key = new File("Accounts/johnsmith@gmail.com");
-        key.mkdirs();
     }
 
     @Test
@@ -135,6 +128,10 @@ public class EmailTest {
     public void testRegisteredEmail(){
         testEmail = new Email();
 
+        if(!new File(System.getProperty("user.dir") + "/Accounts/johnsmith@gmail.com").exists()) {
+            File key = new File("Accounts/johnsmith@gmail.com");
+            key.mkdirs();
+        }
         String testRegisteredEmail = "johnsmith@gmail.com";
 
         assertTrue(testEmail.isRegistered(testRegisteredEmail));
