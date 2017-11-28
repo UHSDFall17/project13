@@ -7,7 +7,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import org.apache.commons.lang.time.DateUtils;
 import setup.User;
 
 public class List implements CommandUser
@@ -115,8 +114,6 @@ public class List implements CommandUser
 
         if(taskList.size() == 0)
             output = "\nNo tasks\n";
-        else
-            output = "\nYour tasks:\n";
 
         ArrayList<Tasks> todayList = new ArrayList<>();
         ArrayList<Tasks> tomorrowList = new ArrayList<>();
@@ -128,6 +125,10 @@ public class List implements CommandUser
         Calendar currentCal = Calendar.getInstance();
         currentCal.setTime(currentTime);
 
+        String todayOut = "";
+        String tomorrowOut = "";
+        String upcomingOut = "";
+        String someOut = "";
 
         for (int i = 0; i < taskList.size(); i++)
         {
@@ -138,7 +139,7 @@ public class List implements CommandUser
             {
                 try {
                     tempDate = sdf.parse(taskList.get(i).getTimestamp());
-                    if (DateUtils.isSameDay(tempDate, currentTime))
+                    if (daysBetween(tempCal, currentCal) == 0)
                     {
                         todayList.add(taskList.get(i));
                     }
@@ -146,19 +147,14 @@ public class List implements CommandUser
                     {
                         tempCal.setTime(tempDate);
 
-                        //if current day is less than the date by a day add to todayList
-                        if (currentCal.get(Calendar.DAY_OF_MONTH) < tempCal.get(Calendar.DAY_OF_MONTH))
+                        if (daysBetween(tempCal, currentCal) < 0)
                             todayList.add(taskList.get(i));
-                        //if current day is greater than date by a day add to tomorrowList
-                        else if (currentCal.get(Calendar.DAY_OF_MONTH) == tempCal.get(Calendar.DAY_OF_MONTH)+1)
+                        else if (daysBetween(tempCal,currentCal) == 1)
                             tomorrowList.add(taskList.get(i));
-                        //if current day is greater than date by two to seven add to upcomingList
-                        else if ((currentCal.get(Calendar.DAY_OF_MONTH) >= tempCal.get(Calendar.DAY_OF_MONTH) + 2)
-                            || (currentCal.get(Calendar.DAY_OF_MONTH) <= tempCal.get(Calendar.DAY_OF_MONTH) +7))
+                        else if (daysBetween(tempCal,currentCal) > 1 && daysBetween(tempCal,currentCal) < 7)
                             upcomingList.add(taskList.get(i));
-                        else // if greater than 7 days then add to somedayList
+                        else
                             somedayList.add(taskList.get(i));
-
                     }
                 } catch (ParseException e) {
                     e.printStackTrace();
@@ -168,25 +164,20 @@ public class List implements CommandUser
             {
                 try {
                     tempDate = sdf.parse(taskList.get(i).getNotificationDate());
-                    if (DateUtils.isSameDay(tempDate, currentTime))
+                    if (daysBetween(tempCal, currentCal) == 0)
                     {
                         todayList.add(taskList.get(i));
                     }
                     else
                     {
                         tempCal.setTime(tempDate);
-
-                        //if current day is less than the date by a day add to todayList
-                        if (currentCal.get(Calendar.DAY_OF_MONTH) < tempCal.get(Calendar.DAY_OF_MONTH))
+                        if (daysBetween(tempCal, currentCal) < 0)
                             todayList.add(taskList.get(i));
-                            //if current day is greater than date by a day add to tomorrowList
-                        else if (currentCal.get(Calendar.DAY_OF_MONTH) == tempCal.get(Calendar.DAY_OF_MONTH)+1)
+                        else if (daysBetween(tempCal,currentCal) == 1)
                             tomorrowList.add(taskList.get(i));
-                            //if current day is greater than date by two days add to upcomingList
-                        else if ((currentCal.get(Calendar.DAY_OF_MONTH) >= tempCal.get(Calendar.DAY_OF_MONTH) + 2)
-                                || (currentCal.get(Calendar.DAY_OF_MONTH) <= tempCal.get(Calendar.DAY_OF_MONTH) +7))
+                        else if (daysBetween(tempCal,currentCal) > 1 && daysBetween(tempCal,currentCal) < 7)
                             upcomingList.add(taskList.get(i));
-                        else // if greater than 7 days then add to somedayList
+                        else
                             somedayList.add(taskList.get(i));
                     }
                 } catch (ParseException e) {
@@ -195,68 +186,74 @@ public class List implements CommandUser
             }
 
             int count = 1;
-            stream.writeToConsole("\nToday: \n");
+
+            if (!todayList.isEmpty())
+                todayOut = "\nToday: \n";
             for (int j = 0; j < todayList.size(); j++)
             {
-                output = output + "\t" + (count++) + " -- " + todayList.get(j).getDescription();
+                todayOut += "\t" + (count++) + " -- " + todayList.get(j).getDescription();
                 if(todayList.get(j).getIsCompleted().equals(true))
                 {
-                    output = output + " *COMPLETED* ";
+                    todayOut += " *COMPLETED* ";
                 }
                 else
                 {
                     if (!todayList.get(j).getNotificationDate().equals(null))
-                        output = output + " " + todayList.get(j).getNotificationDate();
+                        todayOut += " " + todayList.get(j).getNotificationDate();
                 }
-                output = output + "\n";
+                todayOut += "\n";
             }
-            stream.writeToConsole("\nTomorrow: \n");
+            if (!tomorrowList.isEmpty())
+                tomorrowOut = "\nTomorrow: \n";
             for (int k = 0; k < tomorrowList.size(); k++)
             {
-                output = output + "\t" + (count++) + " -- " + tomorrowList.get(k).getDescription();
+                tomorrowOut += tomorrowOut + "\t" + (count++) + " -- " + tomorrowList.get(k).getDescription();
                 if(tomorrowList.get(k).getIsCompleted().equals(true))
                 {
-                    output = output + " *COMPLETED* ";
+                    tomorrowOut += " *COMPLETED* ";
                 }
                 else
                 {
                     if (!tomorrowList.get(k).getNotificationDate().equals(null))
-                        output = output + " " + tomorrowList.get(k).getNotificationDate();
+                        tomorrowOut += " " + tomorrowList.get(k).getNotificationDate();
                 }
-                output = output + "\n";
+                tomorrowOut += "\n";
             }
-            stream.writeToConsole("\nUpcoming: \n");
+            if (!upcomingList.isEmpty())
+                upcomingOut = "\nUpcoming: \n";
             for (int l = 0; l < upcomingList.size(); l++)
             {
-                output = output + "\t" + (count++) + " -- " + upcomingList.get(l).getDescription();
+                upcomingOut += "\t" + (count++) + " -- " + upcomingList.get(l).getDescription();
                 if(upcomingList.get(l).getIsCompleted().equals(true))
                 {
-                    output = output + " *COMPLETED* ";
+                    upcomingOut += " *COMPLETED* ";
                 }
                 else
                 {
                     if (!upcomingList.get(l).getNotificationDate().equals(null))
-                        output = output + " " + upcomingList.get(l).getNotificationDate();
+                        upcomingOut += " " + upcomingList.get(l).getNotificationDate();
                 }
-                output = output + "\n\n";
+                upcomingOut += "\n\n";
             }
-            stream.writeToConsole("\nSomeday: \n");
+
+            if (!somedayList.isEmpty())
+                someOut = "\nSomeday: \n";
             for (int m = 0; m < somedayList.size(); m++)
             {
-                output = output + "\t" + (count++) + " -- " + somedayList.get(m).getDescription();
+                someOut += "\t" + (count++) + " -- " + somedayList.get(m).getDescription();
                 if(somedayList.get(m).getIsCompleted().equals(true))
                 {
-                    output = output + " *COMPLETED* ";
+                    someOut += " *COMPLETED* ";
                 }
                 else
                 {
                     if (!somedayList.get(m).getNotificationDate().equals(null))
-                        output = output + " " + somedayList.get(m).getNotificationDate();
+                        someOut += " " + somedayList.get(m).getNotificationDate();
                 }
-                output = output + "\n\n";
+                someOut += "\n\n";
             }
         }
-        stream.writeToConsole(output);
+        stream.writeToConsole(todayOut + tomorrowOut + upcomingOut + someOut);
     }
 
 	public void viewTask()
@@ -426,4 +423,30 @@ public class List implements CommandUser
 		}
 		return false;
 	}
+    public static int daysBetween(Calendar day1, Calendar day2){
+        Calendar dayOne = (Calendar) day1.clone(),
+                dayTwo = (Calendar) day2.clone();
+
+        if (dayOne.get(Calendar.YEAR) == dayTwo.get(Calendar.YEAR)) {
+            return Math.abs(dayOne.get(Calendar.DAY_OF_YEAR) - dayTwo.get(Calendar.DAY_OF_YEAR));
+        } else {
+            if (dayTwo.get(Calendar.YEAR) > dayOne.get(Calendar.YEAR)) {
+                //swap them
+                Calendar temp = dayOne;
+                dayOne = dayTwo;
+                dayTwo = temp;
+            }
+            int extraDays = 0;
+
+            int dayOneOriginalYearDays = dayOne.get(Calendar.DAY_OF_YEAR);
+
+            while (dayOne.get(Calendar.YEAR) > dayTwo.get(Calendar.YEAR)) {
+                dayOne.add(Calendar.YEAR, -1);
+                // getActualMaximum() important for leap years
+                extraDays += dayOne.getActualMaximum(Calendar.DAY_OF_YEAR);
+            }
+
+            return extraDays - dayTwo.get(Calendar.DAY_OF_YEAR) + dayOneOriginalYearDays ;
+        }
+    }
 }
