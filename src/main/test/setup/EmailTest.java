@@ -1,15 +1,27 @@
 package setup;
 
 import org.junit.Test;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+
 import static org.junit.Assert.*;
 
 public class EmailTest {
 
     Email testEmail;
 
+    public EmailTest() {createRegisteredFile();}
+
     @Test
     public void Canary(){ //verifies good env
         assertTrue(true);
+    }
+
+    public void createRegisteredFile(){
+        File key = new File("Accounts/johnsmith@gmail.com");
+        key.mkdirs();
     }
 
     @Test
