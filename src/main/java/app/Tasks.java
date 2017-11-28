@@ -4,10 +4,9 @@ import Utilities.*;
 
 import java.util.*;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
+import java.text.*;
 
-
-public class Tasks
+public class Tasks implements Comparator<String>
 {
     private String description;
     private String notification; //date due for task
@@ -26,9 +25,9 @@ public class Tasks
     public void printTask()
     {
         Stream stream =  new Stream();
-        stream.writeToConsole("Task: " + getDescription());
-        stream.writeToConsole("Notification time: (Y-M-D-Hr:Min:Sec) " + getNotificationDate());
-        stream.writeToConsole("Note: " + getNote());
+        stream.writeToConsole("\nTask: " + getDescription());
+        stream.writeToConsole("\nNotification time: (Y-M-D-Hr:Min:Sec) " + getNotificationDate());
+        stream.writeToConsole("\nNote: " + getNote() + "\n");
         printSubtask();
     }
 
@@ -183,7 +182,7 @@ public class Tasks
             for(int i = 0; i < subtasks.size(); i++)
             {
                 String temp = stCopy.pop();
-                stream.writeToConsole("         "+ (i+1) + temp + "\n"); //To whom it may concern: You can use "/t" if you want the String indented. -Stacy
+                stream.writeToConsole("\t"+ (i+1) + " - " + temp); //To whom it may concern: You can use "/t" if you want the String indented. -Stacy
             }
         }
     }
@@ -206,21 +205,37 @@ public class Tasks
             int index;
             do
             {
-                stream.writeToConsole("Enter the number of the subtask you wish to delete: ");
+                stream.writeToConsole("\nEnter the number of the subtask you wish to delete: ");
                 index = stream.readIntFromConsole();
-                if(index > 0 && index < subtasks.size())
+                if(index > 0 || index < subtasks.size())
                 {
                     subtasks.remove(index-1);
+                    stream.writeToConsole("\nSubtask has been deleted!");
                 }
                 else
-                    stream.writeToConsole("Invalid index!");
-            } while(!(index > 0 && index < subtasks.size()));
+                    stream.writeToConsole("Invalid index!\n");
+            } while(!(index > 0 || index < subtasks.size()));
         }
     }
 
+    /*Date*/  @Override
+    public int compare(String arg0, String arg1)
+    {
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+        int compareResult = 0;
+        try {
+            Date arg0Date = format.parse(arg0);
+            Date arg1Date = format.parse(arg1);
+            compareResult = arg0Date.compareTo(arg1Date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            compareResult = arg0.compareTo(arg1);
+        }
+        return compareResult;
+    }
     private void setDate(int y, int m, int d, int hr, int min) //date has assigned hh:mm
     {
-        final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH:mm:SS");
+        final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         Calendar taskCal = Calendar.getInstance();
         taskCal.set(y, m, d, hr, min);
         Date taskDate = taskCal.getTime();
@@ -228,7 +243,7 @@ public class Tasks
     }
     private void setDate(int y, int m, int d) //date is a reminder for a day w/o hh:mm
     {
-        final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH:mm:SS");
+        final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         Calendar taskCal = Calendar.getInstance();
         taskCal.set(y, m, d);
         Date taskDate = taskCal.getTime();
@@ -237,7 +252,7 @@ public class Tasks
 
     protected void setTimestamp() //creation date for sorting purposes
     {
-        final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH:mm:SS");
+        final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         timeStamp = sdf.format(currentTimeStamp());
     }
     private Timestamp currentTimeStamp()
@@ -249,7 +264,11 @@ public class Tasks
     protected boolean markCompleted()
     {
         if(!isCompleted)
+        {
+            Stream stream = new Stream();
+            stream.writeToConsole("Task has been mark completed!");
             return isCompleted = true;
+        }
         else
         {
             Stream stream =  new Stream();
@@ -264,6 +283,7 @@ public class Tasks
             }
             else if(temp.equals("Y"))
             {
+                stream.writeToConsole("Task has been marked incomplete.");
                 return isCompleted = false;
             }
             else if(temp.equals("N"))
@@ -312,14 +332,14 @@ public class Tasks
     }
     private void editSubtask()
     {
-        Stream stream = new Stream();
         printSubtask();
+        Stream stream = new Stream();
         int index;
         do
         {
             stream.writeToConsole("\nEnter the number of the subtask you wish to edit: ");
             index = stream.readIntFromConsole();
-            if(index > 0 && index < subtasks.size())
+            if(index > 0 || index < subtasks.size())
             {
                 String newSubtask = "";
                do
@@ -334,11 +354,10 @@ public class Tasks
                        subtasks.push(newSubtask);
                    }
                } while(newSubtask == null || newSubtask.isEmpty());
-
             }
             else
                 stream.writeToConsole("Invalid index!");
-        } while(!(index > 0 && index < subtasks.size()));
+        } while(!(index > 0 || index < subtasks.size()));
     }
     /*Getters*/
     public String getDescription()

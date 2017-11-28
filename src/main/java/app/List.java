@@ -25,12 +25,14 @@ public class List implements CommandUser
 	public boolean commandHandler() {
 		Commands commands = new Commands();
 		commands.addCommand(1, "Get all tasks");
-		commands.addCommand(2, "Create new task");
-		commands.addCommand(3, "Edit a task");
-		commands.addCommand(4, "Delete a task");
-		commands.addCommand(5, "Edit list name");
-		commands.addCommand(6, "Help");
-		commands.addCommand(7, "Back To Dashboard");
+		commands.addCommand(2, "View a task");
+		commands.addCommand(3, "Mark a task completed.");
+		commands.addCommand(4, "Create new task");
+		commands.addCommand(5, "Edit a task");
+		commands.addCommand(6, "Delete a task");
+		commands.addCommand(7, "Edit list name");
+		commands.addCommand(8, "Help");
+		commands.addCommand(9, "Back To Dashboard");
 
 		String availableCommands = commands.toString();
 
@@ -72,12 +74,14 @@ public class List implements CommandUser
 		switch(command)
 		{
 			case 1: stream.writeToConsole(GetTasks()); break;
-            case 2: createTask(); break;
-            case 3: int i = indexer(); editTask(i); break;
-            case 4: deleteTask(); break;
-            case 5: break;
-			case 6: stream.writeToConsole(availableCommands); break;
-			case 7: return 1;
+            case 2: viewTask(); break;
+            case 3: int j = indexer(); taskList.get(j).markCompleted(); break;
+            case 4: createTask(); break;
+            case 5: int i = indexer(); editTask(i); break;
+            case 6: deleteTask(); break;
+            case 7: break;
+			case 8: stream.writeToConsole(availableCommands); break;
+			case 9: return 1;
 		}
 		return 0;
 	}
@@ -93,10 +97,34 @@ public class List implements CommandUser
 
 		for(int i=0; i < taskList.size(); i++)
 		{
-			output = output + "\t" + (i+1) + " -- " + taskList.get(i).getDescription() + "\n";
+			output = output + "\t" + (i+1) + " -- " + taskList.get(i).getDescription();
+			if(taskList.get(i).getIsCompleted().equals(true))
+			{
+				output = output + " *COMPLETED* ";
+			}
+			output = output + "\n";
 		}
 		return output;
 	}
+
+	public void viewTask()
+    {
+        Stream stream = new Stream();
+        stream.writeToConsole(GetTasks());
+        int taskNum;
+        do
+        {
+            stream.writeToConsole("\nEnter task number: ");
+            taskNum = stream.readIntFromConsole();
+            if(taskNum > 0 || taskNum < taskList.size())
+            {
+                taskList.get(taskNum-1).printTask();
+            }
+            else
+                stream.writeToConsole("Invalid index!\n");
+        } while (taskNum < 0 || taskNum > taskList.size());
+
+    }
 
 	public List(String name)
 	{
@@ -177,16 +205,25 @@ public class List implements CommandUser
     {
         Stream stream = new Stream();
         int j = 1;
+        if (taskList.isEmpty())
+        {
+            stream.writeToConsole("No tasks!");
+            return -1;
+        }
+        else
+        {
+            stream.writeToConsole("Your tasks: ");
+        }
         for (int i = 0; i < taskList.size(); i++)
         {
-            stream.writeToConsole((j++) + ": " + taskList.get(i).getDescription());
+            stream.writeToConsole("\n\t"+(j++) + ": " + taskList.get(i).getDescription());
         }
         int returnInteger;
         do
         {
-            stream.writeToConsole("Enter the index of the task: ");
+            stream.writeToConsole("\nEnter task number: ");
             returnInteger = stream.readIntFromConsole();
-        } while(returnInteger > 0);
+        } while(returnInteger < 0);
         return returnInteger-1;
     }
 	private void editTask(int index)
