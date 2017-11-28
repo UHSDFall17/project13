@@ -1,19 +1,18 @@
 package app;
 
 import Utilities.*;
+
+import java.io.*;
 import java.util.*;
-import java.io.File;
-import java.io.IOException;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import setup.User;
 
 
 public class List implements CommandUser
 {
-//	private Commands commands;
-//	private Stream stream;
 	private String Name;
 	private ArrayList<Tasks> taskList;
 
@@ -40,7 +39,7 @@ public class List implements CommandUser
         int commandReturn = 0;
 
 		Stream stream = new Stream();
-        stream.writeToConsole("(List \""+ Name +"\") "+ availableCommands);
+        stream.writeToConsole("\n(List \""+ Name +"\") "+ availableCommands);
 
         do{
 			stream.writeToConsole("\n(List \""+ Name +"\") "); //DISPLAY PAGE NAME
@@ -88,13 +87,13 @@ public class List implements CommandUser
 		String output = "";
 
 		if(taskList.size() == 0)
-			output = "\nNo tasks";
+			output = "\nNo tasks\n";
 		else
 			output = "\nYour tasks:\n";
 
 		for(int i=0; i < taskList.size(); i++)
 		{
-			output = output + "\n-- " + taskList.get(i).getDescription();
+			output = output + "\t" + (i+1) + " -- " + taskList.get(i).getDescription() + "\n";
 		}
 		return output;
 	}
@@ -147,11 +146,12 @@ public class List implements CommandUser
 					addMore = false;
 			} while(addMore);
 		}
-		stream.writeToConsole("\nIs this task repeated? (Y/N)\n");
-		ans = stream.readLineFromConsole().toUpperCase();
-		if (ans.equals("Y"))
-		{
-			task.flipRepeated();
+		if(isCorporateUser()) {
+			stream.writeToConsole("\nIs this task repeated? (Y/N)\n");
+			ans = stream.readLineFromConsole().toUpperCase();
+			if (ans.equals("Y")) {
+				task.flipRepeated();
+			}
 		}
 		taskList.add(task);
 
@@ -193,5 +193,19 @@ public class List implements CommandUser
 	{
 		Stream stream = new Stream();
 		taskList.get(index).taskHandler();
+	}
+
+	private boolean isCorporateUser(){
+		try{
+			BufferedReader reader = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/Accounts/" + "LastLogin.txt"));
+			User user = Account.getUserInfo(reader.readLine());
+			reader.close();
+
+			if(user.getCorporate().equals("1"))
+				return true;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 }
