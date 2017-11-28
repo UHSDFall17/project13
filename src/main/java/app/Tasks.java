@@ -9,31 +9,31 @@ import java.text.SimpleDateFormat;
 
 public class Tasks
 {
-    private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH:mm:SS");
-    private String description = null;
-    private String notification = null; //date due for task
-    private String timeStamp = null; //time created for task
-    private boolean isRepeated = false;
-    private boolean isCompleted = false;
-    private Stack<String> subtasks = null;
-    private String note = null;
-    private Stream stream;
-    protected Commands commands;
-    public Tasks()
-    {
-        stream =  new Stream();
+    private String description;
+    private String notification; //date due for task
+    private String timeStamp; //time created for task
+    private boolean isRepeated;
+    private boolean isCompleted;
+    private Stack<String> subtasks;
+    private String note;
+
+    Tasks()    {
         subtasks = new Stack<String>();
-        commands = new Commands();
+        isRepeated = false;
+        isCompleted = false;
     }
+
     public void printTask()
     {
+        Stream stream =  new Stream();
         stream.writeToConsole("Task: " + getDescription());
         stream.writeToConsole("Notification time: (Y-M-D-Hr:Min:Sec) " + getNotificationDate());
         stream.writeToConsole("Note: " + getNote());
         printSubtask();
     }
+
     /*Command Handling*/
-    public boolean taskHandler()
+    protected boolean taskHandler()
     {
         Commands commands = new Commands();
         commands.addCommand(1, "Edit task description");
@@ -220,6 +220,7 @@ public class Tasks
 
     private void setDate(int y, int m, int d, int hr, int min) //date has assigned hh:mm
     {
+        final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH:mm:SS");
         Calendar taskCal = Calendar.getInstance();
         taskCal.set(y, m, d, hr, min);
         Date taskDate = taskCal.getTime();
@@ -227,6 +228,7 @@ public class Tasks
     }
     private void setDate(int y, int m, int d) //date is a reminder for a day w/o hh:mm
     {
+        final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH:mm:SS");
         Calendar taskCal = Calendar.getInstance();
         taskCal.set(y, m, d);
         Date taskDate = taskCal.getTime();
@@ -235,6 +237,7 @@ public class Tasks
 
     protected void setTimestamp() //creation date for sorting purposes
     {
+        final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH:mm:SS");
         timeStamp = sdf.format(currentTimeStamp());
     }
     private Timestamp currentTimeStamp()
@@ -249,6 +252,7 @@ public class Tasks
             return isCompleted = true;
         else
         {
+            Stream stream =  new Stream();
             stream.writeToConsole("\nTask has already been mark completed.\n");
             stream.writeToConsole("Would you like to mark it as incomplete? (Y/N)\n");
             //Console input
@@ -279,11 +283,11 @@ public class Tasks
         {
             stream.writeToConsole("\nEnter the new description: ");
             newDescription = stream.readLineFromConsole();
-            if (newDescription == null || newDescription == "")
+            if (newDescription == null || newDescription.isEmpty())
                 stream.writeToConsole("Invalid argument! Please enter a valid description.\n");
             else
                 description = newDescription;
-        } while(newDescription == null || newDescription == "");
+        } while(newDescription == null || newDescription.isEmpty());
     }
     private void editNote()
     {
@@ -294,11 +298,11 @@ public class Tasks
         {
             stream.writeToConsole("\nEnter the new note: ");
             newNote = stream.readLineFromConsole();
-            if (newNote == null || newNote == "")
+            if (newNote == null || newNote.isEmpty())
                 stream.writeToConsole("Invalid argument! Please enter a valid note.\n");
             else
                 note = newNote;
-        } while(newNote == null || newNote == "");
+        } while(newNote == null || newNote.isEmpty());
     }
     private void editNotification()
     {
@@ -317,19 +321,19 @@ public class Tasks
             index = stream.readIntFromConsole();
             if(index > 0 && index < subtasks.size())
             {
-                String newSubtask;
+                String newSubtask = "";
                do
                {
                    stream.writeToConsole("Enter a new subtask to replace: ");
                    newSubtask = stream.readLineFromConsole();
-                   if (newSubtask.equals(null) || newSubtask.equals(""))
+                   if (newSubtask == null || newSubtask.isEmpty())
                        stream.writeToConsole("Please enter a valid argument.");
                    else
                    {
                        subtasks.remove(index);
                        subtasks.push(newSubtask);
                    }
-               } while(newSubtask.equals(null) || newSubtask.equals(""));
+               } while(newSubtask == null || newSubtask.isEmpty());
 
             }
             else
@@ -370,6 +374,7 @@ public class Tasks
             return true;
         else
         {
+            Stream stream =  new Stream();
             stream.writeToConsole("\nPlease enter a valid year integer.\n\n");
             return false;
         }
@@ -381,6 +386,7 @@ public class Tasks
             return true;
         else
         {
+            Stream stream =  new Stream();
             stream.writeToConsole("\nPlease enter a valid month integer.\n\n");
             return false;
         }
@@ -402,11 +408,13 @@ public class Tasks
     {
         if(!(h >= 0 && h <= 23))
         {
+            Stream stream =  new Stream();
             stream.writeToConsole("\nHour is not within range (0-23).\n");
             return false;
         }
         if(!(m >= 0 && m <=59))
         {
+            Stream stream =  new Stream();
             stream.writeToConsole("\nMinutes are noth within range (0-59).\n");
             return false;
         }
