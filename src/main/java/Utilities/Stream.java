@@ -2,6 +2,7 @@ package Utilities;
 
 import setup.FileOutstream;
 
+import java.util.InputMismatchException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 import static java.lang.System.*;
@@ -50,17 +51,9 @@ public class Stream {
                 input = scan.nextInt();
                 cont = false;
             }
-            catch (NoSuchElementException n)
-            {
-                n.printStackTrace();
-                exit(0);
-            }
             catch (Exception e) {
-                out.println(scan.next());
-                writeToConsole("Input is not an integer. Try again: ");
-
+                writeToConsole("Invalid Input: " + '"' + scan.nextLine() + '"' + " is not an integer. Try again: ");
             }
-
         }while(cont);
         scan.nextLine();
 
