@@ -7,6 +7,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import org.joda.time.*;
 import setup.User;
 
 public class List implements CommandUser
@@ -129,17 +130,17 @@ public class List implements CommandUser
         String tomorrowOut = "";
         String upcomingOut = "";
         String someOut = "";
-
+        int days;
         for (int i = 0; i < taskList.size(); i++)
         {
             Date tempDate;
             Calendar tempCal = Calendar.getInstance();
-
             if (taskList.get(i).getNotificationDate().equals(null))
             {
                 try {
                     tempDate = sdf.parse(taskList.get(i).getTimestamp());
-                    if (daysBetween(tempCal, currentCal) == 0)
+                    days = Days.daysBetween(new DateTime(tempCal), new DateTime(currentCal)).getDays();
+                    if (days <= 0)
                     {
                         todayList.add(taskList.get(i));
                     }
@@ -147,11 +148,9 @@ public class List implements CommandUser
                     {
                         tempCal.setTime(tempDate);
 
-                        if (daysBetween(tempCal, currentCal) < 0)
-                            todayList.add(taskList.get(i));
-                        else if (daysBetween(tempCal,currentCal) == 1)
+                        if (days == 1)
                             tomorrowList.add(taskList.get(i));
-                        else if (daysBetween(tempCal,currentCal) > 1 && daysBetween(tempCal,currentCal) < 7)
+                        else if (days > 1 && days < 7)
                             upcomingList.add(taskList.get(i));
                         else
                             somedayList.add(taskList.get(i));
@@ -164,18 +163,18 @@ public class List implements CommandUser
             {
                 try {
                     tempDate = sdf.parse(taskList.get(i).getNotificationDate());
-                    if (daysBetween(tempCal, currentCal) == 0)
+                    days = Days.daysBetween(new DateTime(tempCal), new DateTime(currentTime)).getDays();
+                    if (days <= 0)
                     {
                         todayList.add(taskList.get(i));
                     }
                     else
                     {
                         tempCal.setTime(tempDate);
-                        if (daysBetween(tempCal, currentCal) < 0)
-                            todayList.add(taskList.get(i));
-                        else if (daysBetween(tempCal,currentCal) == 1)
+
+                        if (days == 1)
                             tomorrowList.add(taskList.get(i));
-                        else if (daysBetween(tempCal,currentCal) > 1 && daysBetween(tempCal,currentCal) < 7)
+                        else if (days > 1 && days < 7)
                             upcomingList.add(taskList.get(i));
                         else
                             somedayList.add(taskList.get(i));
@@ -422,31 +421,5 @@ public class List implements CommandUser
 			e.printStackTrace();
 		}
 		return false;
-	}
-    public static int daysBetween(Calendar day1, Calendar day2){
-        Calendar dayOne = (Calendar) day1.clone(),
-                dayTwo = (Calendar) day2.clone();
-
-        if (dayOne.get(Calendar.YEAR) == dayTwo.get(Calendar.YEAR)) {
-            return Math.abs(dayOne.get(Calendar.DAY_OF_YEAR) - dayTwo.get(Calendar.DAY_OF_YEAR));
-        } else {
-            if (dayTwo.get(Calendar.YEAR) > dayOne.get(Calendar.YEAR)) {
-                //swap them
-                Calendar temp = dayOne;
-                dayOne = dayTwo;
-                dayTwo = temp;
-            }
-            int extraDays = 0;
-
-            int dayOneOriginalYearDays = dayOne.get(Calendar.DAY_OF_YEAR);
-
-            while (dayOne.get(Calendar.YEAR) > dayTwo.get(Calendar.YEAR)) {
-                dayOne.add(Calendar.YEAR, -1);
-                // getActualMaximum() important for leap years
-                extraDays += dayOne.getActualMaximum(Calendar.DAY_OF_YEAR);
-            }
-
-            return extraDays - dayTwo.get(Calendar.DAY_OF_YEAR) + dayOneOriginalYearDays ;
-        }
     }
 }
