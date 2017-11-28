@@ -127,8 +127,8 @@ public class AccountTest {
 
     @Test
     public void testGetUserInfo_WrongName(){
-        User user = new User("test11@gmail.com", "Asd123+","TEST99","0","1","MOM","5","HTX");
-        User testUser = Account.getUserInfo("test11@gmail.com");
+        User user = new User("test@gmail.com", "Asd123+","TEST99","0","1","MOM","5","HTX");
+        User testUser = Account.getUserInfo("test@gmail.com");
 
         assertNotEquals(user, testUser);
     }
