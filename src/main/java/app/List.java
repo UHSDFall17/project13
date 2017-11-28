@@ -192,6 +192,6 @@ public class List implements CommandUser
 	private void editTask(int index)
 	{
 		Stream stream = new Stream();
-		taskList.get(index).commandHandler();
+		taskList.get(index).taskHandler();
 	}
 }

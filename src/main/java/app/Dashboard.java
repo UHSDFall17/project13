@@ -28,13 +28,14 @@ public class Dashboard implements CommandUser
         Commands commands = new Commands();
 
         commands.addCommand(1, "Get all lists");
-        commands.addCommand(2, "Create new list");
-        commands.addCommand(3, "Edit list");
-        commands.addCommand(4, "Delete list");
-        commands.addCommand(5, "Settings/ Preferences");
-        commands.addCommand(6, "Logout");
-        commands.addCommand(7, "Help");
-        commands.addCommand(8, "Quit");
+        commands.addCommand(2, "View list");
+        commands.addCommand(3, "Create new list");
+        commands.addCommand(4, "Edit list");
+        commands.addCommand(5, "Delete list");
+        commands.addCommand(6, "Settings/ Preferences");
+        commands.addCommand(7, "Logout");
+        commands.addCommand(8, "Help");
+        commands.addCommand(9, "Quit");
 
         String availableCommands = commands.toString();
 
@@ -78,13 +79,14 @@ public class Dashboard implements CommandUser
         switch(command)
         {
             case 1: stream.writeToConsole(displayLists() + "\n"); break; //display all lists
-            case 2: createNewList(); break;
-            case 3: editList();break;
-            case 4: deleteList(); break;
-            case 5: Preference preference = new Preference(); preference.commandHandler(); break; //settings/ preferences
-            case 6: stream=null; return 2; //logout
-            case 7: stream.writeToConsole("\n(Dashboard) " + availableCommands); break; //display available commands
-            case 8: return 1; //quit
+            case 2: viewList(); break;
+            case 3: createNewList(); break;
+            case 4: editList();break;
+            case 5: deleteList(); break;
+            case 6: Preference preference = new Preference(); preference.commandHandler(); break; //settings/ preferences
+            case 7: stream=null; return 2; //logout
+            case 8: stream.writeToConsole("\n(Dashboard) " + availableCommands); break; //display available commands
+            case 9: return 1; //quit
         }
 
         return 0;
@@ -171,13 +173,25 @@ public class Dashboard implements CommandUser
     {
         Stream stream = new Stream();
 
-        stream.writeToConsole("Which list do you want to Edit?\n");
+        stream.writeToConsole("\nWhich list do you want to Edit?\n");
         stream.writeToConsole(displayLists() + "\n\nEnter list number: ");
 
         int listNum = stream.readIntFromConsole();
 
         lists.get(listNum-1).commandCenter(1, "");
 
+    }
+
+    public void viewList()
+    {
+        Stream stream = new Stream();
+
+        stream.writeToConsole("\nWhich list do you want to View?\n");
+        stream.writeToConsole(displayLists() + "\n\nEnter list number: ");
+
+        int listNum = stream.readIntFromConsole();
+
+        lists.get(listNum-1).commandHandler();
     }
 
     public void deleteList()

@@ -33,7 +33,7 @@ public class Tasks
         printSubtask();
     }
     /*Command Handling*/
-    public boolean commandHandler()
+    public boolean taskHandler()
     {
         Commands commands = new Commands();
         commands.addCommand(1, "Edit task description");
@@ -95,9 +95,10 @@ public class Tasks
     /*Task creation helper*/
     protected void addDescription()
     {
+        Stream stream = new Stream();
         do
         {
-            stream.writeToConsole("Enter the task description: \n");
+            stream.writeToConsole("\nEnter the task description: \n");
             description = stream.readLineFromConsole();
             if (description.equals(null) || description.equals(""))
                 stream.writeToConsole("Not an appropriate description.\nPlease try again!\n\n\n");
@@ -105,6 +106,7 @@ public class Tasks
     }
     protected void addDate()
     {
+        Stream stream = new Stream();
         int year, month, day;
 
         do
@@ -125,7 +127,6 @@ public class Tasks
             day = stream.readIntFromConsole();
         }while(!isValidDay(year,month,day));
 
-        stream.readLineFromConsole();
         stream.writeToConsole("Do you wish to enter a time for completion? (Y/N)\n");
         String ans = stream.readLineFromConsole().toUpperCase();
         if(ans.equals("Y"))
@@ -148,10 +149,10 @@ public class Tasks
     }
     protected void addNote()
     {
+        Stream stream = new Stream();
         do
         {
-            stream.readLineFromConsole();
-            stream.writeToConsole("Enter the note for the task: \n");
+            stream.writeToConsole("\nEnter the note for the task: \n");
             note = stream.readLineFromConsole();
             if (description.equals(null) || description.equals(""))
                 stream.writeToConsole("Not an appropriate note.\nPlease try again!\n\n\n");
@@ -159,7 +160,8 @@ public class Tasks
     }
     protected void addSubtask()
     {
-        stream.writeToConsole("Enter the subtask description: \n");
+        Stream stream = new Stream();
+        stream.writeToConsole("\nEnter the subtask description: \n");
         String st = stream.readLineFromConsole();
         if (st == null || st.equals(""))
             stream.writeToConsole("Subtask has no description.\n");
@@ -170,6 +172,7 @@ public class Tasks
     }
     protected void printSubtask()
     {
+        Stream stream = new Stream();
         stream.writeToConsole("Subtasks:\n");
         if(subtasks == null)
             return;
@@ -194,6 +197,7 @@ public class Tasks
 
     protected void deleteSubtask()
     {
+        Stream stream = new Stream();
         if(subtasks.isEmpty())
             stream.writeToConsole("\nThere are no subtasks!\n\n");
         else
@@ -268,6 +272,7 @@ public class Tasks
     /*Task Editing Helper*/
     private void editDescription()
     {
+        Stream stream = new Stream();
         stream.writeToConsole("\nCurrent description: " + description);
         String newDescription;
         do
@@ -282,6 +287,7 @@ public class Tasks
     }
     private void editNote()
     {
+        Stream stream = new Stream();
         stream.writeToConsole("\nCurrent note: " + note);
         String newNote;
         do
@@ -296,11 +302,13 @@ public class Tasks
     }
     private void editNotification()
     {
+        Stream stream = new Stream();
         stream.writeToConsole("\nCurrent notification time: " + notification);
         addDate();
     }
     private void editSubtask()
     {
+        Stream stream = new Stream();
         printSubtask();
         int index;
         do
