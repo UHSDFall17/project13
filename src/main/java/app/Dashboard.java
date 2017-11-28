@@ -1,11 +1,6 @@
 package app;
 
 import Utilities.*;
-import setup.AnyDo;
-//import com.google.gson.Gson;
-//import com.google.gson.GsonBuilder;
-//import setup.DataStorageGSON;
-
 import java.util.*;
 
 public class Dashboard implements CommandUser
@@ -17,18 +12,12 @@ public class Dashboard implements CommandUser
         lists = new ArrayList<List>();
     }
 
-//    public Dashboard(User u)
-//    {
-//        lists = new ArrayList<List>();
-//        Stream stream = new Stream();
-//    }
-
     public boolean commandHandler()
     {
         Commands commands = new Commands();
 
         commands.addCommand(1, "Get all lists");
-        commands.addCommand(2, "View list");
+        commands.addCommand(2, "Open a list");
         commands.addCommand(3, "Create new list");
         commands.addCommand(4, "Edit list");
         commands.addCommand(5, "Delete list");
@@ -79,7 +68,7 @@ public class Dashboard implements CommandUser
         switch(command)
         {
             case 1: stream.writeToConsole(displayLists() + "\n"); break; //display all lists
-            case 2: viewList(); break;
+            case 2: openList(); break;
             case 3: createNewList(); break;
             case 4: editList();break;
             case 5: deleteList(); break;
@@ -182,11 +171,11 @@ public class Dashboard implements CommandUser
 
     }
 
-    public void viewList()
+    public void openList()
     {
         Stream stream = new Stream();
 
-        stream.writeToConsole("\nWhich list do you want to View?\n");
+        stream.writeToConsole("\nWhich list do you want to Open?\n");
         stream.writeToConsole(displayLists() + "\n\nEnter list number: ");
 
         int listNum = stream.readIntFromConsole();
