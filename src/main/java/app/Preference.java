@@ -14,17 +14,14 @@ public class Preference implements CommandUser{
     private Stream stream;
     private User user;
 
-    public Preference(){
+    public Preference() throws IOException {
         stream = new Stream();
+        user = Account.getUserInfo(getUserEmail());
     }
 
-    private String getUserEmail(){
-        try(BufferedReader lastLogin = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/Accounts/LastLogin.txt"))) {
+    public String getUserEmail() throws IOException {
+        BufferedReader lastLogin = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/Accounts/LastLogin.txt"));
             return lastLogin.readLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     @Override
@@ -90,8 +87,7 @@ public class Preference implements CommandUser{
         return 0;
     }
 
-
-    private void contactUs(){
+    public void contactUs(){
         stream.writeToConsole("\n(Send Us Feedback) Have any questions, comments, or concerns? Feel free to contact us!\n");
 
         String ourCompanyName = "University of Houston";
