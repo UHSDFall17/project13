@@ -17,28 +17,28 @@ public class Email {
     }
 
     public String setAndGetNewEmail(){
-        String emailConfirmer = "1";
-        while(emailConfirmer.equals("1")) {
-            stream.writeToConsole("\nEmail: ");
-            inputEmail = stream.readLineFromConsole().toLowerCase();
+        inputEmail = "";
+        while(!goodEmail(inputEmail)|| isRegistered(inputEmail)) {
+            String emailConfirmer = "1";
+            while (emailConfirmer.equals("1")) {
+                stream.writeToConsole("\nEmail: ");
+                inputEmail = stream.readLineFromConsole().toLowerCase();
 
             /* CONFIRM EMAIL */
-            while(!emailConfirmer.equals(inputEmail)) {
-                stream.writeToConsole("Press 1 to change initial input.\n");
-                stream.writeToConsole("Confirm Email: ");
-                emailConfirmer = stream.readLineFromConsole().toLowerCase();
-                if(emailConfirmer.equals("1"))
-                    break;
+                while (!emailConfirmer.equals(inputEmail)) {
+                    stream.writeToConsole("Press 1 to change initial input.\n");
+                    stream.writeToConsole("Confirm Email: ");
+                    emailConfirmer = stream.readLineFromConsole().toLowerCase();
+                    if (emailConfirmer.equals("1"))
+                        break;
+                }
             }
-        }
 
-        if(!goodEmail(inputEmail)|| isRegistered(inputEmail)){
-            stream.writeToConsole("Invalid: Email entered is already registered or does not follow standard formatting rules.\n");
-            return setAndGetNewEmail();
+            if(isRegistered(inputEmail)){ stream.writeToConsole("Invalid: Email entered is already registered.\n"); }
+            else if(!goodEmail(inputEmail)){ stream.writeToConsole("Invalid: Email does not follow standard format."); }
+            else{ return inputEmail; }
         }
-        else{
-           return inputEmail;
-        }
+        return null;
     }
 
     public boolean goodEmail(String testEmail){
@@ -87,10 +87,8 @@ public class Email {
         for(String e: nonCorpDomains){
             if(subParts[0].equals(e))
                 return "0"; //NOT corporate
-            else
-                return "1"; //corporate
         }
-        return "0"; //not corporate
+        return "1"; //Corporate
 
         /* MORE THOROUGH BUT TOO SLOW*/
 //        String line;
