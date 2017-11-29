@@ -46,6 +46,7 @@ public class FileOutstreamTest {
         try {
             BufferedReader reader = new BufferedReader(new FileReader("Accounts/testEmail@hotmail.com/accountInfo.txt"));
             assertEquals("testPswd123+", reader.readLine());
+            reader.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -62,6 +63,7 @@ public class FileOutstreamTest {
             BufferedReader reader = new BufferedReader(new FileReader("Accounts/testEmail@hotmail.com/accountInfo.txt"));
             reader.readLine(); //password
             assertEquals("testName", reader.readLine());
+            reader.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -79,6 +81,7 @@ public class FileOutstreamTest {
             reader.readLine(); //password
             reader.readLine(); //name
             assertEquals("0", reader.readLine()); //not corporate
+            reader.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -97,6 +100,7 @@ public class FileOutstreamTest {
             reader.readLine(); //name
             reader.readLine(); //corporate
             assertEquals("1", reader.readLine());
+            reader.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -116,6 +120,7 @@ public class FileOutstreamTest {
             reader.readLine(); //corporate
             reader.readLine(); //question 1
             assertEquals("MOM", reader.readLine());
+            reader.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -136,6 +141,7 @@ public class FileOutstreamTest {
             reader.readLine(); //question 1
             reader.readLine(); //answer 1
             assertEquals("5", reader.readLine());
+            reader.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -157,8 +163,17 @@ public class FileOutstreamTest {
             reader.readLine(); //answer 1
             reader.readLine(); //question 2
             assertEquals("HTX", reader.readLine());
+            reader.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Test
+    public void testUpdateName_SUCCESS(){
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader("Accounts/testEmail@hotmail.com/accountInfo.txt"));
+            reader.readLine(); //password
+
     }
 }
