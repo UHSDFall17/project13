@@ -16,6 +16,18 @@ public class CommandsTest {
     }
 
     @Test
+    public void testDefaultConstructor_Good(){
+        commands = new Commands();
+        assertEquals("List of commands available:\n", commands.toString());
+    }
+
+    @Test
+    public void testDefaultConstructor_Bad(){
+        commands = new Commands();
+        assertNotEquals("", commands.toString());
+    }
+
+    @Test
     public void testGetSizeOfCommandsOffered_Correct(){
         String[] testCommandsOffered = {"Command A", "Command B", "Command C"};
         commands = new Commands(testCommandsOffered);
