@@ -17,30 +17,55 @@ public class PreferenceTest {
     }
 
     @Test
-    public void testGetUserEmail() throws IOException {
-        preference = new Preference();
+    public void testActiveUser() throws IOException {
+        if(new File("Accounts/testEmail@gmail.com/accountInfo.txt").exists()) {/*CREATE ACCOUNT FILE*/
+            File key = new File(System.getProperty("user.dir") + "/Accounts/testEmail@gmail.com");
+            key.mkdirs();
+            PrintWriter account = new PrintWriter(System.getProperty("user.dir") + "/Accounts/testEmail@gmail.com/accountInfo.txt");
+            account.println("testPassword123+");
+            account.println("testName");
+            account.println("0"); //1 for corporate user -- 0 for non-corporate user
+            account.println("1");
+            account.println("MOM");
+            account.println("5");
+            account.print("HTX");
+            account.close();
+        }
         /* SET AS ACTIVE, LOGGED IN USER */
         BufferedWriter writer = new BufferedWriter(new FileWriter("Accounts/LastLogin.txt"));
         writer.write("testEmail@gmail.com");
         writer.close();
 
+        preference = new Preference();
+        assertNotNull(preference.getUpdatedUser());
+    }
+
+    @Test
+    public void testGetUserEmail() throws IOException {
+        /* SET AS ACTIVE, LOGGED IN USER */
+        BufferedWriter writer = new BufferedWriter(new FileWriter("Accounts/LastLogin.txt"));
+        writer.write("testEmail@gmail.com");
+        writer.close();
+
+        preference = new Preference();
         assertEquals("testEmail@gmail.com", preference.getUserEmail());
     }
 
     @Test
     public void testGetUpdatedUser_GetUserName_Correct() throws IOException {
-        /*CREATE ACCOUNT FILE*/
-        File key = new File(System.getProperty("user.dir") + "/Accounts/testEmail@gmail.com");
-        key.mkdirs();
-        PrintWriter account = new PrintWriter(System.getProperty("user.dir") + "/Accounts/testEmail@gmail.com/accountInfo.txt");
-        account.println("testPassword123+");
-        account.println("testName");
-        account.println("0"); //1 for corporate user -- 0 for non-corporate user
-        account.println("1");
-        account.println("MOM");
-        account.println("5");
-        account.print("HTX");
-        account.close();
+        if(new File("Accounts/testEmail@gmail.com/accountInfo.txt").exists()) {/*CREATE ACCOUNT FILE*/
+            File key = new File(System.getProperty("user.dir") + "/Accounts/testEmail@gmail.com");
+            key.mkdirs();
+            PrintWriter account = new PrintWriter(System.getProperty("user.dir") + "/Accounts/testEmail@gmail.com/accountInfo.txt");
+            account.println("testPassword123+");
+            account.println("testName");
+            account.println("0"); //1 for corporate user -- 0 for non-corporate user
+            account.println("1");
+            account.println("MOM");
+            account.println("5");
+            account.print("HTX");
+            account.close();
+        }
 
         /* SET AS ACTIVE, LOGGED IN USER */
         BufferedWriter writer = new BufferedWriter(new FileWriter("Accounts/LastLogin.txt"));
@@ -53,18 +78,19 @@ public class PreferenceTest {
 
     @Test
     public void testGetUpdatedUser_GetPassword_Correct() throws IOException {
-        /*CREATE ACCOUNT FILE*/
-        File key = new File(System.getProperty("user.dir") + "/Accounts/testEmail@gmail.com");
-        key.mkdirs();
-        PrintWriter account = new PrintWriter(System.getProperty("user.dir") + "/Accounts/testEmail@gmail.com/accountInfo.txt");
-        account.println("testPassword123+");
-        account.println("testName");
-        account.println("0"); //1 for corporate user -- 0 for non-corporate user
-        account.println("1");
-        account.println("MOM");
-        account.println("5");
-        account.print("HTX");
-        account.close();
+        if(new File("Accounts/testEmail@gmail.com/accountInfo.txt").exists()) {/*CREATE ACCOUNT FILE*/
+            File key = new File(System.getProperty("user.dir") + "/Accounts/testEmail@gmail.com");
+            key.mkdirs();
+            PrintWriter account = new PrintWriter(System.getProperty("user.dir") + "/Accounts/testEmail@gmail.com/accountInfo.txt");
+            account.println("testPassword123+");
+            account.println("testName");
+            account.println("0"); //1 for corporate user -- 0 for non-corporate user
+            account.println("1");
+            account.println("MOM");
+            account.println("5");
+            account.print("HTX");
+            account.close();
+        }
 
         /* SET AS ACTIVE, LOGGED IN USER */
         BufferedWriter writer = new BufferedWriter(new FileWriter("Accounts/LastLogin.txt"));
@@ -77,18 +103,19 @@ public class PreferenceTest {
 
     @Test
     public void testGetUpdatedUser_GetName_Correct() throws IOException {
-        /*CREATE ACCOUNT FILE*/
-        File key = new File(System.getProperty("user.dir") + "/Accounts/testEmail@gmail.com");
-        key.mkdirs();
-        PrintWriter account = new PrintWriter(System.getProperty("user.dir") + "/Accounts/testEmail@gmail.com/accountInfo.txt");
-        account.println("testPassword123+");
-        account.println("testName");
-        account.println("0"); //1 for corporate user -- 0 for non-corporate user
-        account.println("1");
-        account.println("MOM");
-        account.println("5");
-        account.print("HTX");
-        account.close();
+        if(new File("Accounts/testEmail@gmail.com/accountInfo.txt").exists()) {/*CREATE ACCOUNT FILE*/
+            File key = new File(System.getProperty("user.dir") + "/Accounts/testEmail@gmail.com");
+            key.mkdirs();
+            PrintWriter account = new PrintWriter(System.getProperty("user.dir") + "/Accounts/testEmail@gmail.com/accountInfo.txt");
+            account.println("testPassword123+");
+            account.println("testName");
+            account.println("0"); //1 for corporate user -- 0 for non-corporate user
+            account.println("1");
+            account.println("MOM");
+            account.println("5");
+            account.print("HTX");
+            account.close();
+        }
 
         /* SET AS ACTIVE, LOGGED IN USER */
         BufferedWriter writer = new BufferedWriter(new FileWriter("Accounts/LastLogin.txt"));
@@ -101,18 +128,19 @@ public class PreferenceTest {
 
     @Test
     public void testGetUpdatedUser_GetCorporate_Correct() throws IOException {
-        /*CREATE ACCOUNT FILE*/
-        File key = new File(System.getProperty("user.dir") + "/Accounts/testEmail@gmail.com");
-        key.mkdirs();
-        PrintWriter account = new PrintWriter(System.getProperty("user.dir") + "/Accounts/testEmail@gmail.com/accountInfo.txt");
-        account.println("testPassword123+");
-        account.println("testName");
-        account.println("0"); //1 for corporate user -- 0 for non-corporate user
-        account.println("1");
-        account.println("MOM");
-        account.println("5");
-        account.print("HTX");
-        account.close();
+        if(new File("Accounts/testEmail@gmail.com/accountInfo.txt").exists()) {/*CREATE ACCOUNT FILE*/
+            File key = new File(System.getProperty("user.dir") + "/Accounts/testEmail@gmail.com");
+            key.mkdirs();
+            PrintWriter account = new PrintWriter(System.getProperty("user.dir") + "/Accounts/testEmail@gmail.com/accountInfo.txt");
+            account.println("testPassword123+");
+            account.println("testName");
+            account.println("0"); //1 for corporate user -- 0 for non-corporate user
+            account.println("1");
+            account.println("MOM");
+            account.println("5");
+            account.print("HTX");
+            account.close();
+        }
 
         /* SET AS ACTIVE, LOGGED IN USER */
         BufferedWriter writer = new BufferedWriter(new FileWriter("Accounts/LastLogin.txt"));
@@ -125,18 +153,19 @@ public class PreferenceTest {
 
     @Test
     public void testGetUpdatedUser_GetQuestion1_Correct() throws IOException {
-        /*CREATE ACCOUNT FILE*/
-        File key = new File(System.getProperty("user.dir") + "/Accounts/testEmail@gmail.com");
-        key.mkdirs();
-        PrintWriter account = new PrintWriter(System.getProperty("user.dir") + "/Accounts/testEmail@gmail.com/accountInfo.txt");
-        account.println("testPassword123+");
-        account.println("testName");
-        account.println("0"); //1 for corporate user -- 0 for non-corporate user
-        account.println("1");
-        account.println("MOM");
-        account.println("5");
-        account.print("HTX");
-        account.close();
+        if(new File("Accounts/testEmail@gmail.com/accountInfo.txt").exists()) {/*CREATE ACCOUNT FILE*/
+            File key = new File(System.getProperty("user.dir") + "/Accounts/testEmail@gmail.com");
+            key.mkdirs();
+            PrintWriter account = new PrintWriter(System.getProperty("user.dir") + "/Accounts/testEmail@gmail.com/accountInfo.txt");
+            account.println("testPassword123+");
+            account.println("testName");
+            account.println("0"); //1 for corporate user -- 0 for non-corporate user
+            account.println("1");
+            account.println("MOM");
+            account.println("5");
+            account.print("HTX");
+            account.close();
+        }
 
         /* SET AS ACTIVE, LOGGED IN USER */
         BufferedWriter writer = new BufferedWriter(new FileWriter("Accounts/LastLogin.txt"));
@@ -149,18 +178,19 @@ public class PreferenceTest {
 
     @Test
     public void testGetUpdatedUser_GetAnswer1_Correct() throws IOException {
-        /*CREATE ACCOUNT FILE*/
-        File key = new File(System.getProperty("user.dir") + "/Accounts/testEmail@gmail.com");
-        key.mkdirs();
-        PrintWriter account = new PrintWriter(System.getProperty("user.dir") + "/Accounts/testEmail@gmail.com/accountInfo.txt");
-        account.println("testPassword123+");
-        account.println("testName");
-        account.println("0"); //1 for corporate user -- 0 for non-corporate user
-        account.println("1");
-        account.println("MOM");
-        account.println("5");
-        account.print("HTX");
-        account.close();
+        if(new File("Accounts/testEmail@gmail.com/accountInfo.txt").exists()) {/*CREATE ACCOUNT FILE*/
+            File key = new File(System.getProperty("user.dir") + "/Accounts/testEmail@gmail.com");
+            key.mkdirs();
+            PrintWriter account = new PrintWriter(System.getProperty("user.dir") + "/Accounts/testEmail@gmail.com/accountInfo.txt");
+            account.println("testPassword123+");
+            account.println("testName");
+            account.println("0"); //1 for corporate user -- 0 for non-corporate user
+            account.println("1");
+            account.println("MOM");
+            account.println("5");
+            account.print("HTX");
+            account.close();
+        }
 
         /* SET AS ACTIVE, LOGGED IN USER */
         BufferedWriter writer = new BufferedWriter(new FileWriter("Accounts/LastLogin.txt"));
@@ -173,18 +203,19 @@ public class PreferenceTest {
 
     @Test
     public void testGetUpdatedUser_GetQuestion2_Correct() throws IOException {
-        /*CREATE ACCOUNT FILE*/
-        File key = new File(System.getProperty("user.dir") + "/Accounts/testEmail@gmail.com");
-        key.mkdirs();
-        PrintWriter account = new PrintWriter(System.getProperty("user.dir") + "/Accounts/testEmail@gmail.com/accountInfo.txt");
-        account.println("testPassword123+");
-        account.println("testName");
-        account.println("0"); //1 for corporate user -- 0 for non-corporate user
-        account.println("1");
-        account.println("MOM");
-        account.println("5");
-        account.print("HTX");
-        account.close();
+        if(new File("Accounts/testEmail@gmail.com/accountInfo.txt").exists()) {/*CREATE ACCOUNT FILE*/
+            File key = new File(System.getProperty("user.dir") + "/Accounts/testEmail@gmail.com");
+            key.mkdirs();
+            PrintWriter account = new PrintWriter(System.getProperty("user.dir") + "/Accounts/testEmail@gmail.com/accountInfo.txt");
+            account.println("testPassword123+");
+            account.println("testName");
+            account.println("0"); //1 for corporate user -- 0 for non-corporate user
+            account.println("1");
+            account.println("MOM");
+            account.println("5");
+            account.print("HTX");
+            account.close();
+        }
 
         /* SET AS ACTIVE, LOGGED IN USER */
         BufferedWriter writer = new BufferedWriter(new FileWriter("Accounts/LastLogin.txt"));
@@ -197,18 +228,19 @@ public class PreferenceTest {
 
     @Test
     public void testGetUpdatedUser_GetAnswer2_Correct() throws IOException {
-        /*CREATE ACCOUNT FILE*/
-        File key = new File(System.getProperty("user.dir") + "/Accounts/testEmail@gmail.com");
-        key.mkdirs();
-        PrintWriter account = new PrintWriter(System.getProperty("user.dir") + "/Accounts/testEmail@gmail.com/accountInfo.txt");
-        account.println("testPassword123+");
-        account.println("testName");
-        account.println("0"); //1 for corporate user -- 0 for non-corporate user
-        account.println("1");
-        account.println("MOM");
-        account.println("5");
-        account.print("HTX");
-        account.close();
+        if(new File("Accounts/testEmail@gmail.com/accountInfo.txt").exists()) {/*CREATE ACCOUNT FILE*/
+            File key = new File(System.getProperty("user.dir") + "/Accounts/testEmail@gmail.com");
+            key.mkdirs();
+            PrintWriter account = new PrintWriter(System.getProperty("user.dir") + "/Accounts/testEmail@gmail.com/accountInfo.txt");
+            account.println("testPassword123+");
+            account.println("testName");
+            account.println("0"); //1 for corporate user -- 0 for non-corporate user
+            account.println("1");
+            account.println("MOM");
+            account.println("5");
+            account.print("HTX");
+            account.close();
+        }
 
         /* SET AS ACTIVE, LOGGED IN USER */
         BufferedWriter writer = new BufferedWriter(new FileWriter("Accounts/LastLogin.txt"));
