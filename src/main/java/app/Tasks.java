@@ -93,7 +93,7 @@ public class Tasks implements Comparator<String>
         return 0;
     }
     /*Task creation helper*/
-    protected void addDescription()
+    public void addDescription()
     {
         Stream stream = new Stream();
         do
@@ -104,7 +104,7 @@ public class Tasks implements Comparator<String>
                 stream.writeToConsole("Not an appropriate description.\nPlease try again!\n\n\n");
         }while(description == null || description == "");
     }
-    protected void addDate()
+    public void addDate()
     {
         Stream stream = new Stream();
         int year, month, day;
@@ -147,7 +147,7 @@ public class Tasks implements Comparator<String>
             setDate(year, month-1, day);
         }
     }
-    protected void addNote()
+    public void addNote()
     {
         Stream stream = new Stream();
         do
@@ -158,7 +158,7 @@ public class Tasks implements Comparator<String>
                 stream.writeToConsole("Not an appropriate note.\nPlease try again!\n\n\n");
         }while(description == null || description == "");
     }
-    protected void addSubtask()
+    public void addSubtask()
     {
         Stream stream = new Stream();
         stream.writeToConsole("\nEnter the subtask description: \n");
@@ -189,10 +189,7 @@ public class Tasks implements Comparator<String>
     }
     protected void flipRepeated() //flip false to true or true to false
     {
-        if(isRepeated == false)
-            isRepeated = true;
-        else
-            isRepeated = false;
+        isRepeated = isRepeated == false;
     }
 
     protected void deleteSubtask()
@@ -343,18 +340,18 @@ public class Tasks implements Comparator<String>
             if(index > 0 || index < subtasks.size())
             {
                 String newSubtask = "";
-               do
-               {
-                   stream.writeToConsole("Enter a new subtask to replace: ");
-                   newSubtask = stream.readLineFromConsole();
-                   if (newSubtask == null || newSubtask.isEmpty())
-                       stream.writeToConsole("Please enter a valid argument.");
-                   else
-                   {
-                       subtasks.remove(index);
-                       subtasks.push(newSubtask);
-                   }
-               } while(newSubtask == null || newSubtask.isEmpty());
+                do
+                {
+                    stream.writeToConsole("Enter a new subtask to replace: ");
+                    newSubtask = stream.readLineFromConsole();
+                    if (newSubtask == null || newSubtask.isEmpty())
+                        stream.writeToConsole("Please enter a valid argument.");
+                    else
+                    {
+                        subtasks.remove(index);
+                        subtasks.push(newSubtask);
+                    }
+                } while(newSubtask == null || newSubtask.isEmpty());
             }
             else
                 stream.writeToConsole("Invalid index!");
@@ -388,7 +385,7 @@ public class Tasks implements Comparator<String>
     protected void setNote(String note){ this.note = note; }
 
     /*Date Validation*/
-    private boolean isValidYear(int y)
+    public boolean isValidYear(int y)
     {
         if(y >= 1990)
             return true;
@@ -400,7 +397,7 @@ public class Tasks implements Comparator<String>
         }
 
     }
-    private boolean isValidMonth(int m)
+    public boolean isValidMonth(int m)
     {
         if (m >= 1 && m <= 12)
             return true;
@@ -411,20 +408,19 @@ public class Tasks implements Comparator<String>
             return false;
         }
     }
-    private boolean isLeapYear(int y) {
+    public boolean isLeapYear(int y) {
         if (y % 400 == 0) return true;
         if (y % 100 == 0) return false;
         return (y % 4 == 0);
     }
-    private boolean isValidDay(int y, int m, int d)
+    public boolean isValidDay(int y, int m, int d)
     {
         int[] DAYS = { 0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
         if (m < 1 || m > 12)      return false;
         if (d < 1 || d > DAYS[m]) return false; //between 1 and days[month]
-        if (m == 2 && d == 29 && !isLeapYear(y)) return false;
-        return true;
+        return m != 2 || d != 29 || isLeapYear(y);
     }
-    private boolean isValidTime(int h, int m)
+    public boolean isValidTime(int h, int m)
     {
         if(!(h >= 0 && h <= 23))
         {
