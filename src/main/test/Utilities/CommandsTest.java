@@ -21,9 +21,25 @@ public class CommandsTest {
 
     @Test
     public void testGetSizeOfCommandsOffered_Wrong(){
-        String[] testCommandsOffered = {"Command A, Command B, Command C"};
+        String[] testCommandsOffered = {"Command A", "Command B", "Command C"};
         commands = new Commands(testCommandsOffered);
         assertNotEquals(4, commands.size());
+    }
+
+    @Test
+    public void testAddCommand_Wrong(){
+        String[] testCommandsOffered = {"Command A", "Command B", "Command C"};
+        commands = new Commands(testCommandsOffered);
+        commands.addCommand(testCommandsOffered.length+1,"Command D");
+        assertNotEquals("List of commands available:\n1 - Command A\n2 - Command B\n3 - Command C\n", commands.toString()); //missing new command
+    }
+
+    @Test
+    public void testAddCommand_Correct(){
+        String[] testCommandsOffered = {"Command A", "Command B", "Command C"};
+        commands = new Commands(testCommandsOffered);
+        commands.addCommand(testCommandsOffered.length+1,"Command D");
+        assertEquals("List of commands available:\n1 - Command A\n2 - Command B\n3 - Command C\n4 - Command D\n", commands.toString());
     }
 
 }
