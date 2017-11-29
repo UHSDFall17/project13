@@ -1,6 +1,5 @@
 package Utilities;
 
-import static java.lang.System.*;
 import java.util.*;
 
 public class Commands {
@@ -49,5 +48,9 @@ public class Commands {
         }
 
         return output;
+    }
+
+    public Map<Integer, String> getCommands(){
+        return commands;
     }
 }
