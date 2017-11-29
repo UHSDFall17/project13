@@ -140,4 +140,25 @@ public class FileOutstreamTest {
             e.printStackTrace();
         }
     }
+
+    @Test
+    public void testSaveNewAccount_Answer2_Correct(){
+        fileOutstream = new FileOutstream();
+        String[] sqa1 = {"1", "MOM"};
+        String[] sqa2 = {"5", "HTX"};
+        fileOutstream.saveNewAccount("testEmail@hotmail.com", "testPswd123+","testName","0",sqa1,sqa2);
+
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader("Accounts/testEmail@hotmail.com/accountInfo.txt"));
+            reader.readLine(); //password
+            reader.readLine(); //name
+            reader.readLine(); //corporate
+            reader.readLine(); //question 1
+            reader.readLine(); //answer 1
+            reader.readLine(); //question 2
+            assertEquals("HTX", reader.readLine());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
