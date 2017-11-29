@@ -17,12 +17,6 @@ public class PreferenceTest {
     }
 
     @Test
-    public void testContactUsConsolePrint() throws IOException {
-        preference = new Preference();
-        preference.contactUs();
-    }
-
-    @Test
     public void testGetUserEmail() throws IOException {
         preference = new Preference();
         /* SET AS ACTIVE, LOGGED IN USER */
@@ -55,5 +49,35 @@ public class PreferenceTest {
 
         preference = new Preference();
         assertEquals(Account.getUserInfo("testEmail@gmail.com").getUsername(), preference.getUpdatedUser().getUsername());
+    }
+
+    @Test
+    public void testGetUpdatedUser_GetPassword_Correct() throws IOException {
+        /*CREATE ACCOUNT FILE*/
+        File key = new File(System.getProperty("user.dir") + "/Accounts/testEmail@gmail.com");
+        key.mkdirs();
+        PrintWriter account = new PrintWriter(System.getProperty("user.dir") + "/Accounts/testEmail@gmail.com/accountInfo.txt");
+        account.println("testPassword123+");
+        account.println("testName");
+        account.println("0"); //1 for corporate user -- 0 for non-corporate user
+        account.println("1");
+        account.println("MOM");
+        account.println("5");
+        account.print("HTX");
+        account.close();
+
+        /* SET AS ACTIVE, LOGGED IN USER */
+        BufferedWriter writer = new BufferedWriter(new FileWriter("Accounts/LastLogin.txt"));
+        writer.write("testEmail@gmail.com");
+        writer.close();
+
+        preference = new Preference();
+        assertEquals(Account.getUserInfo("testEmail@gmail.com").getPassword(), preference.getUpdatedUser().getPassword());
+    }
+
+    @Test
+    public void testContactUsConsolePrint() throws IOException {
+        preference = new Preference();
+        preference.contactUs();
     }
 }
