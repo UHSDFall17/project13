@@ -15,8 +15,7 @@ public class Commands {
     {
         commands = new HashMap<Integer, String>();
 
-        for(int i=1; i <= comms.length; i++)
-        {
+        for(int i=1; i <= comms.length; i++) {
             commands.put(i, comms[i-1]);
         }
     }
