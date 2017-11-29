@@ -2,15 +2,13 @@ package setup;
 
 import org.junit.Test;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 
 import static org.junit.Assert.*;
 
 public class EmailTest {
 
-    Email testEmail;
+    private Email testEmail;
 
     @Test
     public void Canary(){ //verifies good env
@@ -125,7 +123,7 @@ public class EmailTest {
     }
 
     @Test
-    public void testRegisteredEmail(){
+    public void testIsRegistered(){
         testEmail = new Email();
 
         if(!new File(System.getProperty("user.dir") + "/Accounts/johnsmith@gmail.com").exists()) {
@@ -140,18 +138,12 @@ public class EmailTest {
     @Test
     public void testNonCorporateUser(){
         testEmail = new Email();
-
-        String testNonCorporateEmail = "johnsmith@gmail.com";
-
-        assertEquals(testEmail.getCorporate(testNonCorporateEmail), "0");
+        assertEquals("0", testEmail.getCorporate("johnsmith@yahoo.com"));
     }
 
     @Test
-    public void testCorporateUser(){
+    public void testGetCorporate(){
         testEmail = new Email();
-
-        String testCorporateEmail = "johnsmith@uh.edu";
-
-        assertEquals(testEmail.getCorporate(testCorporateEmail), "1");
+        assertEquals("1", testEmail.getCorporate("johnsmith@uh.edu"));
     }
 }
