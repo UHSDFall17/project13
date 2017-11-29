@@ -63,10 +63,13 @@ public class CommandsTest {
     public void testCommandsHashMapPut_Correct(){
         String[] testCommandsOffered = {"Command A", "Command B", "Command C"};
         commands = new Commands(testCommandsOffered);
+
         Map<Integer, String> hashMap = new HashMap<Integer, String>();
-        hashMap.put(1, "Command A");
-        hashMap.put(2, "Command B");
-        hashMap.put(3, "Command C");
+        for(int i=1; i <= testCommandsOffered.length; i++)
+        {
+            hashMap.put(i, testCommandsOffered[i-1]);
+        }
+
         assertEquals(commands.getCommands(), hashMap);
     }
 
@@ -74,10 +77,15 @@ public class CommandsTest {
     public void testCommandsHashMapPut_Wrong(){
         String[] testCommandsOffered = {"Command A", "Command B", "Command C", "Command D"};
         commands = new Commands(testCommandsOffered);
+
         Map<Integer, String> hashMap = new HashMap<Integer, String>();
-        hashMap.put(1, "Command A");
-        hashMap.put(2, "Command B");
-        hashMap.put(3, "Command C");
-        assertNotEquals(commands.getCommands(), hashMap); //commands has 4 commands, hashmap has 3
+        for(int i=1; i <= testCommandsOffered.length-1; i++) //hashmap will have 1 less than it is supposed to
+        {
+            hashMap.put(i, testCommandsOffered[i-1]);
+        }
+
+        assertNotEquals(commands.getCommands(), hashMap);
     }
+
+
 }
