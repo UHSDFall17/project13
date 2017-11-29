@@ -10,110 +10,121 @@ import java.util.*;
 import org.joda.time.*;
 import setup.User;
 
-public class List implements CommandUser
-{
-	private String Name;
-	private ArrayList<Tasks> taskList;
+public class List implements CommandUser {
+    private String Name;
+    private ArrayList<Tasks> taskList;
 
-	public List()
-	{
-		taskList = new ArrayList<Tasks>();
-	}
+    public List() {
+        taskList = new ArrayList<Tasks>();
+    }
 
-	@Override
-	public boolean commandHandler() {
-		Commands commands = new Commands();
-		commands.addCommand(1, "Get all tasks");
-		commands.addCommand(2, "View a task");
-		commands.addCommand(3, "Time view of tasks");
-		commands.addCommand(4, "Mark a task completed");
-		commands.addCommand(5, "Create new task");
-		commands.addCommand(6, "Edit a task");
-		commands.addCommand(7, "Delete a task");
-		commands.addCommand(8, "Edit list name");
-		commands.addCommand(9, "Help");
-		commands.addCommand(10, "Back To Dashboard");
+    @Override
+    public boolean commandHandler() {
+        Commands commands = new Commands();
+        commands.addCommand(1, "Get all tasks");
+        commands.addCommand(2, "View a task");
+        commands.addCommand(3, "Time view of tasks");
+        commands.addCommand(4, "Mark a task completed");
+        commands.addCommand(5, "Create new task");
+        commands.addCommand(6, "Edit a task");
+        commands.addCommand(7, "Delete a task");
+        commands.addCommand(8, "Edit list name");
+        commands.addCommand(9, "Help");
+        commands.addCommand(10, "Back To Dashboard");
 
-		String availableCommands = commands.toString();
+        String availableCommands = commands.toString();
 
         boolean cont = true;
         int command;
         int commandReturn = 0;
 
-		Stream stream = new Stream();
-        stream.writeToConsole("\n(List \""+ Name +"\") "+ availableCommands);
+        Stream stream = new Stream();
+        stream.writeToConsole("\n(List \"" + Name + "\") " + availableCommands);
 
-        do{
-			stream.writeToConsole("\n(List \""+ Name +"\") "); //DISPLAY PAGE NAME
-			stream.writeToConsole("Press " + Integer.toString(commands.size()-1) + " to Display Available Commands.\nEnter your command: ");
+        do {
+            stream.writeToConsole("\n(List \"" + Name + "\") "); //DISPLAY PAGE NAME
+            stream.writeToConsole("Press " + Integer.toString(commands.size() - 1) + " to Display Available Commands.\nEnter your command: ");
 
-            try{
+            try {
                 command = stream.readIntFromConsole();
 
-                if(command > commands.size() || command == 0)
+                if (command > commands.size() || command == 0)
                     throw new Exception();
 
                 commandReturn = commandCenter(command, availableCommands);
-                if(commandReturn == 1)
+                if (commandReturn == 1)
                     cont = false;
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 stream.writeToConsole("Unrecognized command. Try to use the command \"" + (commands.size() - 1) + "\" to get a list of the commands.\n");
             }
 
-        }while(cont);
+        } while (cont);
 
-		return false;
-	}
+        return false;
+    }
 
-	/*Command Handling*/
-	public int commandCenter(int command, String availableCommands)
-	{
-		Stream stream = new Stream();
-		switch(command)
-		{
-			case 1: stream.writeToConsole(GetTasks()); break;
-            case 2: viewTask(); break;
-            case 3: timeView(); break;
-            case 4: int j = indexer(); taskList.get(j).markCompleted(); break;
-            case 5: createTask(); break;
-            case 6: int i = indexer(); editTask(i); break;
-            case 7: deleteTask(); break;
-            case 8: editListName(); break;
-			case 9: stream.writeToConsole(availableCommands); break;
-			case 10: return 1;
-		}
-		return 0;
-	}
+    /*Command Handling*/
+    public int commandCenter(int command, String availableCommands) {
+        Stream stream = new Stream();
+        switch (command) {
+            case 1:
+                stream.writeToConsole(GetTasks());
+                break;
+            case 2:
+                viewTask();
+                break;
+            case 3:
+                timeView();
+                break;
+            case 4:
+                int j = indexer();
+                taskList.get(j).markCompleted();
+                break;
+            case 5:
+                createTask();
+                break;
+            case 6:
+                int i = indexer();
+                editTask(i);
+                break;
+            case 7:
+                deleteTask();
+                break;
+            case 8:
+                editListName();
+                break;
+            case 9:
+                stream.writeToConsole(availableCommands);
+                break;
+            case 10:
+                return 1;
+        }
+        return 0;
+    }
 
-	public String GetTasks()
-	{
-		String output = "";
+    public String GetTasks() {
+        String output = "";
 
-		if(taskList.size() == 0)
-			output = "\nNo tasks\n";
-		else
-			output = "\nYour tasks:\n";
+        if (taskList.size() == 0)
+            output = "\nNo tasks\n";
+        else
+            output = "\nYour tasks:\n";
 
-		for(int i=0; i < taskList.size(); i++)
-		{
-			output = output + "\t" + (i+1) + " -- " + taskList.get(i).getDescription();
-			if(taskList.get(i).getIsCompleted().equals(true))
-			{
-				output = output + " *COMPLETED* ";
-			}
-			output = output + "\n";
-		}
-		return output;
-	}
+        for (int i = 0; i < taskList.size(); i++) {
+            output = output + "\t" + (i + 1) + " -- " + taskList.get(i).getDescription();
+            if (taskList.get(i).getIsCompleted().equals(true)) {
+                output = output + " *COMPLETED* ";
+            }
+            output = output + "\n";
+        }
+        return output;
+    }
 
-	public void timeView()
-    {
+    public void timeView() {
         Stream stream = new Stream();
         String output = "";
 
-        if(taskList.size() == 0)
+        if (taskList.size() == 0)
             output = "\nNo tasks\n";
 
         ArrayList<Tasks> todayList = new ArrayList<>();
@@ -121,7 +132,7 @@ public class List implements CommandUser
         ArrayList<Tasks> upcomingList = new ArrayList<>();
         ArrayList<Tasks> somedayList = new ArrayList<>();
 
-        SimpleDateFormat sdf =new SimpleDateFormat("dd-MM-yyyy HH:mm");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
         Date currentTime = new Date();
         Calendar currentCal = Calendar.getInstance();
         currentCal.setTime(currentTime);
@@ -131,23 +142,18 @@ public class List implements CommandUser
         String upcomingOut = "";
         String someOut = "";
         int days;
-        for (int i = 0; i < taskList.size(); i++)
-        {
+        for (int i = 0; i < taskList.size(); i++) {
             Date tempDate;
             Calendar tempCal = Calendar.getInstance();
-            if (taskList.get(i).getNotificationDate().equals(null))
-            {
+            if (taskList.get(i).getNotificationDate().equals(null)) {
                 try {
                     tempDate = sdf.parse(taskList.get(i).getTimestamp());
-                    days = Days.daysBetween(new DateTime(tempCal), new DateTime(currentCal)).getDays();
-                    if (days <= 0)
-                    {
-                        todayList.add(taskList.get(i));
-                    }
-                    else
-                    {
-                        tempCal.setTime(tempDate);
+                    tempCal.setTime(tempDate);
 
+                    days = Days.daysBetween(new DateTime(tempCal), new DateTime(currentCal)).getDays();
+                    if (days <= 0) {
+                        todayList.add(taskList.get(i));
+                    } else {
                         if (days == 1)
                             tomorrowList.add(taskList.get(i));
                         else if (days > 1 && days < 7)
@@ -158,20 +164,14 @@ public class List implements CommandUser
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-            }
-            else
-            {
+            } else {
                 try {
                     tempDate = sdf.parse(taskList.get(i).getNotificationDate());
+                    tempCal.setTime(tempDate);
                     days = Days.daysBetween(new DateTime(tempCal), new DateTime(currentTime)).getDays();
-                    if (days <= 0)
-                    {
+                    if (days <= 0) {
                         todayList.add(taskList.get(i));
-                    }
-                    else
-                    {
-                        tempCal.setTime(tempDate);
-
+                    } else {
                         if (days == 1)
                             tomorrowList.add(taskList.get(i));
                         else if (days > 1 && days < 7)
@@ -188,15 +188,11 @@ public class List implements CommandUser
 
             if (!todayList.isEmpty())
                 todayOut = "\nToday: \n";
-            for (int j = 0; j < todayList.size(); j++)
-            {
+            for (int j = 0; j < todayList.size(); j++) {
                 todayOut += "\t" + (count++) + " -- " + todayList.get(j).getDescription();
-                if(todayList.get(j).getIsCompleted().equals(true))
-                {
+                if (todayList.get(j).getIsCompleted().equals(true)) {
                     todayOut += " *COMPLETED* ";
-                }
-                else
-                {
+                } else {
                     if (!todayList.get(j).getNotificationDate().equals(null))
                         todayOut += " " + todayList.get(j).getNotificationDate();
                 }
@@ -204,15 +200,11 @@ public class List implements CommandUser
             }
             if (!tomorrowList.isEmpty())
                 tomorrowOut = "\nTomorrow: \n";
-            for (int k = 0; k < tomorrowList.size(); k++)
-            {
+            for (int k = 0; k < tomorrowList.size(); k++) {
                 tomorrowOut += tomorrowOut + "\t" + (count++) + " -- " + tomorrowList.get(k).getDescription();
-                if(tomorrowList.get(k).getIsCompleted().equals(true))
-                {
+                if (tomorrowList.get(k).getIsCompleted().equals(true)) {
                     tomorrowOut += " *COMPLETED* ";
-                }
-                else
-                {
+                } else {
                     if (!tomorrowList.get(k).getNotificationDate().equals(null))
                         tomorrowOut += " " + tomorrowList.get(k).getNotificationDate();
                 }
@@ -220,15 +212,11 @@ public class List implements CommandUser
             }
             if (!upcomingList.isEmpty())
                 upcomingOut = "\nUpcoming: \n";
-            for (int l = 0; l < upcomingList.size(); l++)
-            {
+            for (int l = 0; l < upcomingList.size(); l++) {
                 upcomingOut += "\t" + (count++) + " -- " + upcomingList.get(l).getDescription();
-                if(upcomingList.get(l).getIsCompleted().equals(true))
-                {
+                if (upcomingList.get(l).getIsCompleted().equals(true)) {
                     upcomingOut += " *COMPLETED* ";
-                }
-                else
-                {
+                } else {
                     if (!upcomingList.get(l).getNotificationDate().equals(null))
                         upcomingOut += " " + upcomingList.get(l).getNotificationDate();
                 }
@@ -237,15 +225,11 @@ public class List implements CommandUser
 
             if (!somedayList.isEmpty())
                 someOut = "\nSomeday: \n";
-            for (int m = 0; m < somedayList.size(); m++)
-            {
+            for (int m = 0; m < somedayList.size(); m++) {
                 someOut += "\t" + (count++) + " -- " + somedayList.get(m).getDescription();
-                if(somedayList.get(m).getIsCompleted().equals(true))
-                {
+                if (somedayList.get(m).getIsCompleted().equals(true)) {
                     someOut += " *COMPLETED* ";
-                }
-                else
-                {
+                } else {
                     if (!somedayList.get(m).getNotificationDate().equals(null))
                         someOut += " " + somedayList.get(m).getNotificationDate();
                 }
@@ -255,171 +239,147 @@ public class List implements CommandUser
         stream.writeToConsole(todayOut + tomorrowOut + upcomingOut + someOut);
     }
 
-	public void viewTask()
-    {
+    public void viewTask() {
         Stream stream = new Stream();
         stream.writeToConsole(GetTasks());
         int taskNum;
-        do
-        {
+        do {
             stream.writeToConsole("\nEnter task number: ");
             taskNum = stream.readIntFromConsole();
-            if(taskNum > 0 || taskNum < taskList.size())
-            {
-                taskList.get(taskNum-1).printTask();
-            }
-            else
+            if (taskNum > 0 || taskNum < taskList.size()) {
+                taskList.get(taskNum - 1).printTask();
+            } else
                 stream.writeToConsole("Invalid index!\n");
         } while (taskNum < 0 || taskNum > taskList.size());
 
     }
 
-	public List(String name)
-	{
-		Name = name;
-		taskList = new ArrayList<Tasks>();
-	}
+    public List(String name) {
+        Name = name;
+        taskList = new ArrayList<Tasks>();
+    }
 
-	public String getName()
-	{
-		return Name;
-	}
+    public String getName() {
+        return Name;
+    }
 
-	private void createTask()
-	{
-		Tasks task = new Tasks();
-		task.addDescription();
-		task.setTimestamp();
+    private void createTask() {
+        Tasks task = new Tasks();
+        task.addDescription();
+        task.setTimestamp();
 
-		Stream stream = new Stream();
-		String ans;
-		stream.writeToConsole("\nWould you like to set a date for this task? (Y/N)\n");
-		ans = stream.readLineFromConsole().toUpperCase();
-		if(ans.equals("Y")) //add date
-		{
-			task.addDate();
+        Stream stream = new Stream();
+        String ans;
+        stream.writeToConsole("\nWould you like to set a date for this task? (Y/N)\n");
+        ans = stream.readLineFromConsole().toUpperCase();
+        if (ans.equals("Y")) //add date
+        {
+            task.addDate();
 
-		}
-		stream.writeToConsole("\nWould you like to add a note? (Y/N)\n");
-		ans = stream.readLineFromConsole().toUpperCase();
-		if (ans.equals("Y"))
-		{
-			task.addNote();
-		}
-		stream.writeToConsole("\nWould you like to add a subtask? (Y/N)\n");
-		ans = stream.readLineFromConsole().toUpperCase();
-		if (ans.equals("Y"))
-		{
+        }
+        stream.writeToConsole("\nWould you like to add a note? (Y/N)\n");
+        ans = stream.readLineFromConsole().toUpperCase();
+        if (ans.equals("Y")) {
+            task.addNote();
+        }
+        stream.writeToConsole("\nWould you like to add a subtask? (Y/N)\n");
+        ans = stream.readLineFromConsole().toUpperCase();
+        if (ans.equals("Y")) {
             boolean addMore;
-			do
-			{
-				task.addSubtask();
-				stream.writeToConsole("Would you like to add another subtask? (Y/N)\n");
-				ans = stream.readLineFromConsole().toUpperCase();
-				if(ans.equals("Y"))
-					addMore = true;
-				else
-					addMore = false;
-			} while(addMore);
-		}
-		if(isCorporateUser()) {
-			stream.writeToConsole("\nIs this task repeated? (Y/N)\n");
-			ans = stream.readLineFromConsole().toUpperCase();
-			if (ans.equals("Y")) {
-				task.flipRepeated();
-			}
-		}
-		taskList.add(task);
+            do {
+                task.addSubtask();
+                stream.writeToConsole("Would you like to add another subtask? (Y/N)\n");
+                ans = stream.readLineFromConsole().toUpperCase();
+                addMore = ans.equals("Y");
+            } while (addMore);
+        }
+        if (isCorporateUser()) {
+            stream.writeToConsole("\nIs this task repeated? (Y/N)\n");
+            ans = stream.readLineFromConsole().toUpperCase();
+            if (ans.equals("Y")) {
+                task.flipRepeated();
+            }
+        }
+        taskList.add(task);
 
-		stream.writeToConsole("\nTask has been created!\n");
-	}
-	private void deleteTask()
-	{
-		Stream stream = new Stream();
-	    stream.writeToConsole("Which task do you want to delete?\n" + GetTasks() + "\n");
-	    stream.writeToConsole("Enter task number: ");
+        stream.writeToConsole("\nTask has been created!\n");
+    }
+
+    private void deleteTask() {
+        Stream stream = new Stream();
+        stream.writeToConsole("Which task do you want to delete?\n" + GetTasks() + "\n");
+        stream.writeToConsole("Enter task number: ");
 
         stream = new Stream();
-	    int taskPos = stream.readIntFromConsole();
+        int taskPos = stream.readIntFromConsole();
 
-		stream.writeToConsole("\nAre you sure you want to delete this task? (Y/N)\n");
-		String ans = stream.readLineFromConsole().toUpperCase();
-		if(ans.equals("Y"))
-		{
-			//removes index-1 since the task will be printed starting with 1
+        stream.writeToConsole("\nAre you sure you want to delete this task? (Y/N)\n");
+        String ans = stream.readLineFromConsole().toUpperCase();
+        if (ans.equals("Y")) {
+            //removes index-1 since the task will be printed starting with 1
             stream.writeToConsole("Task has been deleted!");
-			taskList.remove(taskPos-1);
-		}
-		else
-		    stream.writeToConsole("Task will not be deleted!");
-	}
-	private int indexer()
-    {
+            taskList.remove(taskPos - 1);
+        } else
+            stream.writeToConsole("Task will not be deleted!");
+    }
+
+    private int indexer() {
         Stream stream = new Stream();
         int j = 1;
-        if (taskList.isEmpty())
-        {
+        if (taskList.isEmpty()) {
             stream.writeToConsole("No tasks!");
             return -1;
-        }
-        else
-        {
+        } else {
             stream.writeToConsole("Your tasks: ");
         }
-        for (int i = 0; i < taskList.size(); i++)
-        {
-            stream.writeToConsole("\n\t"+(j++) + ": " + taskList.get(i).getDescription());
+        for (int i = 0; i < taskList.size(); i++) {
+            stream.writeToConsole("\n\t" + (j++) + ": " + taskList.get(i).getDescription());
         }
         int returnInteger;
-        do
-        {
+        do {
             stream.writeToConsole("\nEnter task number: ");
             returnInteger = stream.readIntFromConsole();
-        } while(returnInteger < 0);
-        return returnInteger-1;
+        } while (returnInteger < 0);
+        return returnInteger - 1;
     }
-	private void editTask(int index)
-	{
-		Stream stream = new Stream();
-		taskList.get(index).taskHandler();
-	}
-    private void editListName()
-    {
+
+    private void editTask(int index) {
+        Stream stream = new Stream();
+        taskList.get(index).taskHandler();
+    }
+
+    private void editListName() {
         Stream stream = new Stream();
         stream.writeToConsole("\nCurrent list name: " + Name);
-        do
-        {
+        do {
             stream.writeToConsole("\nEnter the new list name: ");
             String newName = stream.readLineFromConsole();
             if (Name.equals(null) || Name.equals(""))
                 stream.writeToConsole("\nInvalid input for list name!");
-            else
-            {
+            else {
                 stream.writeToConsole("Confirm (Y/N): " + newName);
                 String ans = stream.readLineFromConsole().toUpperCase();
-                if(ans.equals("Y"))
-                {
+                if (ans.equals("Y")) {
                     Name = newName;
                     stream.writeToConsole("\nThe new list is now named: " + Name + " \n");
-                }
-                else
-                {
+                } else {
                     stream.writeToConsole("\nCancelled!\n");
                 }
             }
-        } while(Name.equals(null) || Name.equals(""));
+        } while (Name.equals(null) || Name.equals(""));
     }
-	private boolean isCorporateUser(){
-		try{
-			BufferedReader reader = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/Accounts/" + "LastLogin.txt"));
-			User user = Account.getUserInfo(reader.readLine());
-			reader.close();
 
-			if(user.getCorporate().equals("1"))
-				return true;
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return false;
+    private boolean isCorporateUser() {
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/Accounts/" + "LastLogin.txt"));
+            User user = Account.getUserInfo(reader.readLine());
+            reader.close();
+
+            if (user.getCorporate().equals("1"))
+                return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }
