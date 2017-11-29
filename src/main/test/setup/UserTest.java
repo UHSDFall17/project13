@@ -34,6 +34,13 @@ public class UserTest {
     }
 
     @Test
+    public void testGetCorporate(){
+        user = new User("userTest2@gmail.com", "password123!","USER'S NAME","0","1","MOM","5","HTX");
+
+        assertEquals("0", user.getCorporate());
+    }
+
+    @Test
     public void testSecurityQuestion1(){
         user = new User("userTest2@gmail.com", "password123!","USER'S NAME","0","1","MOM","5","HTX");
 
