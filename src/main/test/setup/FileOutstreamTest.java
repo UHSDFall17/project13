@@ -96,7 +96,27 @@ public class FileOutstreamTest {
             reader.readLine(); //password
             reader.readLine(); //name
             reader.readLine(); //corporate
-            assertEquals("1", reader.readLine()); //not corporate
+            assertEquals("1", reader.readLine());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testSaveNewAccount_Question2_Correct(){
+        fileOutstream = new FileOutstream();
+        String[] sqa1 = {"1", "MOM"};
+        String[] sqa2 = {"5", "HTX"};
+        fileOutstream.saveNewAccount("testEmail@hotmail.com", "testPswd123+","testName","0",sqa1,sqa2);
+
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader("Accounts/testEmail@hotmail.com/accountInfo.txt"));
+            reader.readLine(); //password
+            reader.readLine(); //name
+            reader.readLine(); //corporate
+            reader.readLine(); //question 1
+            reader.readLine(); //answer 1
+            assertEquals("5", reader.readLine());
         } catch (IOException e) {
             e.printStackTrace();
         }
