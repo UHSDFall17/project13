@@ -87,5 +87,21 @@ public class CommandsTest {
         assertNotEquals(commands.getCommands(), hashMap);
     }
 
+    @Test
+    public void testReplaceCommand_Correct(){
+        String[] testCommandsOffered = {"Command A", "Command B", "Command C"};
+        commands = new Commands(testCommandsOffered);
+        commands.replaceCommand(1, "Replaced Command");
 
+        assertEquals("List of commands available:\n1 - Replaced Command\n2 - Command B\n3 - Command C\n", commands.toString());
+    }
+
+    @Test
+    public void testReplaceCommand_Wrong(){
+        String[] testCommandsOffered = {"Command A", "Command B", "Command C"};
+        commands = new Commands(testCommandsOffered);
+        commands.replaceCommand(1, "Replaced Command");
+
+        assertNotEquals("List of commands available:\n1 - Command A\n2 - Command B\n3 - Command C\n", commands.toString()); //fail to replace command
+    }
 }
