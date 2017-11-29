@@ -42,4 +42,17 @@ public class CommandsTest {
         assertEquals("List of commands available:\n1 - Command A\n2 - Command B\n3 - Command C\n4 - Command D\n", commands.toString());
     }
 
+    @Test
+    public void testCommandsToString_Correct(){
+        String[] testCommandsOffered = {"Command A", "Command B", "Command C"};
+        commands = new Commands(testCommandsOffered);
+        assertEquals("List of commands available:\n1 - Command A\n2 - Command B\n3 - Command C\n", commands.toString());
+    }
+
+    @Test
+    public void testCommandsToString_Wrong(){
+        String[] testCommandsOffered = {"Command A", "Command B", "Command C"};
+        commands = new Commands(testCommandsOffered);
+        assertNotEquals("List of commands available:\n1 - Command A\n2 - Command B\n3 - Command C", commands.toString()); //missing \n (end line)
+    }
 }
