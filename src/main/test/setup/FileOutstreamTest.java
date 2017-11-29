@@ -21,6 +21,17 @@ public class FileOutstreamTest {
         String[] sqa2 = {"5", "HTX"};
         fileOutstream.saveNewAccount("testEmail@hotmail.com", "testPswd123+","testName","0",sqa1,sqa2);
 
+        File file = new File("Accounts/testEmail@hotmail.com");
+        assertTrue(file.exists());
+    }
+
+    @Test
+    public void testSaveNewAccount_FileCreated_Success(){
+        fileOutstream = new FileOutstream();
+        String[] sqa1 = {"1", "MOM"};
+        String[] sqa2 = {"5", "HTX"};
+        fileOutstream.saveNewAccount("testEmail@hotmail.com", "testPswd123+","testName","0",sqa1,sqa2);
+
         File file = new File("Accounts/testEmail@hotmail.com/accountInfo.txt");
         assertTrue(file.exists());
     }
