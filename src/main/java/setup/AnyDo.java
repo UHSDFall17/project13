@@ -108,8 +108,7 @@ public class AnyDo implements CommandUser
         return false;
     }
 
-    public int commandCenter(int command, String availableCommands)
-    {
+    public int commandCenter(int command, String availableCommands) throws IOException {
         switch (command)
         {
             case 1: loginHandler(); break;
@@ -121,8 +120,7 @@ public class AnyDo implements CommandUser
         return 0;
     }
 
-    private void loginHandler()
-    {
+    private void loginHandler() throws IOException {
         account = new Account();
         user = account.logIn();
 
@@ -145,14 +143,12 @@ public class AnyDo implements CommandUser
         }
     }
 
-    private void createAccountHandler()
-    {
+    private void createAccountHandler() throws IOException {
         account = new Account();
         account.createNewAccount();
     }
 
-    private void dashboardHandler()
-    {
+    private void dashboardHandler() throws IOException {
         boolean loggedOut = false;
 
         /* READ OLD, WRITE UPDATED JSON FILE*/

@@ -1,6 +1,5 @@
 package Utilities;
 
-import static java.lang.System.*;
 import java.util.*;
 
 public class Commands {
@@ -16,8 +15,7 @@ public class Commands {
     {
         commands = new HashMap<Integer, String>();
 
-        for(int i=1; i <= comms.length; i++)
-        {
+        for(int i=1; i <= comms.length; i++) {
             commands.put(i, comms[i-1]);
         }
     }
@@ -49,5 +47,9 @@ public class Commands {
         }
 
         return output;
+    }
+
+    public Map<Integer, String> getCommands(){
+        return commands;
     }
 }

@@ -13,6 +13,11 @@ public class UserTest {
     }
 
     @Test
+    public void testDefaultConstructor(){
+        user = new User();
+    }
+
+    @Test
     public void testGetUserEmail(){
         user = new User("userTest2@gmail.com", "password123!","USER'S NAME","0","1","MOM","5","HTX");
 
@@ -31,6 +36,13 @@ public class UserTest {
         user = new User("userTest2@gmail.com", "password123!","USER'S NAME","0","1","MOM","5","HTX");
 
         assertEquals("USER'S NAME", user.getName());
+    }
+
+    @Test
+    public void testGetCorporate(){
+        user = new User("userTest2@gmail.com", "password123!","USER'S NAME","0","1","MOM","5","HTX");
+
+        assertEquals("0", user.getCorporate());
     }
 
     @Test

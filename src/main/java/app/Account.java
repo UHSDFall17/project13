@@ -32,7 +32,7 @@ public class Account {
         return user;
     }
 
-    public void createNewAccount() {
+    public void createNewAccount() throws IOException {
         Name newUser = new Name();
         name = newUser.setAndGetNewName();
 

@@ -1,6 +1,8 @@
 package app;
 
 import Utilities.*;
+
+import java.io.IOException;
 import java.util.*;
 
 public class Dashboard implements CommandUser
@@ -61,8 +63,7 @@ public class Dashboard implements CommandUser
             return false;  //quit without logging out
     }
 
-    public int commandCenter(int command, String availableCommands)
-    {
+    public int commandCenter(int command, String availableCommands) throws IOException {
         Stream stream = new Stream();
 
         switch(command)
