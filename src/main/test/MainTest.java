@@ -10,7 +10,7 @@ public class MainTest {
     }
 
     @Test
-    public void testAnyDoInitialization()
+    public void testInitialization()
     {
         _main test = new _main();
         assertNotNull(test);

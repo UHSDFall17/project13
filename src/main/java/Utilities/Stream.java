@@ -18,9 +18,10 @@ public class Stream {
         scan = new Scanner(in);
     }
 
-    public void writeToConsole(String output)  //use when writing to console
+    public boolean writeToConsole(String output)  //use when writing to console
     {
         out.print(output);
+        return true;
     }
 
     public String readLineFromConsole()  //use when reading single string line from user

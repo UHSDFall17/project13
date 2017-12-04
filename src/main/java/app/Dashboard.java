@@ -82,14 +82,7 @@ public class Dashboard implements CommandUser
         return 0;
     }
 
-    private boolean GetUserData()
-    {
-        //implement later when we have JSONs ready
-        return false;
-    }
-
-
-    //handles creation of new lists, returns boolean on whether it was able to create the list
+        //handles creation of new lists, returns boolean on whether it was able to create the list
     public boolean storeNewList(String listName)
     {
         List newList;
